@@ -1,4 +1,4 @@
-package com.wondertek.mobilevideo.bc.web.action;
+package com.wondertek.mobilevideo.gke.ad.web.action;
 
 public class TestAction extends BaseAction{
 

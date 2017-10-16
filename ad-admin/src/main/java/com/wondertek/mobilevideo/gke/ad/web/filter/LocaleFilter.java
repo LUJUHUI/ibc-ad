@@ -1,6 +1,6 @@
-package com.wondertek.mobilevideo.bc.web.filter;
+package com.wondertek.mobilevideo.gke.ad.web.filter;
 
-import com.wondertek.mobilevideo.bc.web.WebConstants;
+import com.wondertek.mobilevideo.gke.ad.web.WebConstants;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
