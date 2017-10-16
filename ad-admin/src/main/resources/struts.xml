@@ -48,7 +48,9 @@
             </interceptor-stack>
         </interceptors>
 
-       
+        <!--<action name="main" class="com.wondertek.mobilevideo.bc.web.action.MainAction" method="main">-->
+            <!--<result name="success" >/WEB-INF/pages/main.jsp</result>-->
+        <!--</action>-->
 
     </package>
     <package name="json" extends="default" namespace="/json">
