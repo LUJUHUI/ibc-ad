@@ -1,6 +1,5 @@
-package com.wondertek.mobilevideo.bc.web.job;
+package com.wondertek.mobilevideo.gke.ad.web.job;
 
-import com.wondertek.mobilevideo.bc.web.utils.WebUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;

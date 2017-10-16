@@ -1,7 +1,6 @@
-package com.wondertek.mobilevideo.bc.web.listener;
+package com.wondertek.mobilevideo.gke.ad.web.listener;
 
-import com.wondertek.mobilevideo.bc.BcConstants;
-import com.wondertek.mobilevideo.bc.web.WebConstants;
+import com.wondertek.mobilevideo.gke.ad.web.WebConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;

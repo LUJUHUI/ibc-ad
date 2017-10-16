@@ -1,4 +1,4 @@
-package com.wondertek.mobilevideo.bc.web.utils;
+package com.wondertek.mobilevideo.gke.ad.web.utils;
 
 /**
  * Created by Administrator on 2017/6/15.

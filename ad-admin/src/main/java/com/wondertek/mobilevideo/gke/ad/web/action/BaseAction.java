@@ -1,9 +1,9 @@
-package com.wondertek.mobilevideo.bc.web.action;
+package com.wondertek.mobilevideo.gke.ad.web.action;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.wondertek.mobilevideo.bc.core.service.GenericManager;
-import com.wondertek.mobilevideo.bc.core.utils.PageList;
 import com.wondertek.mobilevideo.core.util.DateUtil;
+import com.wondertek.mobilevideo.gke.ad.core.service.GenericManager;
+import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

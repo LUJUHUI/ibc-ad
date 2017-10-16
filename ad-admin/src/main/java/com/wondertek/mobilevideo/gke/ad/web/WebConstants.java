@@ -1,4 +1,4 @@
-package com.wondertek.mobilevideo.bc.web;
+package com.wondertek.mobilevideo.gke.ad.web;
 
 import com.wondertek.mobilevideo.core.util.Configuration;
 import com.wondertek.mobilevideo.core.util.ftp.FtpServer;
