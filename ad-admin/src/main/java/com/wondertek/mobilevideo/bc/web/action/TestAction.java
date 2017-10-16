@@ -4,6 +4,7 @@ public class TestAction extends BaseAction{
 
 	
 	public String testXml(){
+		resultMap.put("root", "root");		
 		return SUCCESS;
 	}
 	

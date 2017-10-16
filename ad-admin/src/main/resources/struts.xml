@@ -48,29 +48,7 @@
             </interceptor-stack>
         </interceptors>
 
-        <action name="main" class="com.wondertek.mobilevideo.bc.web.action.MainAction" method="main">
-            <result name="success" >/WEB-INF/pages/main.jsp</result>
-        </action>
-
-        <action name="bestvContent_loadDetailPage" class="com.wondertek.mobilevideo.bc.web.action.BestvContentAction" method="loadDetailPage">
-            <result name="success" >/pages/contentShow/bestvContentDetail.jsp</result>
-        </action>
-
-        <action name="dataDict_loadItemPage" class="com.wondertek.mobilevideo.bc.web.action.DataDictAction" method="loadItemPage">
-            <result name="success" >/pages/dataDict/dictItemList.jsp</result>
-        </action>
-
-        <action name="bestvLog_inputLogDetail" class="com.wondertek.mobilevideo.bc.web.action.BestvLogAction" method="inputLogDetail">
-            <result name="success" >/pages/logsShow/inputLogDetail.jsp</result>
-        </action>
-        
-        <action name="liveChannel_formPage" class="com.wondertek.mobilevideo.bc.web.action.LiveChannelAction" method="addForm">
-        	<result name="success">/pages/liveChannel/liveChannelForm.jsp</result>
-        </action>
-        
-        <action name="liveChannel_showSchedule" class="com.wondertek.mobilevideo.bc.web.action.LiveChannelAction" method="showSchedule">
-        	<result name="success">/pages/liveChannel/liveChannelForm.jsp</result>
-        </action>
+       
 
     </package>
     <package name="json" extends="default" namespace="/json">
@@ -82,41 +60,19 @@
                 <param name="enableGZIP">true</param>
             </interceptor>
         </interceptors>
+        
         <action name="testXml" class="com.wondertek.mobilevideo.bc.web.action.TestAction" method="testXml">
             <result type="json">
                 <param name="root">resultMap</param>
             </result>
         </action>
-        <action name="bestvContent_*" class="com.wondertek.mobilevideo.bc.web.action.BestvContentAction" method="{1}">
-            <result type="json">
-                <param name="root">resultMap</param>
-            </result>
-        </action>
-        <action name="dataDict_*" class="com.wondertek.mobilevideo.bc.web.action.DataDictAction" method="{1}">
-            <result type="json">
-                <param name="root">resultMap</param>
-            </result>
-        </action>
-        <action name="bestvLog_*" class="com.wondertek.mobilevideo.bc.web.action.BestvLogAction" method="{1}">
-            <result type="json">
-                <param name="root">resultMap</param>
-            </result>
-        </action>
-        <action name="zteMovie_*" class="com.wondertek.mobilevideo.bc.web.action.ZteMovieAction" method="{1}">
-            <result type="json">
-                <param name="root">resultMap</param>
-            </result>
-        </action>
-        <action name="zteSeries_*" class="com.wondertek.mobilevideo.bc.web.action.ZteSeriesAction" method="{1}">
-            <result type="json">
-                <param name="root">resultMap</param>
-            </result>
-        </action>
-        <action name="liveChannel_*" class="com.wondertek.mobilevideo.bc.web.action.LiveChannelAction" method="{1}">
-            <result type="json">
-                <param name="root">resultMap</param>
-            </result>
-        </action>
+        
+        <!--<action name="bestvContent_*" class="com.wondertek.mobilevideo.bc.web.action.BestvContentAction" method="{1}">-->
+            <!--<result type="json">-->
+                <!--<param name="root">resultMap</param>-->
+            <!--</result>-->
+        <!--</action>-->
+        
         
        <!--  <action name="addSchedule" class="com.wondertek.mobilevideo.bc.web.action.LiveChannelAction" method="addSchedule">
             <result type="json">

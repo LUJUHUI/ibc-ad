@@ -1,29 +1,23 @@
 package com.wondertek.mobilevideo.bc.web.action;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.opensymphony.xwork2.ActionSupport;
+import com.wondertek.mobilevideo.bc.core.service.GenericManager;
+import com.wondertek.mobilevideo.bc.core.utils.PageList;
+import com.wondertek.mobilevideo.core.util.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.mail.SimpleMailMessage;
 
-import com.opensymphony.xwork2.ActionSupport;
-import com.wondertek.mobilevideo.bc.core.service.GenericManager;
-import com.wondertek.mobilevideo.bc.core.utils.PageList;
-import com.wondertek.mobilevideo.core.util.DateUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.*;
 
 /**
  * Implementation of <strong>ActionSupport</strong> that contains convenience
