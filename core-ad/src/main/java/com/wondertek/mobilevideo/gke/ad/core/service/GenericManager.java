@@ -1,11 +1,12 @@
-package com.wondertek.mobilevideo.bc.core.service;
+package com.wondertek.mobilevideo.gke.ad.core.service;
+import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 
-import com.wondertek.mobilevideo.bc.core.utils.PageList;
 
 
 

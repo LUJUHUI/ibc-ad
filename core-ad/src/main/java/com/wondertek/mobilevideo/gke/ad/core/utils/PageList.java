@@ -1,4 +1,4 @@
-package com.wondertek.mobilevideo.bc.core.utils;
+package com.wondertek.mobilevideo.gke.ad.core.utils;
 
 import java.util.AbstractList;
 

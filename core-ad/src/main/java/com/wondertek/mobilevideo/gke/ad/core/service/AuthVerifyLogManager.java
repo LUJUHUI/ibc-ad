@@ -1,6 +1,7 @@
-package com.wondertek.mobilevideo.bc.core.service;
+package com.wondertek.mobilevideo.gke.ad.core.service;
 
-import com.wondertek.mobilevideo.bc.core.model.AuthVerifyLog;
+
+import com.wondertek.mobilevideo.gke.ad.core.model.AuthVerifyLog;
 
 public interface AuthVerifyLogManager extends GenericManager<AuthVerifyLog, Integer>{
 	 
