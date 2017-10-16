@@ -63,7 +63,13 @@
             </interceptor>
         </interceptors>
         
-        <action name="testXml" class="com.wondertek.mobilevideo.bc.web.action.TestAction" method="testXml">
+        <action name="testXml" class="com.wondertek.mobilevideo.gke.ad.web.action.TestAction" method="testXml">
+            <result type="json">
+                <param name="root">resultMap</param>
+            </result>
+        </action>
+        
+        <action name="adad_*" class="com.wondertek.mobilevideo.gke.ad.web.action.AdAdAction" method="{1}">
             <result type="json">
                 <param name="root">resultMap</param>
             </result>

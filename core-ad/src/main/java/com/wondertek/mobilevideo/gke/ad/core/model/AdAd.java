@@ -120,9 +120,7 @@ public class AdAd implements Serializable {
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
-
-	@JSON(format = "yyyy-MM-dd HH:mm:ss")
-	@Temporal(TemporalType.TIMESTAMP)
+	
 	@Column(name = "update_id")
 	public String getUpdateId() {
 		return updateId;
