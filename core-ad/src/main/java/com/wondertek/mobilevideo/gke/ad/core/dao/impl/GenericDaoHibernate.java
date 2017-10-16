@@ -1,27 +1,18 @@
-package com.wondertek.mobilevideo.bc.core.dao.impl;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+package com.wondertek.mobilevideo.gke.ad.core.dao.impl;
 
+import com.wondertek.mobilevideo.gke.ad.core.dao.GenericDao;
+import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.HibernateException;
-import org.hibernate.IdentifierLoadAccess;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.ObjectRetrievalFailureException;
 
-import com.wondertek.mobilevideo.bc.core.dao.GenericDao;
-import com.wondertek.mobilevideo.bc.core.utils.PageList;
+import java.io.Serializable;
+import java.util.*;
+
 
 /**
  * This class serves as the Base class for all other DAOs - namely to hold

@@ -1,11 +1,13 @@
-package com.wondertek.mobilevideo.bc.core.dao;
+package com.wondertek.mobilevideo.gke.ad.core.dao;
+
+
+
+import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import com.wondertek.mobilevideo.bc.core.utils.PageList;
 
 
 
@@ -106,7 +108,7 @@ public interface GenericDao<T, PK extends Serializable> {
 	List<T> findByNamedQuery(String queryName, Map<String, Object> queryParams);
 
 	PageList getPageList(Map<String, Object> conditions, int start, int limit,
-                         String order, String sort);
+						 String order, String sort);
 
 	long findCount(Map<String, Object> conditions);
 

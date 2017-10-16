@@ -1,17 +1,18 @@
-package com.wondertek.mobilevideo.bc.core.service.impl;
+package com.wondertek.mobilevideo.gke.ad.core.service.impl;
 
+import com.wondertek.mobilevideo.gke.ad.core.dao.AuthVerifyLogDao;
+import com.wondertek.mobilevideo.gke.ad.core.model.AuthVerifyLog;
+import com.wondertek.mobilevideo.gke.ad.core.service.AuthVerifyLogManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.wondertek.mobilevideo.bc.core.dao.AuthVerifyLogDao;
-import com.wondertek.mobilevideo.bc.core.model.AuthVerifyLog;
-import com.wondertek.mobilevideo.bc.core.service.AuthVerifyLogManager;
+
 
 /**
  * Created by D11 on 2017/6/7.
  */
 @Service
-public class AuthVerifyLogManagerImpl extends GenericManagerImpl<AuthVerifyLog,Integer> implements AuthVerifyLogManager{
+public class AuthVerifyLogManagerImpl extends GenericManagerImpl<AuthVerifyLog,Integer> implements AuthVerifyLogManager {
     
 	private AuthVerifyLogDao authVerifyLogDao;
 	

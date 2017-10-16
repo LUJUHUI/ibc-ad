@@ -1,4 +1,4 @@
-package com.wondertek.mobilevideo.bc;
+package com.wondertek.mobilevideo.gke.ad;
 
 import java.util.HashMap;
 import java.util.Map;
