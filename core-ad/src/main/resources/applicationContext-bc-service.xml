@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+       default-lazy-init="true">
+    <!-- AOP: Configuration and Aspects                                      -->
+    <!-- =================================================================== -->
+    <aop:config>
+        <aop:advisor id="managerTx" advice-ref="txAdvice" pointcut="execution(* *..service.*Manager.*(..))" order="2"/>
+    </aop:config>
+
+    <!-- Enable @Transactional support -->
+    <tx:annotation-driven/>
+
+    <!-- Enable @AspectJ support -->
+    <aop:aspectj-autoproxy/>
+
+
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+            <!-- Read-only commented out to make things easier for end-users -->
+            <!-- http://issues.appfuse.org/browse/APF-556 -->
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="send*" read-only="true"/>
+            <tx:method name="exist*" read-only="true"/>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+    
+</beans>
