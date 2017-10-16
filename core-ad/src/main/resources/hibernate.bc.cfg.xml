@@ -3,6 +3,7 @@
 
 <hibernate-configuration>
     <session-factory>
-		<mapping class="com.wondertek.mobilevideo.bc.core.model.AuthVerifyLog"/>
+		<!--<mapping class="com.wondertek.mobilevideo.bc.core.model.AuthVerifyLog"/>-->
+        <mapping class="com.wondertek.mobilevideo.gke.ad.core.model.AdAd"/>
     </session-factory>
 </hibernate-configuration>
