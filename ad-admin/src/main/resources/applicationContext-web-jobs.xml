@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="schedulerTasksWeb"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+		 	<!-- <ref bean="refreshCacheTrigger" />
+				 <ref bean="autoPublishTrigger" /> 
+				 <ref bean="errroContentNoMapAutoPublishTrigger"/>
+				 <ref bean="errorDelContentTrigger"/>
+				 <ref bean="errorContentPublishTrigger"/>
+		  	-->
+			</list>
+		</property>
+	</bean>
+
+	
+	<bean id="refreshCacheDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	 	<property name="concurrent" value="false" />
+		<property name="targetObject" ref="refreshCacheTask" />
+		<property name="targetMethod" value="excute" />
+	</bean>
+	
+	<bean id="refreshCacheTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="refreshCacheDetail" />
+		<property name="cronExpression" value="0 0 0/6 * * ?" />
+	</bean>	
+	
+	<!-- 自动发布 -->
+	<bean id="autoPublishDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	 	<property name="concurrent" value="false" />
+		<property name="targetObject" ref="contentPublishJob" />
+		<property name="targetMethod" value="excute" />
+	</bean>
+	
+	<bean id="autoPublishTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="autoPublishDetail" />
+		<property name="cronExpression" value="0 0/1 * * * ?" />
+	</bean>	
+	
+	<!-- 注入出错内容处理  。。。。no mapping -->
+	<bean id="errroContentNoMapAutoPublish"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	 	<property name="concurrent" value="false" />
+		<property name="targetObject" ref="errorNoMapContentPublishJob" />
+		<property name="targetMethod" value="excute" />
+	</bean>
+	
+	<bean id="errroContentNoMapAutoPublishTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="errroContentNoMapAutoPublish" />
+		<property name="cronExpression" value="0 0/1 * * * ?" />
+	</bean>
+	
+	<!-- 注入出错内容处理  。。。。删除 -->
+	<bean id="errorDelContent"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	 	<property name="concurrent" value="false" />
+		<property name="targetObject" ref="errorDelContentJob" />
+		<property name="targetMethod" value="excute" />
+	</bean>
+	
+	<bean id="errorDelContentTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="errorDelContent" />
+		<property name="cronExpression" value="0 0/1 * * * ?" />
+	</bean>
+	
+	<!-- 注入出错内容处理  。。。。重新注入 -->
+	<bean id="errorContentPublish"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	 	<property name="concurrent" value="false" />
+		<property name="targetObject" ref="errorContentPublishJob" />
+		<property name="targetMethod" value="excute" />
+	</bean>
+	
+	<bean id="errorContentPublishTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="errorContentPublish" />
+		<property name="cronExpression" value="0 0/1 * * * ?" />
+	</bean>
+	
+</beans>
