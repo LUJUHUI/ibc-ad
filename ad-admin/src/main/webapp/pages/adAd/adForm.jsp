@@ -1,11 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
-<%@page import="com.wondertek.mobilevideo.bc.BcConstants"%>
-<%@ page import="com.wondertek.mobilevideo.bc.core.model.DataDict" %>
-
-<%
-    pageContext.setAttribute("pubStatus", BcConstants.DATA_DICT_CACHE.get(DataDict.ZTE_PUB_STATE_TYPE).entrySet());
-%>
 
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
@@ -19,13 +13,7 @@
             <a href=""><fmt:message key="webapp.home"/></a>
         </li>
         <li>
-            <fmt:message key="content.show"/>
-        </li>
-        <li class="">
-            <span><fmt:message key="zte.content.show"/></span>
-        </li>
-        <li class="active">
-            <span><fmt:message key="zte.series.show"/></span>
+            <fmt:message key="ad.ad"/>
         </li>
     </ul>
     <!-- /.breadcrumb -->
@@ -51,31 +39,40 @@
 <div class="page-content">
     <div class="page-header">
         <form class="form-inline">
-            <label class="control-label" for="code">节目标识</label>
+            <label class="control-label" for="code">内容标识</label>
             <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="code">
 
-            <label class="control-label" for="code">节目名称</label>
-            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="name">
+            <label class="control-label" for="attr">节目类型</label>
+            <select class="form-control input-sm" style="margin-left: 5px;" id="attr">
+                <option value="">全部</option>
+                <option value="1">单片</option>
+                <option value="2">剧集</option>
+            </select>
+
+            <label class="control-label" for="title">标题</label>
+            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="title">
 
             <label class="control-label" for="searchName">搜索名称</label>
             <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="searchName">
 
-            <label class="control-label" for="orderNumber">订购编号</label>
-            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="orderNumber">
-
-            <label class="control-label" for="action">动作</label>
-            <select class="form-control input-sm" style="margin-left: 5px;" id="action">
+            <label class="control-label" for="status">节目状态</label>
+            <select class="form-control input-sm" id="status" style="margin-left: 5px;">
                 <option value="">全部</option>
-                <option value="regist">注册</option>
-                <option value="update">更新</option>
-                <option value="delete">删除</option>
+                <c:forEach var="status" items="${pubStatus}">
+                    <option value="${status.key}">${status.value}</option>
+                </c:forEach>
             </select>
 
-            <label class="control-label" for="status">节目状态</label>
-            <select class="form-control input-sm" style="margin-left: 5px;" id="status">
+            <label class="control-label" for="pcId">一级栏目</label>
+            <select class="form-control input-sm" id="pcId" style="margin-left: 5px;">
                 <option value="">全部</option>
-                <option value="0">失效</option>
-                <option value="1">生效</option>
+                <c:forEach var="pcId" items="${pcIds}">
+                    <option value="${pcId.key}">${pcId.value.name}</option>
+                </c:forEach>
+            </select>
+
+            <label class="control-label" for="status">二级栏目</label>
+            <select class="form-control input-sm" id="cId" style="margin-left: 5px;min-width: 80px;" disabled>
             </select>
 
             <label class="control-label" for="createTime">创建时间</label>
@@ -138,54 +135,42 @@
         jQuery(grid_selector).jqGrid({
             datatype: "json",
             mtype: "post",
-            url: "<c:url value='/json/zteSeries_list.do'/>",
+            url: "<c:url value='/json/adad_getAd.do'/>",
             postData: {
                 code: $("#code").val(),
-                name: $("#name").val(),
-                orderNumber: $("#orderNumber").val(),
+                attr: $("#attr").val(),
+                title: $("#title").val(),
                 searchName: $("#searchName").val(),
-                action: $("#action").val(),
                 status: $("#status").val(),
+                pcId: $("#pcId").val(),
+                cId: $("#cId").val(),
                 beginDate: startDate,
                 endDate: endDate
             },
             height: 560,
-            colNames:['ID',
-                '<fmt:message key="zte.content.code"/>',
-                '<fmt:message key="zte.content.action"/>',
-                '<fmt:message key="zte.content.name"/>',
-                '<fmt:message key="zte.content.originalName"/>',
-                '<fmt:message key="zte.content.orderNumber"/>',
-                '<fmt:message key="zte.content.type"/>',
-                '<fmt:message key="zte.content.volumnCount"/>',
-                '<fmt:message key="zte.content.keyWords"/>',
-                '<fmt:message key="zte.content.status"/>',
-                '<fmt:message key="zte.content.price"/>',
-                '<fmt:message key="zte.content.macrovision"/>',
-                '<fmt:message key="zte.content.orgAirDate"/>',
-                '<fmt:message key="zte.content.categoryName"/>',
-                '<fmt:message key="zte.content.bcStatus"/>',
-                '<fmt:message key="zte.content.createTime"/>',
-                '<fmt:message key="zte.content.updateTime"/>'
+            colNames:[
+                '<fmt:message key="ad.ad.id"/>',
+                '<fmt:message key="ad.ad.name"/>',
+                '<fmt:message key="ad.ad.status"/>',
+                '<fmt:message key="ad.ad.remark"/>',
+                '<fmt:message key="ad.ad.startTime"/>',
+                '<fmt:message key="ad.ad.endTime"/>',
+                '<fmt:message key="ad.ad.createTime"/>',
+                '<fmt:message key="ad.ad.createId"/>',
+                '<fmt:message key="ad.ad.updateTime"/>',
+                '<fmt:message key="ad.ad.updateId"/>'
             ],
             colModel:[
-                {name:'series.id',index:'id', width : 100, hidden:true},
-                {name : 'series.code', index : 'code_', width : 120, align:'center', sortable : false},
-                {name : 'series.action', index : 'action_', width : 120, align:'center', sortable : false},
-                {name : 'series.name', index : 'name_', width : 250, align:'center', sortable : false},
-                {name : 'series.originalName', index : 'original_name', width : 250, align:'center', sortable : false},
-                {name : 'series.orderNumber', index : 'order_number', width : 120, align:'center', sortable : false},
-                {name : 'series.type', index : 'type_', width : 200, align:'center', sortable : false},
-                {name : 'series.volumnCount', index : 'volumn_count', width : 150, align:'center', sortable : false},
-                {name : 'series.keyWords', index : 'key_words', width : 100, align:'center', sortable : false},
-                {name : 'series.statusStr', index : 'status_', width : 100, align:'center', sortable : false},
-                {name : 'series.price', index : 'price_', width : 100, align:'center', sortable : false},
-                {name : 'series.macrovisionStr', index : 'macrovision_', width : 120, align:'center', sortable : false},
-                {name : 'series.orgAirDate', index : 'org_air_date', width : 200, align:'center', sortable : false},
-                {name : 'category.categoryName', index : 'category_name', width : 100, align:'center', sortable : false},
-                {name : 'series.bestvStatusStr', index : 'bestv_status', width : 100, align:'center', sortable : false},
-                {name : 'series.createTime', index : 'create_time', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'series.updateTime', index : 'update_time', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}}
+                {name:'id',index:'id', width : 80,align:'center', sortable : true},
+                {name: 'adName',index: 'adName', width : 200, align:'center', sortable : true},
+                {name : 'status', index : 'status', width : 80, align:'center', sortable : false,formatter:statusFmt},
+                {name : 'remark', index : 'remark', width : 280, align:'center', sortable : true},
+                {name : 'startTime', index : 'startTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'endTime', index : 'endTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'createTime', index : 'createTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'createId', index : 'createId', width : 100, align:'center', sortable : true},
+                {name : 'updateTime', index : 'updateTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'updateId', index : 'updateId', width : 100, align:'center', sortable : true},
             ],
             shrinkToFit : false,
             hidegrid : false,
@@ -202,13 +187,12 @@
                 root : 'rows',
                 repeatitems : true
             },
-            caption: '<fmt:message key="zte.series.list" />',
-            <cas:havePerm url="/pages/contentShow/zteMovieDetail.jsp">
-            ondblClickRow : function (rowid, iRow, iCol, e) {
-                var code = $(grid_selector).getRowData(rowid)["series.code"];
-                openMainPage("/pages/contentShow/zteSeriesDetail.jsp", {"code": code}, function () {
-                });
-            },
+            caption: '<fmt:message key="ad.ad.list" />',
+            <cas:havePerm url="/bestvContent_loadDetailPage.do">
+                ondblClickRow : function (rowid, iRow, iCol, e) {
+                    openMainPage('<c:url value="/pages/contentShow/bestvContentDetail.jsp"/>', {"id": rowid}, function () {
+                    });
+                },
             </cas:havePerm>
             toolbar: [true,'top'],
             loadComplete : function(data) {
@@ -250,13 +234,15 @@
             }
         )
 
+        
         function styleCheckbox(table) {
+            
         }
 
         function updateActionIcons(table) {
+            
         }
-
-        //replace icons with FontAwesome icons like above
+        
         function updatePagerIcons(table) {
             var replacement =
                 {
@@ -283,6 +269,23 @@
             $('.ui-jqdialog').remove();
         });
 
+        function statusFmt(cellvalue, options, rowObject){
+            var result="";
+            switch (cellvalue){
+                case 101:
+                    result='草稿';
+                case 102:
+                    result = '待投放';
+                case 103:
+                    result = '投放中';
+                case 104:
+                    result = '投放完成';
+                case 105:
+                    result = '已删除';
+            }
+            return result;
+        }
+
         $("#search").on("click", function () {
 
             if($('#createTime').val() == ""){
@@ -295,14 +298,15 @@
             }
 
             $("#grid-table").jqGrid('setGridParam', {
-                url : "<c:url value='/json/zteSeries_list.do'/>",
+                url : "<c:url value='/json/bestvContent_beanList.do'/>",
                 postData : {
                     code: $("#code").val(),
-                    name: $("#name").val(),
-                    orderNumber: $("#orderNumber").val(),
+                    attr: $("#attr").val(),
+                    title: $("#title").val(),
                     searchName: $("#searchName").val(),
-                    action: $("#action").val(),
                     status: $("#status").val(),
+                    pcId: $("#pcId").val(),
+                    cId: $("#cId").val(),
                     beginDate: startDate,
                     endDate: endDate
                 },
@@ -311,29 +315,55 @@
                 mtype : "post"
             }).trigger("reloadGrid"); //重新载入
         })
+        
+        $("#pcId").on("change", function () {
+            if ($("#pcId").val() == ""){
+                $("#cId").html('').attr("disabled", true);
+            }else {
+                $.get('<c:url value="/json/bestvContent_cascade.do"/>', {"pcId": $("#pcId").val()}, function (data) {
+                    var optionHtml = '<option value="">全部</option>';
+                    for (var i in data.result){
+                        optionHtml = optionHtml + '<option value="'+ i +'">' + data.result[i] + '</option>';
+                    }
+                    $("#cId").html(optionHtml).removeAttr("disabled");
+                })
+            }
+        })
 
         $("#online, #offline").on("click", onOrOffLine);
 
         function onOrOffLine(){
+            var actionType = $(this).attr("id") == 'online' ? '1' : '2';//上线为1，下线为2
+            var status1;//上线为102，下线为105
+            var status2;//上线为200，下线为107
+            if (actionType == '1'){
+                status1 = '102';
+                status2 = '105';
+            }else {
+                status1 = '200';
+                status2 = '107';
+            }
             var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
             if (ids.length == 0){
                 bootbox.alert("请选择要操作的记录！");
                 return;
             }
-
-            var actionType = $(this).attr("id") == 'online' ? "1" : "2";//上线为1，下线为2
             var codes = [];
-
             for (var index in ids){
                 var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                codes.push(rowData["series.code"]);
+                if (rowData.status == status1 || rowData.status == status2)
+                    continue;
+                codes.push(rowData.code);
             }
-
+            if (codes.length < 1){
+                bootbox.alert("没有选择有效记录！");
+                return;
+            }
             var codeStr = '';
             for (var index in codes){
                 codeStr =codeStr + codes[index] + ',';
             }
-            $.post('<c:url value="/json/zteSeries_onOrOffLine.do"/>', {"codes": codeStr.substring(0, codeStr.length-1), "actionType": actionType}, function (result) {
+            $.post('<c:url value="/json/bestvContent_onOrOffLine.do"/>', {"codes": codeStr.substring(0, codeStr.length-1), "actionType": actionType}, function (result) {
                 bootbox.alert("操作成功！");
                 $("#search").trigger('click');
             });

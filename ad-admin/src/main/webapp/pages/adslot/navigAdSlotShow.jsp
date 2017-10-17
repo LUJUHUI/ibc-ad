@@ -1,8 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
-
-
-
+<%@page import="com.wondertek.mobilevideo.gke.ad.BcConstants"%>
+<%@ page import="com.wondertek.mobilevideo.gke.ad.core.model.DataDict" %>
 
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
@@ -16,10 +15,10 @@
             <a href=""><fmt:message key="webapp.home"/></a>
         </li>
         <li>
-            <fmt:message key="content.show"/>
-        </li>
+            <fmt:message key="ad.slot"/>
+        </li> 
         <li class="active">
-            <span><fmt:message key="bestv.content.show"/></span>
+            <span><fmt:message key="navig.slot.content.show"/></span>
         </li>
     </ul>
     <!-- /.breadcrumb -->
