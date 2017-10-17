@@ -4,7 +4,10 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -38,6 +41,10 @@ public class AdSlot {
 		private String updateTime;				 //修改时间
 		@Column(name = "update_id")
 		private String updateId;				 //修改人
+		
+		@Id
+		@GeneratedValue(strategy = GenerationType.AUTO, generator = "AD_SLOT_SEQ")
+		@SequenceGenerator(name = "AD_SLOT_SEQ", allocationSize = 1, sequenceName = "AD_SLOT_SEQ")
 		public int getId() {
 			return id;
 		}

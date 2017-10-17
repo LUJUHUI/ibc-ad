@@ -4,7 +4,10 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -22,6 +25,10 @@ public class AdLog {
 		private Integer operId;				 //导航频道ID
 		@Column(name = "create_time")
 		private String createTime;					 //广告位类型
+		
+		@Id
+		@GeneratedValue(strategy = GenerationType.AUTO, generator = "AD_LOG_SEQ")
+		@SequenceGenerator(name = "AD_LOG_SEQ", allocationSize = 1, sequenceName = "AD_LOG_SEQ")
 		public Integer getId() {
 			return id;
 		}
