@@ -7,6 +7,7 @@
         <mapping class="com.wondertek.mobilevideo.gke.ad.core.model.AdAd"/>
         <mapping class="com.wondertek.mobilevideo.gke.ad.core.model.AdSlot"/>
         <mapping class="com.wondertek.mobilevideo.gke.ad.core.model.AdLog"/>
+        <mapping class="com.wondertek.mobilevideo.gke.ad.core.model.AdMaterial"/>
     </session-factory>
 </hibernate-configuration>
 
