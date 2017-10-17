@@ -1,8 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
-<%@page import="com.wondertek.mobilevideo.gke.ad.BcConstants"%>
-<%@ page import="com.wondertek.mobilevideo.gke.ad.core.model.DataDict" %>
-
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
         try {

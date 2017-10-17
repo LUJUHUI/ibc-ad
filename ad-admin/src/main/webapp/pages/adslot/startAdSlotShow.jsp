@@ -1,12 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
-<%@page import="com.wondertek.mobilevideo.bc.BcConstants"%>
-<%@ page import="com.wondertek.mobilevideo.bc.core.model.DataDict" %>
-
-<%
-    pageContext.setAttribute("pubStatus", BcConstants.DATA_DICT_CACHE.get(DataDict.ZTE_PUB_STATE_TYPE).entrySet());
-%>
-
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
         try {

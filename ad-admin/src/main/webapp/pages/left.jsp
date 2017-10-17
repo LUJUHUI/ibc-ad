@@ -36,9 +36,9 @@
                         </li>
                         <c:if test="${empty mainIndex}">
                             <c:set var="mainIndex"
-                                   value="/pages/adslot/navigAdSlotShow.jsp" scope="session"></c:set>
+                                   value="/pages/adslot/bestvContentShow.jsp" scope="session"></c:set>
                         </c:if>
-                    </cas:havePerm>   <cas:havePerm url="/json/adSlot_listAdSlots.do">
+                    </cas:havePerm>  <cas:havePerm url="/json/adSlot_listAdSlots.do">
                         <li>
                             <a href="#" menu-url="<c:url value='/pages/adslot/channelAdSlotShow.jsp' />">
                                 <fmt:message key="channel.slot.content.show" />
@@ -47,13 +47,14 @@
                         </li>
                         <c:if test="${empty mainIndex}">
                             <c:set var="mainIndex"
-                                   value="/pages/adslot/channelAdSlotShow.jsp" scope="session"></c:set>
+                                   value="/pages/adslot/bestvContentShow.jsp" scope="session"></c:set>
                         </c:if>
                     </cas:havePerm>
                 </ul>
             </li>
         </cas:havePerm>
     
+          
         <cas:havePerm url="/adAd.do">
             <li class="">
                 <a href="#" class="dropdown-toggle" menu-url="<c:url value='/pages/adAd/adForm.jsp' />">
