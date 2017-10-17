@@ -1,6 +1,5 @@
 package com.wondertek.mobilevideo.gke.ad.web.action;
 
-import com.wondertek.mobilevideo.core.util.StringUtil;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdAdManager;
 import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 import org.apache.commons.lang.StringUtils;
@@ -12,7 +11,7 @@ import java.util.Map;
 public class AdAdAction extends BaseAction{
 
 	@Autowired
-	private AdAdManager adAdManager;
+	private AdAdManager adAdManagerImpl;
 
 	private Map<String, Object> params = new HashMap<String,Object>();
 	
@@ -20,7 +19,7 @@ public class AdAdAction extends BaseAction{
 		getParams();
 		PageList pageList = new PageList();
 		try {
-			pageList =  adAdManager.getPageList(params,getPageNo(),getPageSize(),getSort(),getOrder());
+			pageList =  adAdManagerImpl.getPageList(params,getPageNo(),getPageSize(),getSort(),getOrder());
 		}catch (Exception e){
 			
 		}
