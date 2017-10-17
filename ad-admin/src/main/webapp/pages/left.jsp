@@ -34,10 +34,7 @@
                             </a>
                             <b class="arrow"></b>
                         </li>
-                        <c:if test="${empty mainIndex}">
-                            <c:set var="mainIndex"
-                                   value="/pages/adslot/bestvContentShow.jsp" scope="session"></c:set>
-                        </c:if>
+                      
                     </cas:havePerm>  <cas:havePerm url="/json/adSlot_listAdSlots.do">
                         <li>
                             <a href="#" menu-url="<c:url value='/pages/adslot/channelAdSlotShow.jsp' />">
@@ -45,10 +42,7 @@
                             </a>
                             <b class="arrow"></b>
                         </li>
-                        <c:if test="${empty mainIndex}">
-                            <c:set var="mainIndex"
-                                   value="/pages/adslot/bestvContentShow.jsp" scope="session"></c:set>
-                        </c:if>
+                        
                     </cas:havePerm>
                 </ul>
             </li>
@@ -61,10 +55,6 @@
                     <i class="menu-icon fa fa-desktop"></i>
                     <span class="menu-text"> <fmt:message key="ad.ad" /> </span>
                 </a>
-                <c:if test="${empty mainIndex}">
-                    <c:set var="mainIndex"
-                           value="/pages/adAd/adForm.jsp" scope="session"></c:set>
-                </c:if>
             </li>
         </cas:havePerm>
     
@@ -144,10 +134,6 @@
                             </a>
                             <b class="arrow"></b>
                         </li>
-                        <c:if test="${empty mainIndex}">
-                            <c:set var="mainIndex"
-                                   value="/pages/log/adLog.jsp" scope="session"></c:set>
-                        </c:if>
                     </cas:havePerm>
                     </ul>
             </li>

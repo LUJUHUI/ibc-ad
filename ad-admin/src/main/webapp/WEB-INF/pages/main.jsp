@@ -172,10 +172,6 @@
                         p.removeClass("main-page-div-display");
                     }
                     p.load(url, function(response, status, xhr) {
-                        if (status != "success") {
-                            //console.log("load page error.");
-                            //checkSession();
-                        }
                     });
                 }
             }
