@@ -37,30 +37,14 @@
     
         <cas:havePerm url="/adAd.do">
             <li class="">
-                <a href="#" class="dropdown-toggle">
+                <a href="#" class="dropdown-toggle" menu-url="<c:url value='/pages/adAd/adForm.jsp' />">
                     <i class="menu-icon fa fa-desktop"></i>
                     <span class="menu-text"> <fmt:message key="ad.ad" /> </span>
-                
-                    <b class="arrow fa fa-angle-down"></b>
                 </a>
-            
-                <b class="arrow"></b>
-            
-                <%--<ul class="submenu">--%>
-                    <%--<cas:havePerm url="/json/bestvContent_beanList.do">--%>
-                        <%--<li>--%>
-                            <%--<a href="#" menu-url="<c:url value='/pages/contentShow/bestvContentShow.jsp' />">--%>
-                                <%--<fmt:message key="ad.slot.open" />--%>
-                            <%--</a>--%>
-                        <%----%>
-                            <%--<b class="arrow"></b>--%>
-                        <%--</li>--%>
-                        <%--<c:if test="${empty mainIndex}">--%>
-                            <%--<c:set var="mainIndex"--%>
-                                   <%--value="/pages/contentShow/bestvContentShow.jsp" scope="session"></c:set>--%>
-                        <%--</c:if>--%>
-                    <%--</cas:havePerm>--%>
-                <%--</ul>--%>
+                <c:if test="${empty mainIndex}">
+                    <c:set var="mainIndex"
+                           value="/pages/adAd/adForm.jsp" scope="session"></c:set>
+                </c:if>
             </li>
         </cas:havePerm>
     
