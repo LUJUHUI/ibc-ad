@@ -8,7 +8,7 @@ public class AdAdAction extends BaseAction{
 	@Autowired
 	private AdAdManager adAdManager;
 	
-	public String testXml(){
+	public String getAd(){
 		resultMap.put("root", adAdManager.getAll());		
 		return SUCCESS;
 	}
