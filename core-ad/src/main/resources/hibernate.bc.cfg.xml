@@ -5,5 +5,8 @@
     <session-factory>
 		<!--<mapping class="com.wondertek.mobilevideo.bc.core.model.AuthVerifyLog"/>-->
         <mapping class="com.wondertek.mobilevideo.gke.ad.core.model.AdAd"/>
+        <mapping class="com.wondertek.mobilevideo.gke.ad.core.model.AdSlot"/>
+        <mapping class="com.wondertek.mobilevideo.gke.ad.core.model.AdLog"/>
     </session-factory>
 </hibernate-configuration>
+
