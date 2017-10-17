@@ -13,31 +13,31 @@ public class AdSlot {
 		private static final long serialVersionUID = 467620661858607767L;
 		@Id
 		@Column(name = "id")
-		private int id;
+		private int id;                          //广告位Id
 		@Column(name = "slot_name")
-		private String slotName;
+		private String slotName;				 //广告位名称
 		@Column(name = "navig")
-		private Enum navig;
+		private Enum navig;						 //导航
 		@Column(name = "channel_id")
-		private Integer channelId;
+		private Integer channelId;				 //导航频道ID
 		@Column(name = "type_")
-		private Integer type;
+		private Integer type;					 //广告位类型
 		@Column(name = "width_")
-		private Integer width;
+		private Integer width;					 //广告位宽度
 		@Column(name = "height_")
-		private Integer height;
+		private Integer height;					 //广告位高度
 		@Column(name = "status_")
-		private String status;
+		private String status;					 //广告位状态
 		@Column(name = "remark_")
-		private String remark;
+		private String remark;					 //备注
 		@Column(name = "create_time")
-		private String createTime;
+		private String createTime;				 //创建时间
 		@Column(name = "create_id")
-		private String createrId;
+		private String createrId;				 //创建人
 		@Column(name = "update_time")
-		private String updateTime;
+		private String updateTime;				 //修改时间
 		@Column(name = "update_id")
-		private String updateId;
+		private String updateId;				 //修改人
 		public int getId() {
 			return id;
 		}

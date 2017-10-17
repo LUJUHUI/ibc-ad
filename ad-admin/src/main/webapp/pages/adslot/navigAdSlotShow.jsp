@@ -1,12 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
-<%@page import="com.wondertek.mobilevideo.bc.BcConstants"%>
-<%@ page import="com.wondertek.mobilevideo.bc.core.model.DataDict" %>
-
-<%
-    pageContext.setAttribute("pubStatus", BcConstants.DATA_DICT_CACHE.get(DataDict.PUB_STATE_TYPE).entrySet());
-    pageContext.setAttribute("pcIds", BcConstants.PC_ID_CACHE.entrySet());
-%>
+<%@page import="com.wondertek.mobilevideo.gke.ad.BcConstants"%>
+<%@ page import="com.wondertek.mobilevideo.gke.ad.core.model.DataDict" %>
 
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
@@ -20,10 +15,10 @@
             <a href=""><fmt:message key="webapp.home"/></a>
         </li>
         <li>
-            <fmt:message key="content.show"/>
-        </li>
+            <fmt:message key="ad.slot"/>
+        </li> 
         <li class="active">
-            <span><fmt:message key="bestv.content.show"/></span>
+            <span><fmt:message key="navig.slot.content.show"/></span>
         </li>
     </ul>
     <!-- /.breadcrumb -->
@@ -49,42 +44,23 @@
 <div class="page-content">
     <div class="page-header">
         <form class="form-inline">
-            <label class="control-label" for="code">内容标识</label>
+            <label class="control-label" for="code">广告位名称</label>
             <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="code">
 
-            <label class="control-label" for="attr">节目类型</label>
+            <label class="control-label" for="attr">导航名称</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="attr">
                 <option value="">全部</option>
-                <option value="1">单片</option>
-                <option value="2">剧集</option>
+                <option value="1">首页</option>
+                <option value="2">直播</option>
+                <option value="3">会员</option>
             </select>
-
-            <label class="control-label" for="title">标题</label>
-            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="title">
-
-            <label class="control-label" for="searchName">搜索名称</label>
-            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="searchName">
-
-            <label class="control-label" for="status">节目状态</label>
-            <select class="form-control input-sm" id="status" style="margin-left: 5px;">
+			
+			<label class="control-label" for="attr">状态</label>
+            <select class="form-control input-sm" style="margin-left: 5px;" id="attr">
                 <option value="">全部</option>
-                <c:forEach var="status" items="${pubStatus}">
-                    <option value="${status.key}">${status.value}</option>
-                </c:forEach>
+                <option value="1">正常</option>
+                <option value="2">禁用</option>
             </select>
-
-            <label class="control-label" for="pcId">一级栏目</label>
-            <select class="form-control input-sm" id="pcId" style="margin-left: 5px;">
-                <option value="">全部</option>
-                <c:forEach var="pcId" items="${pcIds}">
-                    <option value="${pcId.key}">${pcId.value.name}</option>
-                </c:forEach>
-            </select>
-
-            <label class="control-label" for="status">二级栏目</label>
-            <select class="form-control input-sm" id="cId" style="margin-left: 5px;min-width: 80px;" disabled>
-            </select>
-
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
 
@@ -158,47 +134,35 @@
                 endDate: endDate
             },
             height: 560,
-            colNames:['ID','status',
-                '<fmt:message key="bestv.content.code"/>',
-                '<fmt:message key="bestv.content.attr"/>',
-                '<fmt:message key="bestv.content.epCnt"/>',
-                '<fmt:message key="bestv.content.epTotal"/>',
-                '<fmt:message key="bestv.content.title"/>',
-                '<fmt:message key="bestv.content.searchName"/>',
-                '<fmt:message key="bestv.content.duration"/>',
-                '<fmt:message key="bestv.content.tags"/>',
-                '<fmt:message key="bestv.content.directors"/>',
-                '<fmt:message key="bestv.content.actors"/>',
-                '<fmt:message key="bestv.content.area"/>',
-                '<fmt:message key="bestv.content.language"/>',
-                '<fmt:message key="bestv.content.pubDate"/>',
-                '<fmt:message key="bestv.content.pcId.name"/>',
-                '<fmt:message key="bestv.content.cId.name"/>',
-                '<fmt:message key="bestv.content.status"/>',
-                '<fmt:message key="bestv.content.create.time"/>',
-                '<fmt:message key="bestv.content.update.time"/>'
+            colNames:[ 
+                '<fmt:message key="ad.slot.id"/>',                      
+                '<fmt:message key="ad.slot.name"/>',
+                '<fmt:message key="ad.slot.navig"/>',
+                '<fmt:message key="ad.slot.channel.id"/>',
+                '<fmt:message key="ad.slot.type"/>',
+                '<fmt:message key="ad.slot.width"/>',
+                '<fmt:message key="ad.slot.height"/>',
+                '<fmt:message key="ad.slot.status"/>',
+                '<fmt:message key="ad.slot.createTime"/>',
+                '<fmt:message key="ad.slot.creater"/>',
+                '<fmt:message key="ad.slot.updateTime"/>',
+                '<fmt:message key="ad.slot.updater"/>',
+                '<fmt:message key="ad.slot.remark"/>',
             ],
             colModel:[
-                {name:'id',index:'id', width : 100, hidden:true},
-                {name: 'status',index: 'status', width : 100, hidden:true},
-                {name : 'code', index : 'code_', width : 120, align:'center', sortable : false},
-                {name : 'attr', index : 'attr_', width : 100, align:'center', sortable : false, formatter: attrFmt, unformat: attrUnFmt},
-                {name : 'epCnt', index : 'ep_cnt', width : 100, align:'center', sortable : false},
-                {name : 'epTotal', index : 'ep_total', width : 100, align:'center', sortable : false},
-                {name : 'title', index : 'title_', width : 300, align:'center', sortable : false},
-                {name : 'searchName', index : 'search_name', width : 150, align:'center', sortable : false},
-                {name : 'duration', index : 'duration_', width : 100, align:'center', sortable : false},
-                {name : 'tags', index : 'tags_', width : 150, align:'center', sortable : false},
-                {name : 'directors', index : 'directors_', width : 120, align:'center', sortable : false},
-                {name : 'actors', index : 'actors_', width : 250, align:'center', sortable : false},
-                {name : 'area', index : 'area_', width : 100, align:'center', sortable : false},
-                {name : 'language', index : 'language_', width : 100, align:'center', sortable : false},
-                {name : 'pubDate', index : 'pub_date', width : 100, align:'center', sortable : false},
-                {name : 'pcIdName', index : 'pc_id', width : 150, align:'center', sortable : false},
-                {name : 'cIdName', index : 'c_id', width : 150, align:'center', sortable : false},
-                {name : 'statusName', index : 'statusName', width : 200, align:'center', sortable : false},
-                {name : 'createTime', index : 'create_time', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'updateTime', index : 'update_time', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}}
+                {name :' id ', index:'id', width : 100, align:'center',hidden:true},
+                {name : 'slotName', index : 'slot_name', width : 100, align:'center', sortable : false},
+                {name : 'navig', index : 'navig', width : 100, align:'center', sortable : false},
+                {name : 'channelId', index : 'channel_id', width : 300, align:'center', sortable : false},
+                {name : 'type', index : 'type_', width : 150, align:'center', sortable : false},
+                {name : 'width', index : 'width_', width : 100, align:'center', sortable : false},
+                {name : 'height', index : 'height_', width : 150, align:'center', sortable : false},
+                {name : 'status', index : 'status_', width : 120, align:'center', sortable : false},
+                {name : 'createTime', index : 'create_time', width : 250, align:'center', sortable : false},
+                {name : 'createrId', index : 'create_id', width : 100, align:'center', sortable : false},
+                {name : 'updateTime', index : 'update_time', width : 100, align:'center', sortable : false},
+                {name : 'updateId', index : 'update_id', width : 100, align:'center', sortable : false},
+                {name : 'remark', index : 'remark_', width : 150, align:'center', sortable : false},
             ],
             shrinkToFit : false,
             hidegrid : false,
@@ -215,10 +179,10 @@
                 root : 'rows',
                 repeatitems : true
             },
-            caption: '<fmt:message key="content.list" />',
+            caption: '<fmt:message key="navig.slot.content.list" />',
             <cas:havePerm url="/bestvContent_loadDetailPage.do">
                 ondblClickRow : function (rowid, iRow, iCol, e) {
-                    openMainPage('<c:url value="/pages/contentShow/bestvContentDetail.jsp"/>', {"id": rowid}, function () {
+                    openMainPage('<c:url value="/pages/adSlot/bestvContentDetail.jsp"/>', {"id": rowid}, function () {
                     });
                 },
             </cas:havePerm>
@@ -237,9 +201,13 @@
         });
 
         $("#t_grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
-            '<td><button type="button" id="online" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>上线</button></td>' +
+            
+        
+            '<td><button type="button" id="online" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>增加</button></td>' +
             '<td>|</td>' +
-            '<td><button type="button" id="offline" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-cloud-download"></i>下线</button></td>' +
+            '<td><button type="button" id="online" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>修改</button></td>' +
+            '<td>|</td>' +
+            '<td><button type="button" id="offline" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-cloud-download"></i>删除</button></td>' +
             '</tr></table>');
 
         $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
