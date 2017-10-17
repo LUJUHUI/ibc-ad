@@ -48,9 +48,9 @@
             </interceptor-stack>
         </interceptors>
 
-        <!--<action name="main" class="com.wondertek.mobilevideo.bc.web.action.MainAction" method="main">-->
-            <!--<result name="success" >/WEB-INF/pages/main.jsp</result>-->
-        <!--</action>-->
+        <action name="main" class="com.wondertek.mobilevideo.gke.ad.web.action.MainAction" method="main">
+            <result name="success" >/WEB-INF/pages/main.jsp</result>
+        </action>
 
     </package>
     <package name="json" extends="default" namespace="/json">
@@ -62,12 +62,6 @@
                 <param name="enableGZIP">true</param>
             </interceptor>
         </interceptors>
-        
-        <action name="testXml" class="com.wondertek.mobilevideo.gke.ad.web.action.TestAction" method="testXml">
-            <result type="json">
-                <param name="root">resultMap</param>
-            </result>
-        </action>
         
         <action name="adad_*" class="com.wondertek.mobilevideo.gke.ad.web.action.AdAdAction" method="{1}">
             <result type="json">
