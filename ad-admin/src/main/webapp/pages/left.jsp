@@ -15,7 +15,7 @@
                 </a>
                 <b class="arrow"></b>
                <ul class="submenu">
-                    <cas:havePerm url="/json/bestvContent_beanList.do">
+                    <cas:havePerm url="/json/adSlot_listAdSlots.do">
                         <li>
                             <a href="#" menu-url="<c:url value='/pages/adslot/startAdSlotShow.jsp' />">
                                 <fmt:message key="start.slot.content.show" />
@@ -27,7 +27,7 @@
                                    value="/pages/adslot/startAdSlotShow.jsp" scope="session"></c:set>
                         </c:if>
                     </cas:havePerm>
-                      <cas:havePerm url="/json/bestvContent_beanList.do">
+                      <cas:havePerm url="/json/adSlot_listAdSlots.do">
                         <li>
                             <a href="#" menu-url="<c:url value='/pages/adslot/navigAdSlotShow.jsp' />">
                                 <fmt:message key="navig.slot.content.show" />
@@ -36,9 +36,9 @@
                         </li>
                         <c:if test="${empty mainIndex}">
                             <c:set var="mainIndex"
-                                   value="/pages/adslot/bestvContentShow.jsp" scope="session"></c:set>
+                                   value="/pages/adslot/navigAdSlotShow.jsp" scope="session"></c:set>
                         </c:if>
-                    </cas:havePerm>  <cas:havePerm url="/json/bestvContent_beanList.do">
+                    </cas:havePerm>   <cas:havePerm url="/json/adSlot_listAdSlots.do">
                         <li>
                             <a href="#" menu-url="<c:url value='/pages/adslot/channelAdSlotShow.jsp' />">
                                 <fmt:message key="channel.slot.content.show" />
@@ -47,7 +47,7 @@
                         </li>
                         <c:if test="${empty mainIndex}">
                             <c:set var="mainIndex"
-                                   value="/pages/adslot/bestvContentShow.jsp" scope="session"></c:set>
+                                   value="/pages/adslot/channelAdSlotShow.jsp" scope="session"></c:set>
                         </c:if>
                     </cas:havePerm>
                 </ul>
@@ -56,30 +56,14 @@
     
         <cas:havePerm url="/adAd.do">
             <li class="">
-                <a href="#" class="dropdown-toggle">
+                <a href="#" class="dropdown-toggle" menu-url="<c:url value='/pages/adAd/adForm.jsp' />">
                     <i class="menu-icon fa fa-desktop"></i>
                     <span class="menu-text"> <fmt:message key="ad.ad" /> </span>
-                
-                    <b class="arrow fa fa-angle-down"></b>
                 </a>
-            
-                <b class="arrow"></b>
-            
-                <%--<ul class="submenu">--%>
-                    <%--<cas:havePerm url="/json/bestvContent_beanList.do">--%>
-                        <%--<li>--%>
-                            <%--<a href="#" menu-url="<c:url value='/pages/contentShow/bestvContentShow.jsp' />">--%>
-                                <%--<fmt:message key="ad.slot.open" />--%>
-                            <%--</a>--%>
-                        <%----%>
-                            <%--<b class="arrow"></b>--%>
-                        <%--</li>--%>
-                        <%--<c:if test="${empty mainIndex}">--%>
-                            <%--<c:set var="mainIndex"--%>
-                                   <%--value="/pages/contentShow/bestvContentShow.jsp" scope="session"></c:set>--%>
-                        <%--</c:if>--%>
-                    <%--</cas:havePerm>--%>
-                <%--</ul>--%>
+                <c:if test="${empty mainIndex}">
+                    <c:set var="mainIndex"
+                           value="/pages/adAd/adForm.jsp" scope="session"></c:set>
+                </c:if>
             </li>
         </cas:havePerm>
     

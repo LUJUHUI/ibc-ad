@@ -16,7 +16,7 @@ public class AdSlotDaoHibernate extends GenericDaoHibernate<AdSlot, Long> implem
 	}
 	public PageList listAdSlot(Map<String, Object> params, Integer pageNo, Integer pageSize, String sort, String order) {
 		StringBuffer hql  = new StringBuffer();
-		hql.append("from Channel where 1=1 ");
+		hql.append("from AdSlot where 1=1 ");
 		List<String> hqlParam = new ArrayList<String>();
 		this.getParams(params, hql, true, hqlParam);
 		Integer recordCount = findCount(" select count(1) "+hql.toString(), hqlParam.toArray());

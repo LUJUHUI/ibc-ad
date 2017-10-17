@@ -20,7 +20,7 @@
       classpath:/applicationContext-resources.xml
       classpath*:/applicationContext-ad-dao.xml
       classpath*:/applicationContext-ad-service.xml
-      classpath:/applicationContext-web-jobs.xml
+     <!--  classpath:/applicationContext-web-jobs.xml -->
       classpath*:/applicationContext-cas.xml
     </param-value>
   </context-param>

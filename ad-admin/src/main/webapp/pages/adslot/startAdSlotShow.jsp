@@ -121,17 +121,9 @@
         jQuery(grid_selector).jqGrid({
             datatype: "json",
             mtype: "post",
-            url: "<c:url value='/json/bestvContent_beanList.do'/>",
+            url: "<c:url value='/json/adSlot_listAdSlots.do'/>",
             postData: {
-                code: $("#code").val(),
-                attr: $("#attr").val(),
-                title: $("#title").val(),
-                searchName: $("#searchName").val(),
-                status: $("#status").val(),
-                pcId: $("#pcId").val(),
-                cId: $("#cId").val(),
-                beginDate: startDate,
-                endDate: endDate
+                //code: $("#code").val(),
             },
             height: 560,
             colNames:[ 
@@ -199,14 +191,12 @@
         });
 
         $("#t_grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
-            
-        
-            '<td><button type="button" id="add" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>增加</button></td>' +
-            '<td>|</td>' +
-            '<td><button type="button" id="update" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>修改</button></td>' +
-            '<td>|</td>' +
-            '<td><button type="button" id="delete" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-cloud-download"></i>删除</button></td>' +
-            '</tr></table>');
+        		 '<td><button type="button" id="online" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>增加</button></td>' +
+                 '<td>|</td>' +
+                 '<td><button type="button" id="online" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>修改</button></td>' +
+                 '<td>|</td>' +
+                 '<td><button type="button" id="offline" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-cloud-download"></i>删除</button></td>' +
+                 '</tr></table>');
 
         $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 

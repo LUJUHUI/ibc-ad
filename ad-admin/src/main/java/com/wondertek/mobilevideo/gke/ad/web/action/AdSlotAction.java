@@ -130,9 +130,9 @@ public class AdSlotAction extends BaseAction {
 	public String getSort() {
 		String sort = getRequest().getParameter("sort");
 		if (StringUtils.isBlank(sort)) {
-			sort = getRequest().getParameter("sidx");
+			sort = getRequest().getParameter("sidx");                                                                                                                                                                                                                                                             
 		}
-		return sort;
+		return sort;                                                                                                      
 	}
 	
 	public AdSlotManager getAdSlotManager() {

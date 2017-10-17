@@ -121,17 +121,9 @@
         jQuery(grid_selector).jqGrid({
             datatype: "json",
             mtype: "post",
-            url: "<c:url value='/json/bestvContent_beanList.do'/>",
+            url: "<c:url value='/json/adSlot_listAdSlots.do'/>",
             postData: {
-                code: $("#code").val(),
-                attr: $("#attr").val(),
-                title: $("#title").val(),
-                searchName: $("#searchName").val(),
-                status: $("#status").val(),
-                pcId: $("#pcId").val(),
-                cId: $("#cId").val(),
-                beginDate: startDate,
-                endDate: endDate
+               // code: $("#code").val(),
             },
             height: 560,
             colNames:[ 
