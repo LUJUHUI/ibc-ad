@@ -45,10 +45,10 @@
     <div class="page-header">
         <form class="form-inline">
             <label class="control-label" for="code">日志ID</label>
-            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="code">
+            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="logId">
 
             <label class="control-label" for="attr">操作类型</label>
-            <select class="form-control input-sm" style="margin-left: 5px;" id="attr">
+            <select class="form-control input-sm" style="margin-left: 5px;" id="operType">
                 <option value="">全部</option>
                 <option value="2">新增</option>
                 <option value="2">修改</option>
@@ -56,7 +56,7 @@
             </select>
 			
 			<label class="control-label" for="attr">审核结果</label>
-            <select class="form-control input-sm" style="margin-left: 5px;" id="attr">
+            <select class="form-control input-sm" style="margin-left: 5px;" id="operResult">
                 <option value="">全部</option>
                 <option value="1">失败</option>
                 <option value="2">通过</option>
@@ -121,15 +121,11 @@
         jQuery(grid_selector).jqGrid({
             datatype: "json",
             mtype: "post",
-            url: "<c:url value='/json/bestvContent_beanList.do'/>",
+            url: "<c:url value='/json/adSlot_listAdLogs'/>",
             postData: {
-                code: $("#code").val(),
-                attr: $("#attr").val(),
-                title: $("#title").val(),
-                searchName: $("#searchName").val(),
-                status: $("#status").val(),
-                pcId: $("#pcId").val(),
-                cId: $("#cId").val(),
+            	logId: $("#logId").val(),
+            	operType: $("#operType").val(),
+            	operResult: $("#operResult").val(),
                 beginDate: startDate,
                 endDate: endDate
             },

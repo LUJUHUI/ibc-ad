@@ -23,12 +23,19 @@ public class AdSlotAction extends BaseAction {
 	
 	public String listAdSlots(){
 		getParams();
-		List returnList =  adSlotManager.listAdSlot(params, getPageNo(), getPageSize(), getSort(), getOrder());
+		List returnList =  adSlotManager.getPageList(params,getPageNo(), getPageSize(),getOrder(),getOrder());
 		resultMap.put("root", returnList);
 		resultMap.put("success", true);
 		return SUCCESS;
 	}
 	
+	public String listAdLogs(){
+		getParams();
+		List returnList =  adSlotManager.getPageList(params,getPageNo(), getPageSize(),getOrder(),getOrder());
+		resultMap.put("root", returnList);
+		resultMap.put("success", true);
+		return SUCCESS;
+	}
 	public String addAdSlot() {
 		try {
 			adSlotManager.save(adSlot);
@@ -42,7 +49,7 @@ public class AdSlotAction extends BaseAction {
 	
 	public String updateAdSlot() {
 		try {
-			adSlotManager.updateAdSlot(adSlot);
+			adSlotManager.saveOrUpdate(adSlot);
 			resultMap.put("success",true); 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -53,8 +60,7 @@ public class AdSlotAction extends BaseAction {
 	
 	public String delateAdSlot() {
 		try {
-			String id = getRequest().getParameter("adSoltId");
-			adSlotManager.deleteByAdId(Long.parseLong(id));
+			adSlotManager.saveOrUpdate(adSlot);
 			resultMap.put("success",true); 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,12 +92,12 @@ public class AdSlotAction extends BaseAction {
             params.put("status", status);
         }
         
-        String startCreateTime = getRequest().getParameter("startCreateTime");
+        String startCreateTime = getRequest().getParameter("beginDate");
         if (StringUtils.isNotBlank(startCreateTime)){
             params.put("startCreateTime", startCreateTime);
         }
         
-        String endCreateTime = getRequest().getParameter("endCreateTime");
+        String endCreateTime = getRequest().getParameter("endDate");
         if (StringUtils.isNotBlank(endCreateTime)){
             params.put("endCreateTime", endCreateTime);
         }

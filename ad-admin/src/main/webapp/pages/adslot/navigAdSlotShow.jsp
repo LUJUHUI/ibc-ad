@@ -39,13 +39,13 @@
 </style>
 
 <div class="page-content">
-    <div class="page-header">
+     <div class="page-header">
         <form class="form-inline">
             <label class="control-label" for="code">广告位名称</label>
-            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="code">
+            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="soltName">
 
             <label class="control-label" for="attr">导航名称</label>
-            <select class="form-control input-sm" style="margin-left: 5px;" id="attr">
+            <select class="form-control input-sm" style="margin-left: 5px;" id="soltChannel">
                 <option value="">全部</option>
                 <option value="1">首页</option>
                 <option value="2">直播</option>
@@ -53,7 +53,7 @@
             </select>
 			
 			<label class="control-label" for="attr">状态</label>
-            <select class="form-control input-sm" style="margin-left: 5px;" id="attr">
+            <select class="form-control input-sm" style="margin-left: 5px;" id="status">
                 <option value="">全部</option>
                 <option value="1">正常</option>
                 <option value="2">禁用</option>
@@ -120,7 +120,11 @@
             mtype: "post",
             url: "<c:url value='/json/adSlot_listAdSlots.do'/>",
             postData: {
-               // code: $("#code").val(),
+            	   soltName: $("#soltName").val(),
+            	   navig: $("#soltChannel").val(),
+            	   status: $("#status").val(),
+                   beginDate: startDate,
+                   endDate: endDate
             },
             height: 560,
             colNames:[ 
