@@ -11,17 +11,17 @@ import java.util.Date;
 public class AdAd implements Serializable {
 
 
-	private Long id;
-	private Long soltId;
-	private String adName;
-	private Date startTime;
-	private Date endTime;
-	private int status;
-	private String remark;
-	private Date createTime;
-	private String createId;
-	private Date updateTime;
-	private String updateId;
+	private Long id;			//id
+	private Long soltId;		//广告位id
+	private String adName;		//广告名称
+	private Date startTime;		//广告生效时间 
+	private Date endTime;		//广告结束时间
+	private int status;			//状态 101:草稿，102：待投放，103：投放中，104：投放完成，105：删除
+	private String remark;		//备注
+	private Date createTime;	//创建时间
+	private String createId;	//创建人
+	private Date updateTime;	//更新时间
+	private String updateId;	//更新人
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "AD_AD_SEQ")

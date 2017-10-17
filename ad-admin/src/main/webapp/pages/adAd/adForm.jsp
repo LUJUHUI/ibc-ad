@@ -1,11 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
-<%@page import="com.wondertek.mobilevideo.bc.BcConstants"%>
-<%@ page import="com.wondertek.mobilevideo.bc.core.model.DataDict" %>
-
-<%
-    pageContext.setAttribute("pubStatus", BcConstants.DATA_DICT_CACHE.get(DataDict.ZTE_PUB_STATE_TYPE).entrySet());
-%>
 
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
@@ -19,10 +13,7 @@
             <a href=""><fmt:message key="webapp.home"/></a>
         </li>
         <li>
-            <fmt:message key="ad.slot"/>
-        </li> 
-        <li class="active">
-            <span><fmt:message key="start.slot.content.show"/></span>
+            <fmt:message key="ad.ad"/>
         </li>
     </ul>
     <!-- /.breadcrumb -->
@@ -48,23 +39,42 @@
 <div class="page-content">
     <div class="page-header">
         <form class="form-inline">
-            <label class="control-label" for="code">广告位名称</label>
+            <label class="control-label" for="code">内容标识</label>
             <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="code">
 
-            <label class="control-label" for="attr">导航名称</label>
+            <label class="control-label" for="attr">节目类型</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="attr">
                 <option value="">全部</option>
-                <option value="1">首页</option>
-                <option value="2">直播</option>
-                <option value="3">会员</option>
+                <option value="1">单片</option>
+                <option value="2">剧集</option>
             </select>
-			
-			<label class="control-label" for="attr">状态</label>
-            <select class="form-control input-sm" style="margin-left: 5px;" id="attr">
+
+            <label class="control-label" for="title">标题</label>
+            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="title">
+
+            <label class="control-label" for="searchName">搜索名称</label>
+            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="searchName">
+
+            <label class="control-label" for="status">节目状态</label>
+            <select class="form-control input-sm" id="status" style="margin-left: 5px;">
                 <option value="">全部</option>
-                <option value="1">正常</option>
-                <option value="2">禁用</option>
+                <c:forEach var="status" items="${pubStatus}">
+                    <option value="${status.key}">${status.value}</option>
+                </c:forEach>
             </select>
+
+            <label class="control-label" for="pcId">一级栏目</label>
+            <select class="form-control input-sm" id="pcId" style="margin-left: 5px;">
+                <option value="">全部</option>
+                <c:forEach var="pcId" items="${pcIds}">
+                    <option value="${pcId.key}">${pcId.value.name}</option>
+                </c:forEach>
+            </select>
+
+            <label class="control-label" for="status">二级栏目</label>
+            <select class="form-control input-sm" id="cId" style="margin-left: 5px;min-width: 80px;" disabled>
+            </select>
+
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
 
@@ -125,40 +135,42 @@
         jQuery(grid_selector).jqGrid({
             datatype: "json",
             mtype: "post",
-            url: "<c:url value='/json/adSlot_listAdSlots.do'/>",
+            url: "<c:url value='/json/adad_getAd.do'/>",
             postData: {
-                //code: $("#code").val(),
+                code: $("#code").val(),
+                attr: $("#attr").val(),
+                title: $("#title").val(),
+                searchName: $("#searchName").val(),
+                status: $("#status").val(),
+                pcId: $("#pcId").val(),
+                cId: $("#cId").val(),
+                beginDate: startDate,
+                endDate: endDate
             },
             height: 560,
-            colNames:[ 
-                '<fmt:message key="ad.slot.id"/>',                      
-                '<fmt:message key="ad.slot.name"/>',
-                '<fmt:message key="ad.slot.navig"/>',
-                '<fmt:message key="ad.slot.channel.id"/>',
-                '<fmt:message key="ad.slot.type"/>',
-                '<fmt:message key="ad.slot.width"/>',
-                '<fmt:message key="ad.slot.height"/>',
-                '<fmt:message key="ad.slot.status"/>',
-                '<fmt:message key="ad.slot.createTime"/>',
-                '<fmt:message key="ad.slot.creater"/>',
-                '<fmt:message key="ad.slot.updateTime"/>',
-                '<fmt:message key="ad.slot.updater"/>',
-                '<fmt:message key="ad.slot.remark"/>',
+            colNames:[
+                '<fmt:message key="ad.ad.id"/>',
+                '<fmt:message key="ad.ad.name"/>',
+                '<fmt:message key="ad.ad.status"/>',
+                '<fmt:message key="ad.ad.remark"/>',
+                '<fmt:message key="ad.ad.startTime"/>',
+                '<fmt:message key="ad.ad.endTime"/>',
+                '<fmt:message key="ad.ad.createTime"/>',
+                '<fmt:message key="ad.ad.createId"/>',
+                '<fmt:message key="ad.ad.updateTime"/>',
+                '<fmt:message key="ad.ad.updateId"/>'
             ],
             colModel:[
-                {name :' id ', index:'id', width : 100, align:'center',hidden:true},
-                {name : 'slotName', index : 'slot_name', width : 100, align:'center', sortable : false},
-                {name : 'navig', index : 'navig', width : 100, align:'center', sortable : false},
-                {name : 'channelId', index : 'channel_id', width : 300, align:'center', sortable : false},
-                {name : 'type', index : 'type_', width : 150, align:'center', sortable : false},
-                {name : 'width', index : 'width_', width : 100, align:'center', sortable : false},
-                {name : 'height', index : 'height_', width : 150, align:'center', sortable : false},
-                {name : 'status', index : 'status_', width : 120, align:'center', sortable : false},
-                {name : 'createTime', index : 'create_time', width : 250, align:'center', sortable : false},
-                {name : 'createrId', index : 'create_id', width : 100, align:'center', sortable : false},
-                {name : 'updateTime', index : 'update_time', width : 100, align:'center', sortable : false},
-                {name : 'updateId', index : 'update_id', width : 100, align:'center', sortable : false},
-                {name : 'remark', index : 'remark_', width : 150, align:'center', sortable : false},
+                {name:'id',index:'id', width : 80,align:'center', sortable : true},
+                {name: 'adName',index: 'adName', width : 200, align:'center', sortable : true},
+                {name : 'status', index : 'status', width : 80, align:'center', sortable : false,formatter:statusFmt},
+                {name : 'remark', index : 'remark', width : 280, align:'center', sortable : true},
+                {name : 'startTime', index : 'startTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'endTime', index : 'endTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'createTime', index : 'createTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'createId', index : 'createId', width : 100, align:'center', sortable : true},
+                {name : 'updateTime', index : 'updateTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'updateId', index : 'updateId', width : 100, align:'center', sortable : true},
             ],
             shrinkToFit : false,
             hidegrid : false,
@@ -175,9 +187,11 @@
                 root : 'rows',
                 repeatitems : true
             },
-            caption: '<fmt:message key="start.slot.content.list" />',
+            caption: '<fmt:message key="ad.ad.list" />',
             <cas:havePerm url="/bestvContent_loadDetailPage.do">
                 ondblClickRow : function (rowid, iRow, iCol, e) {
+                    openMainPage('<c:url value="/pages/contentShow/bestvContentDetail.jsp"/>', {"id": rowid}, function () {
+                    });
                 },
             </cas:havePerm>
             toolbar: [true,'top'],
@@ -195,12 +209,10 @@
         });
 
         $("#t_grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
-        		 '<td><button type="button" id="online" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>增加</button></td>' +
-                 '<td>|</td>' +
-                 '<td><button type="button" id="online" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>修改</button></td>' +
-                 '<td>|</td>' +
-                 '<td><button type="button" id="offline" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-cloud-download"></i>删除</button></td>' +
-                 '</tr></table>');
+            '<td><button type="button" id="online" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>上线</button></td>' +
+            '<td>|</td>' +
+            '<td><button type="button" id="offline" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-cloud-download"></i>下线</button></td>' +
+            '</tr></table>');
 
         $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 
@@ -222,43 +234,15 @@
             }
         )
 
-        //it causes some flicker when reloading or navigating grid
-        //it may be possible to have some custom formatter to do this as the grid is being created to prevent this
-        //or go back to default browser checkbox styles for the grid
+        
         function styleCheckbox(table) {
-            /**
-             $(table).find('input:checkbox').addClass('ace')
-             .wrap('<label />')
-             .after('<span class="lbl align-top" />')
-
-
-             $('.ui-jqgrid-labels th[id*="_cb"]:first-child')
-             .find('input.cbox[type=checkbox]').addClass('ace')
-             .wrap('<label />').after('<span class="lbl align-top" />');
-             */
+            
         }
 
-
-        //unlike navButtons icons, action icons in rows seem to be hard-coded
-        //you can change them like this in here if you want
         function updateActionIcons(table) {
-            /**
-             var replacement =
-             {
-                 'ui-ace-icon fa fa-pencil' : 'ace-icon fa fa-pencil blue',
-                 'ui-ace-icon fa fa-trash-o' : 'ace-icon fa fa-trash-o red',
-                 'ui-icon-disk' : 'ace-icon fa fa-check green',
-                 'ui-icon-cancel' : 'ace-icon fa fa-times red'
-             };
-             $(table).find('.ui-pg-div span.ui-icon').each(function(){
-						var icon = $(this);
-						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
-					})
-             */
+            
         }
-
-        //replace icons with FontAwesome icons like above
+        
         function updatePagerIcons(table) {
             var replacement =
                 {
@@ -285,12 +269,21 @@
             $('.ui-jqdialog').remove();
         });
 
-        function attrFmt(cellvalue, options, rowObject){
-            return cellvalue == '1' ? '单片' : '连续剧';
-        }
-
-        function attrUnFmt(cellvalue, options, rowObject) {
-            return cellvalue == "单片" ? "1" : "2";
+        function statusFmt(cellvalue, options, rowObject){
+            var result="";
+            switch (cellvalue){
+                case 101:
+                    result='草稿';
+                case 102:
+                    result = '待投放';
+                case 103:
+                    result = '投放中';
+                case 104:
+                    result = '投放完成';
+                case 105:
+                    result = '已删除';
+            }
+            return result;
         }
 
         $("#search").on("click", function () {
