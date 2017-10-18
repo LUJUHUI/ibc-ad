@@ -16,5 +16,4 @@ public class AdMaterialManagerImpl extends GenericManagerImpl<AdMaterial,Long> i
         super(adMaterialDao);
         this.adMaterialDao = adMaterialDao;
     }
-
 }
