@@ -129,7 +129,7 @@
         jQuery(grid_selector).jqGrid({
             datatype: "json",
             mtype: "post",
-            url: "<c:url value='/json/adMaterial_getAd.do'/>",
+            url: "<c:url value='/json/adMaterial_getAdMaterial.do'/>",
             postData: {
                 materialName: $("#materialName").val(),
                 type: $("#type").val(),
@@ -261,19 +261,19 @@
         function statusFmt(cellvalue, options, rowObject){
             var result="";
             switch (cellvalue){
-                case 1:
+                case 101:
                     result='待审核';
                     break;
-                case 2:
-                    result = '审核成功';
+                case 102:
+                    result = '审核通过';
                     break;
-                case 3:
+                case 103:
                     result = '审核失败';
                     break;
-                case 4:
-                    result = '删除';
+                case 104:
+                    result = '已删除';
                     break;
-                case 5:
+                case 105:
                     result = '已使用';
                     break;
             }
@@ -292,7 +292,7 @@
             }
 
             $("#grid-table").jqGrid('setGridParam', {
-                url : "<c:url value='/json/adMaterial_getAd.do'/>",
+                url : "<c:url value='/json/adMaterial_listGetAdMaterial.do'/>",
                 postData : {
                     materialName: $("#materialName").val(),
                     type: $("#type").val(),

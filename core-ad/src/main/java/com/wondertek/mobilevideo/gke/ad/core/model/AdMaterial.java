@@ -20,7 +20,7 @@ public class AdMaterial implements Serializable {
     @Column(name = "click_href")
     private String clickHref;  // 连接地址
     @Column(name = "status_")
-    private int status;  // 审核状态
+    private int status;  // 审核状态  101:待审核;102:审核通过;103:审核失败;104:已删除;105:已使用
     @Column(name = "create_time")
     private Date createTime = new Date();  //创建时间
     @Column(name = "create_id")
