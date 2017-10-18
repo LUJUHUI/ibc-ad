@@ -142,7 +142,7 @@
         jQuery(grid_selector).jqGrid({
             datatype: "json",
             mtype: "post",
-            url: "<c:url value='/json/adad_getAd.do'/>",
+            url: "<c:url value='/json/adMaterial_listAdMaterial.do'/>",
             postData: {
                 code: $("#code").val(),
                 attr: $("#attr").val(),
@@ -193,7 +193,7 @@
                 repeatitems : true
             },
             caption: '<fmt:message key="ad.material" />',
-            <cas:havePerm url="/ad.material_loadDetailPage.do">
+            <cas:havePerm url="/ad.material.do">
             ondblClickRow : function (rowid, iRow, iCol, e) {
                 openMainPage('<c:url value="/pages/admaterial/adMaterial.jsp"/>', {"id": rowid}, function () {
                 });
@@ -304,7 +304,7 @@
             }
 
             $("#grid-table").jqGrid('setGridParam', {
-                url : "<c:url value='/json/bestvContent_beanList.do'/>",
+                url : "<c:url value='/json/adMaterial_listAdMaterial.do'/>",
                 postData : {
                     code: $("#code").val(),
                     attr: $("#attr").val(),
@@ -326,7 +326,7 @@
             if ($("#pcId").val() == ""){
                 $("#cId").html('').attr("disabled", true);
             }else {
-                $.get('<c:url value="/json/bestvContent_cascade.do"/>', {"pcId": $("#pcId").val()}, function (data) {
+                $.get('<c:url value="/json/adMaterial_listAdMaterial.do"/>', {"pcId": $("#pcId").val()}, function (data) {
                     var optionHtml = '<option value="">全部</option>';
                     for (var i in data.result){
                         optionHtml = optionHtml + '<option value="'+ i +'">' + data.result[i] + '</option>';
@@ -336,9 +336,9 @@
             }
         })
 
-        $("#online, #offline").on("click", onOrOffLine);
+        $("#create, #search,#update,#delete").on("click", csud);
 
-        function onOrOffLine(){
+        function csud(){
             var actionType = $(this).attr("id") == 'online' ? '1' : '2';//上线为1，下线为2
             var status1;//上线为102，下线为105
             var status2;//上线为200，下线为107
