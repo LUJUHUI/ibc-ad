@@ -12,18 +12,18 @@ import java.util.Map;
 public class AdMaterialAction extends BaseAction {
 
     @Autowired
-    private AdMaterialManger adMaterialManger;
+    private AdMaterialManger adMaterialMangerImpl;
     private AdMaterial adMaterial;
     private Map<String, Object> params = new HashMap<String,Object>();
 
-//    查询
-    public String getAd(){
+    //    查询
+    public String getAdMaterial(){
         getParams();
         PageList pageList = new PageList();
         try {
-            pageList =  adMaterialManger.getPageList(params,getPageNo(),getPageSize(),getSort(),getOrder());
+            pageList =  adMaterialMangerImpl.getPageList(params,getPageNo(),getPageSize(),getSort(),getOrder());
         }catch (Exception e){
-
+            e.printStackTrace();
         }
         resultMap.put("rows", pageList.getList());
         resultMap.put("records", pageList.getRecordCount());
@@ -31,10 +31,10 @@ public class AdMaterialAction extends BaseAction {
         return SUCCESS;
     }
 
-//     增加
+    //     增加
     public String addAdMaterial() {
         try {
-            adMaterialManger.save(adMaterial);
+            adMaterialMangerImpl.save(adMaterial);
             resultMap.put("success",true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,7 +46,7 @@ public class AdMaterialAction extends BaseAction {
 //    修改
     public String updateAdMaterial() {
         try {
-            adMaterialManger.saveOrUpdate(adMaterial);
+            adMaterialMangerImpl.saveOrUpdate(adMaterial);
             resultMap.put("success",true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,17 +55,17 @@ public class AdMaterialAction extends BaseAction {
         return SUCCESS;
     }
 
-//    删除
-public String delateAdMaterial() {
-    try {
-        adMaterialManger.saveOrUpdate(adMaterial);
-        resultMap.put("success",true);
-    } catch (Exception e) {
-        e.printStackTrace();
-        resultMap.put("success",false);
+    //    删除
+    public String delateAdMaterial() {
+        try {
+            adMaterialMangerImpl.saveOrUpdate(adMaterial);
+            resultMap.put("success",true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultMap.put("success",false);
+        }
+        return SUCCESS;
     }
-    return SUCCESS;
-}
 
     private void getParams() {
         String materialName = getRequest().getParameter("materialName");
