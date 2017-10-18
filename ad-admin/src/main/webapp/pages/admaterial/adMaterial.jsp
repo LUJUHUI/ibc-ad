@@ -263,14 +263,19 @@
             switch (cellvalue){
                 case 1:
                     result='待审核';
+                    break;
                 case 2:
                     result = '审核成功';
+                    break;
                 case 3:
                     result = '审核失败';
+                    break;
                 case 4:
                     result = '删除';
+                    break;
                 case 5:
                     result = '已使用';
+                    break;
             }
             return result;
         }
