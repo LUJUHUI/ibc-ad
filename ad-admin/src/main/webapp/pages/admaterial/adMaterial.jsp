@@ -215,8 +215,7 @@
 
         $("#t_grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
             '<td><button type="button" id="create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>创建</button></td>' +
-            '<td><button type="button" id="search" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>查询</button></td>' +
-            '<td><button type="button" id="modify" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>修改</button></td>' +
+            '<td><button type="button" id="update" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>修改</button></td>' +
             '<td><button type="button" id="delete" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-cloud-download"></i>删除</button></td>' +
             '</tr></table>');
 
@@ -339,16 +338,39 @@
         $("#create, #search,#update,#delete").on("click", csud);
 
         function csud(){
-            var actionType = $(this).attr("id") == 'online' ? '1' : '2';//上线为1，下线为2
-            var status1;//上线为102，下线为105
-            var status2;//上线为200，下线为107
+            var actionType = $(this).attr("id") == 'create' ? '1' : '2';//创建成功1，创建失败为2
+            var status1;//创建成功为101，创建失败为102
+            var status2;//创建成功为103，创建失败为104
             if (actionType == '1'){
-                status1 = '102';
-                status2 = '105';
+                status1 = '101';
+                status2 = '102';
             }else {
-                status1 = '200';
-                status2 = '107';
+                status1 = '103';
+                status2 = '104';
             }
+
+            var actionType = $(this).attr("id") == 'update' ? '1' : '2';//修改成功1，修改失败为2
+            var status1;//修改成功为105，修改失败为106
+            var status2;//修改成功为107，修改失败为108
+            if (actionType == '1'){
+                status1 = '105';
+                status2 = '106';
+            }else {
+                status1 = '107';
+                status2 = '108';
+            }
+
+            var actionType = $(this).attr("id") == 'delete' ? '1' : '2';//删除成功1，删除失败为2
+            var status1;//删除成功为109，删除失败为110
+            var status2;//删除成功为111，删除失败为112
+            if (actionType == '1'){
+                status1 = '109';
+                status2 = '110';
+            }else {
+                status1 = '111';
+                status2 = '112';
+            }
+
             var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
             if (ids.length == 0){
                 bootbox.alert("请选择要操作的记录！");
@@ -369,7 +391,7 @@
             for (var index in codes){
                 codeStr =codeStr + codes[index] + ',';
             }
-            $.post('<c:url value="/json/bestvContent_onOrOffLine.do"/>', {"codes": codeStr.substring(0, codeStr.length-1), "actionType": actionType}, function (result) {
+            $.post('<c:url value="/json/adMaterial_listAdMaterial.do"/>', {"codes": codeStr.substring(0, codeStr.length-1), "actionType": actionType}, function (result) {
                 bootbox.alert("操作成功！");
                 $("#search").trigger('click');
             });
