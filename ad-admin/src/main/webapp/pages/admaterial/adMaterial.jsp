@@ -46,40 +46,27 @@
 <div class="page-content">
     <div class="page-header">
         <form class="form-inline">
-            <label class="control-label" for="code">内容标识</label>
-            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="code">
+            <label class="control-label" for="materialName">素材名称</label>
+            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="materialName">
 
-            <label class="control-label" for="attr">节目类型</label>
-            <select class="form-control input-sm" style="margin-left: 5px;" id="attr">
+            <label class="control-label" for="type">素材类型</label>
+            <select class="form-control input-sm" style="margin-left: 5px;" id="type">
                 <option value="">全部</option>
-                <option value="1">单片</option>
-                <option value="2">剧集</option>
+                <option value="1">图片</option>
+                <option value="2">文字</option>
             </select>
 
-            <label class="control-label" for="title">标题</label>
-            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="title">
-
-            <label class="control-label" for="searchName">搜索名称</label>
-            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="searchName">
-
-            <label class="control-label" for="status">节目状态</label>
+            <label class="control-label" for="status">素材状态</label>
             <select class="form-control input-sm" id="status" style="margin-left: 5px;">
                 <option value="">全部</option>
+                <option value="1">待审核</option>
+                <option value="2">审核成功</option>
+                <option value="3">审核失败</option>
+                <option value="4">删除</option>
+                <option value="5">已使用</option>
                 <c:forEach var="status" items="${pubStatus}">
                     <option value="${status.key}">${status.value}</option>
                 </c:forEach>
-            </select>
-
-            <label class="control-label" for="pcId">一级栏目</label>
-            <select class="form-control input-sm" id="pcId" style="margin-left: 5px;">
-                <option value="">全部</option>
-                <c:forEach var="pcId" items="${pcIds}">
-                    <option value="${pcId.key}">${pcId.value.name}</option>
-                </c:forEach>
-            </select>
-
-            <label class="control-label" for="status">二级栏目</label>
-            <select class="form-control input-sm" id="cId" style="margin-left: 5px;min-width: 80px;" disabled>
             </select>
 
             <label class="control-label" for="createTime">创建时间</label>
@@ -142,15 +129,12 @@
         jQuery(grid_selector).jqGrid({
             datatype: "json",
             mtype: "post",
-            url: "<c:url value='/json/adMaterial_listAdMaterial.do'/>",
+            url: "<c:url value='/json/adMaterial_getAd.do'/>",
             postData: {
-                code: $("#code").val(),
-                attr: $("#attr").val(),
-                title: $("#title").val(),
-                searchName: $("#searchName").val(),
+                materialName: $("#materialName").val(),
+                type: $("#type").val(),
                 status: $("#status").val(),
-                pcId: $("#pcId").val(),
-                cId: $("#cId").val(),
+                createTime: $("#createTime").val(),
                 beginDate: startDate,
                 endDate: endDate
             },
@@ -168,10 +152,10 @@
             ],
             colModel:[
                 {name:'id',index:'id', width : 80,align:'center', sortable : true},
-                {name: 'materialName',index: 'materialName', width : 200, align:'center', sortable : true},
-                {name : 'type', index : 'type', width : 280, align:'center', sortable : true},
+                {name: 'materialName',index: 'materialName', width : 300, align:'center', sortable : true},
+                {name : 'type', index : 'type', width : 270, align:'center', sortable : true},
                 {name : 'clickHref', index : 'clickHref', width : 280, align:'center', sortable : true},
-                {name : 'status', index : 'status', width : 80, align:'center', sortable : false,formatter:statusFmt},
+                {name : 'status', index : 'status', width : 108, align:'center', sortable : false,formatter:statusFmt},
                 {name : 'createTime', index : 'createTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
                 {name : 'createId', index : 'createId', width : 100, align:'center', sortable : true},
                 {name : 'updateTime', index : 'updateTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
@@ -214,9 +198,9 @@
         });
 
         $("#t_grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
-            '<td><button type="button" id="create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>创建</button></td>' +
-            '<td><button type="button" id="update" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>修改</button></td>' +
-            '<td><button type="button" id="delete" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-cloud-download"></i>删除</button></td>' +
+            '<td><button type="button" id="create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-paper-plane-o"></i>创建</button></td>' +
+            '<td><button type="button" id="update" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-wrench"></i>修改</button></td>' +
+            '<td><button type="button" id="delete" class="btn btn-xs btn-danger"><i class="ace-icon  glyphicon glyphicon-remove"></i>删除</button></td>' +
             '</tr></table>');
 
         $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
@@ -277,16 +261,16 @@
         function statusFmt(cellvalue, options, rowObject){
             var result="";
             switch (cellvalue){
-                case 101:
-                    result='草稿';
-                case 102:
-                    result = '待投放';
-                case 103:
-                    result = '投放中';
-                case 104:
-                    result = '投放完成';
-                case 105:
-                    result = '已删除';
+                case 1:
+                    result='待审核';
+                case 2:
+                    result = '审核成功';
+                case 3:
+                    result = '审核失败';
+                case 4:
+                    result = '删除';
+                case 5:
+                    result = '已使用';
             }
             return result;
         }
@@ -303,15 +287,12 @@
             }
 
             $("#grid-table").jqGrid('setGridParam', {
-                url : "<c:url value='/json/adMaterial_listAdMaterial.do'/>",
+                url : "<c:url value='/json/adMaterial_getAd.do'/>",
                 postData : {
-                    code: $("#code").val(),
-                    attr: $("#attr").val(),
-                    title: $("#title").val(),
-                    searchName: $("#searchName").val(),
+                    materialName: $("#materialName").val(),
+                    type: $("#type").val(),
                     status: $("#status").val(),
-                    pcId: $("#pcId").val(),
-                    cId: $("#cId").val(),
+                    createTime: $("#createTime").val(),
                     beginDate: startDate,
                     endDate: endDate
                 },
@@ -319,20 +300,6 @@
                 datatype: "json",
                 mtype : "post"
             }).trigger("reloadGrid"); //重新载入
-        })
-
-        $("#pcId").on("change", function () {
-            if ($("#pcId").val() == ""){
-                $("#cId").html('').attr("disabled", true);
-            }else {
-                $.get('<c:url value="/json/adMaterial_listAdMaterial.do"/>', {"pcId": $("#pcId").val()}, function (data) {
-                    var optionHtml = '<option value="">全部</option>';
-                    for (var i in data.result){
-                        optionHtml = optionHtml + '<option value="'+ i +'">' + data.result[i] + '</option>';
-                    }
-                    $("#cId").html(optionHtml).removeAttr("disabled");
-                })
-            }
         })
 
         $("#create, #search,#update,#delete").on("click", csud);
@@ -391,7 +358,7 @@
             for (var index in codes){
                 codeStr =codeStr + codes[index] + ',';
             }
-            $.post('<c:url value="/json/adMaterial_listAdMaterial.do"/>', {"codes": codeStr.substring(0, codeStr.length-1), "actionType": actionType}, function (result) {
+            $.post('<c:url value="/json/adMaterial_getAd.do"/>', {"codes": codeStr.substring(0, codeStr.length-1), "actionType": actionType}, function (result) {
                 bootbox.alert("操作成功！");
                 $("#search").trigger('click');
             });
