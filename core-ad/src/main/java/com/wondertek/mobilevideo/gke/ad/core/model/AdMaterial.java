@@ -12,23 +12,23 @@ import java.util.Date;
 public class AdMaterial implements Serializable {
     @Id
     @Column(name = "id_")
-    private int id;
+    private int id;  // id
     @Column(name = "material_name")
-    private String materialName;
+    private String materialName; //广告素材名
     @Column(name = "type_")
-    private int type;
+    private int type;    //素材类型
     @Column(name = "click_href")
-    private String clickHref;
+    private String clickHref;  // 连接地址
     @Column(name = "status_")
-    private int status;
+    private int status;  // 审核状态
     @Column(name = "create_time")
-    private Date createTime = new Date();
+    private Date createTime = new Date();  //创建时间
     @Column(name = "create_id")
-    private int createId;
+    private int createId;       //创建者ID
     @Column(name = "update_time")
-    private Date updateTime = new Date();
+    private Date updateTime = new Date();   //修改时间
     @Column(name = "update_id")
-    private int updateId;
+    private int updateId;   //修改者ID
 
     public int getId() {
         return id;
