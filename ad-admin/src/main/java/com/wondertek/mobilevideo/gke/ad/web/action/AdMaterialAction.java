@@ -68,6 +68,10 @@ public class AdMaterialAction extends BaseAction {
     }
 
     private void getParams() {
+        String id = getRequest().getParameter("id");
+        if (StringUtils.isNotBlank(id)) {
+            params.put("id", id);
+        }
         String materialName = getRequest().getParameter("materialName");
         if (StringUtils.isNotBlank(materialName)) {
             params.put("materialName", materialName);
@@ -76,14 +80,29 @@ public class AdMaterialAction extends BaseAction {
         if (StringUtils.isNotBlank(type)) {
             params.put("type", type);
         }
-        String status = getRequest().getParameter("status");
-        if (StringUtils.isNotBlank(status)) {
-            params.put("status",status);
-        }
         String clickHref = getRequest().getParameter("clickHref");
         if (StringUtils.isNotBlank(clickHref)) {
             params.put("clickHref", clickHref);
         }
+        String status = getRequest().getParameter("status");
+        if (StringUtils.isNotBlank(status)) {
+            params.put("status",status);
+        }
     }
 
+    public AdMaterialManger getAdMaterialMangerImpl() {
+        return adMaterialMangerImpl;
+    }
+
+    public void setAdMaterialMangerImpl(AdMaterialManger adMaterialMangerImpl) {
+        this.adMaterialMangerImpl = adMaterialMangerImpl;
+    }
+
+    public void setAdMaterial(AdMaterial adMaterial) {
+        this.adMaterial = adMaterial;
+    }
+
+    public void setParams(Map<String, Object> params) {
+        this.params = params;
+    }
 }

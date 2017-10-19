@@ -12,13 +12,13 @@ import java.util.Date;
 public class AdMaterial implements Serializable {
     @Id
     @Column(name = "id_")
-    private int id;  // id
+    private int id;  // 素材ID
     @Column(name = "material_name")
     private String materialName; //广告素材名
     @Column(name = "type_")
-    private int type;    //素材类型
+    private int type;    //素材类型  1:图片;2:文字
     @Column(name = "click_href")
-    private String clickHref;  // 连接地址
+    private String clickHref;  // 链接地址
     @Column(name = "status_")
     private int status;  // 审核状态  101:待审核;102:审核通过;103:审核失败;104:已删除;105:已使用
     @Column(name = "create_time")

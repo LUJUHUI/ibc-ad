@@ -292,7 +292,7 @@
             }
 
             $("#grid-table").jqGrid('setGridParam', {
-                url : "<c:url value='/json/adMaterial_listGetAdMaterial.do'/>",
+                url : "<c:url value='/json/adMaterial_addAdMaterial.do'/>",
                 postData : {
                     materialName: $("#materialName").val(),
                     type: $("#type").val(),
