@@ -1,5 +1,6 @@
 package com.wondertek.mobilevideo.gke.ad.web.action;
 
+import com.wondertek.mobilevideo.core.util.DateUtil;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterial;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdMaterialManger;
 import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
@@ -66,28 +67,28 @@ public class AdMaterialAction extends BaseAction {
         }
         return SUCCESS;
     }
-
     private void getParams() {
-        String id = getRequest().getParameter("id");
-        if (StringUtils.isNotBlank(id)) {
-            params.put("id", id);
-        }
         String materialName = getRequest().getParameter("materialName");
         if (StringUtils.isNotBlank(materialName)) {
             params.put("materialName", materialName);
         }
         String type = getRequest().getParameter("type");
         if (StringUtils.isNotBlank(type)) {
-            params.put("type", type);
-        }
-        String clickHref = getRequest().getParameter("clickHref");
-        if (StringUtils.isNotBlank(clickHref)) {
-            params.put("clickHref", clickHref);
+            params.put("type", Integer.parseInt(type));
         }
         String status = getRequest().getParameter("status");
         if (StringUtils.isNotBlank(status)) {
-            params.put("status",status);
+            params.put("status",Integer.parseInt(status));
         }
+        String beginDate = getRequest().getParameter("beginDate");
+        if (StringUtils.isNotBlank(beginDate)) {
+            params.put("createTime_beginTime",DateUtil.parseDate(DateUtil.DATE_YYYY_MM_DD_PATTERN,beginDate) );
+        }
+        String endDate = getRequest().getParameter("endDate");
+        if (StringUtils.isNotBlank(endDate)) {
+            params.put("createTime_endTime",DateUtil.parseDate(DateUtil.DATE_YYYY_MM_DD_PATTERN,endDate) );
+        }
+
     }
 
     public AdMaterialManger getAdMaterialMangerImpl() {

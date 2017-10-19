@@ -7,7 +7,50 @@
 --%>
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" id="adMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">添加素材</h4>
+            </div>
+            <div class="modal-body">
+                <form id="add_material_Form">
 
+                    <div class="form-group">
+                        <label for="add_adMaterialName" class="control-label">素材名称:</label>
+                        <input type="text" class="form-control" id="add_adMaterialName" name="adMaterial.adMaterialName">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="add_type" class="control-label">素材类型 :</label>
+                        <select class="form-control input-sm" style="margin-left: 5px;" id="add_type" name="adMaterial.type">
+                            <option value="1">图片</option>
+                            <option value="2">文字</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="add_clickHref" class="control-label">链接地址:</label>
+                        <input type="text" class="form-control" id="add_clickHref" name="adMaterial.clickHref">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="add_status" class="control-label">审核状态 :</label>
+                        <select class="form-control input-sm" style="margin-left: 5px;" id="add_status" name="adMaterial.status">
+                            <option value="101">待审核</option>
+                        </select>
+                    </div>
+
+                </form>
+                <div class="modal-footer">
+                    <button type="button" id="close_adad" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" id="save_adad" class="btn btn-primary">保存</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
         try {
@@ -59,11 +102,11 @@
             <label class="control-label" for="status">素材状态</label>
             <select class="form-control input-sm" id="status" style="margin-left: 5px;">
                 <option value="">全部</option>
-                <option value="1">待审核</option>
-                <option value="2">审核成功</option>
-                <option value="3">审核失败</option>
-                <option value="4">删除</option>
-                <option value="5">已使用</option>
+                <option value="101">待审核</option>
+                <option value="102">审核成功</option>
+                <option value="103">审核失败</option>
+                <option value="104">已删除</option>
+                <option value="105">已使用</option>
                 <c:forEach var="status" items="${pubStatus}">
                     <option value="${status.key}">${status.value}</option>
                 </c:forEach>
@@ -134,7 +177,6 @@
                 materialName: $("#materialName").val(),
                 type: $("#type").val(),
                 status: $("#status").val(),
-                createTime: $("#createTime").val(),
                 beginDate: startDate,
                 endDate: endDate
             },
@@ -198,9 +240,9 @@
         });
 
         $("#t_grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
-            '<td><button type="button" id="create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-paper-plane-o"></i>创建</button></td>' +
-            '<td><button type="button" id="update" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-wrench"></i>修改</button></td>' +
-            '<td><button type="button" id="delete" class="btn btn-xs btn-danger"><i class="ace-icon  glyphicon glyphicon-remove"></i>删除</button></td>' +
+            '<td><button type="button" id="adm_create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-paper-plane-o"></i>创建</button></td>' +
+            '<td><button type="button" id="adm_update" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-wrench"></i>修改</button></td>' +
+            '<td><button type="button" id="adm_delete" class="btn btn-xs btn-danger"><i class="ace-icon  glyphicon glyphicon-remove"></i>删除</button></td>' +
             '</tr></table>');
 
         $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
@@ -292,12 +334,11 @@
             }
 
             $("#grid-table").jqGrid('setGridParam', {
-                url : "<c:url value='/json/adMaterial_addAdMaterial.do'/>",
+                url : "<c:url value='/json/adMaterial_getAdMaterial.do'/>",
                 postData : {
                     materialName: $("#materialName").val(),
                     type: $("#type").val(),
                     status: $("#status").val(),
-                    createTime: $("#createTime").val(),
                     beginDate: startDate,
                     endDate: endDate
                 },
@@ -307,67 +348,29 @@
             }).trigger("reloadGrid"); //重新载入
         })
 
-        $("#create, #search,#update,#delete").on("click", csud);
-
-        function csud(){
-            var actionType = $(this).attr("id") == 'create' ? '1' : '2';//创建成功1，创建失败为2
-            var status1;//创建成功为101，创建失败为102
-            var status2;//创建成功为103，创建失败为104
-            if (actionType == '1'){
-                status1 = '101';
-                status2 = '102';
-            }else {
-                status1 = '103';
-                status2 = '104';
+        $("#adm_create").on("click",function () {
+            if($("#add_adMaterialName").val() == ""){
+                $("#add_adMaterialName").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
             }
-
-            var actionType = $(this).attr("id") == 'update' ? '1' : '2';//修改成功1，修改失败为2
-            var status1;//修改成功为105，修改失败为106
-            var status2;//修改成功为107，修改失败为108
-            if (actionType == '1'){
-                status1 = '105';
-                status2 = '106';
-            }else {
-                status1 = '107';
-                status2 = '108';
+            if($("#add_type").val() == ""){
+                $("#add_type").tips({side:2,msg:'类型不能为空 ',time:3});
+                return false;
             }
-
-            var actionType = $(this).attr("id") == 'delete' ? '1' : '2';//删除成功1，删除失败为2
-            var status1;//删除成功为109，删除失败为110
-            var status2;//删除成功为111，删除失败为112
-            if (actionType == '1'){
-                status1 = '109';
-                status2 = '110';
-            }else {
-                status1 = '111';
-                status2 = '112';
-            }
-
-            var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
-            if (ids.length == 0){
-                bootbox.alert("请选择要操作的记录！");
-                return;
-            }
-            var codes = [];
-            for (var index in ids){
-                var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                if (rowData.status == status1 || rowData.status == status2)
-                    continue;
-                codes.push(rowData.code);
-            }
-            if (codes.length < 1){
-                bootbox.alert("没有选择有效记录！");
-                return;
-            }
-            var codeStr = '';
-            for (var index in codes){
-                codeStr =codeStr + codes[index] + ',';
-            }
-            $.post('<c:url value="/json/adMaterial_getAd.do"/>', {"codes": codeStr.substring(0, codeStr.length-1), "actionType": actionType}, function (result) {
-                bootbox.alert("操作成功！");
-                $("#search").trigger('click');
+            $.ajax({
+                url:"<c:url value='/json/adMaterial_addAdMaterial.do'/>",
+                data:$("#add_material_Form").serialize(),
+                type:"post",
+                success:function(data){
+                    $("#adMaterialModel").modal('hide')
+                    $("#search").click();
+                    alert("添加成功");
+                },error:function(){
+                    alert("保存失败，无法连接服务器");
+                }
             });
-        }
+
+        })
     });
 </script>
 
