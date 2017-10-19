@@ -1,5 +1,48 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" id="adSlotModel" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">添加广告位</h4>
+            </div>
+            <div class="modal-body">
+                <form id="ad_SlotForm">
+                     <div class="form-group">
+                        <label for="adSlot_navig" class="control-label">导航:</label>
+                        <select class="form-control input-sm" style="margin-left: 5px;" id="adSlot_navig" name="adSlot.navig">
+                            <option value="">请选择</option>
+                            <option value="1">首页</option>
+                            <option value="2">直播</option>
+                            <option value="3">会员</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="adSlot_channelId" class="control-label">导航ID</label>
+                        <input type="text" class="form-control" id="adSlot_channelId" name="adSlot.channelId">
+                    </div>
+                       <div class="form-group">
+                        <label for="adSlot_width" class="control-label">广告位宽度</label>
+                        <input type="text" class="form-control" id="adSlot_width" name="adSlot.width">
+                    </div>
+                    <div class="form-group">
+                        <label for="adSlot_height" class="control-label">广告位高度</label>
+                        <input type="text" class="form-control" id="adSlot_height" name="adSlot.height">
+                    </div>
+                    <div class="form-group">
+                        <label for="adSlot_type" class="control-label" hidden="true"></label>
+                        <input type="hidden" class="form-control" id="adSlot_type" name="adSlot.type" value="1"  >
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" id="close_adad" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" id=save_adSlot class="btn btn-primary">保存</button>
+                </div>
+            </div> 
+        </div> 
+    </div> 
+</div>
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
         try {
@@ -75,7 +118,10 @@
     </div>
     <!-- /.row -->
 </div>
-
+<div class="modal" aria-labelledby="gridSystemModalLabel" id="detailModal">
+    <div class="modal-dialog" role="document" style="width: 1200px;">
+    </div> 
+</div> 
 <script type="text/javascript">
 
     jQuery(function($) {
@@ -114,15 +160,15 @@
         var dateRange = $('#createTime').val().replace(/\s/g, "").split("至");
         var startDate = dateRange[0];
         var endDate = dateRange[1];
-
         jQuery(grid_selector).jqGrid({
             datatype: "json",
             mtype: "post",
             url: "<c:url value='/json/adSlot_listAdSlots.do'/>",
             postData: {
-            	   soltName: $("#soltName").val(),
-            	   navig: $("#soltChannel").val(),
-            	   status: $("#status").val(),
+            	   slotName: $('#soltName').val(),
+            	   navig: $('#soltChannel').val(),
+            	   status: $('#status').val(),
+            	   type:1,
                    beginDate: startDate,
                    endDate: endDate
             },
@@ -132,7 +178,6 @@
                 '<fmt:message key="ad.slot.name"/>',
                 '<fmt:message key="ad.slot.navig"/>',
                 '<fmt:message key="ad.slot.channel.id"/>',
-                '<fmt:message key="ad.slot.type"/>',
                 '<fmt:message key="ad.slot.width"/>',
                 '<fmt:message key="ad.slot.height"/>',
                 '<fmt:message key="ad.slot.status"/>',
@@ -145,15 +190,14 @@
             colModel:[
                 {name :' id ', index:'id', width : 100, align:'center',hidden:true},
                 {name : 'slotName', index : 'slot_name', width : 100, align:'center', sortable : false},
-                {name : 'navig', index : 'navig', width : 100, align:'center', sortable : false},
+                {name : 'navig', index : 'navig', width : 100, align:'center', sortable : false,formatter:attrNavig},
                 {name : 'channelId', index : 'channel_id', width : 300, align:'center', sortable : false},
-                {name : 'type', index : 'type_', width : 150, align:'center', sortable : false},
                 {name : 'width', index : 'width_', width : 100, align:'center', sortable : false},
                 {name : 'height', index : 'height_', width : 150, align:'center', sortable : false},
-                {name : 'status', index : 'status_', width : 120, align:'center', sortable : false},
-                {name : 'createTime', index : 'create_time', width : 250, align:'center', sortable : false},
+                {name : 'status', index : 'status_', width : 120, align:'center', sortable : false,formatter:attrStatus},
+                {name : 'createTime', index : 'create_time', width : 250, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
                 {name : 'createrId', index : 'create_id', width : 100, align:'center', sortable : false},
-                {name : 'updateTime', index : 'update_time', width : 100, align:'center', sortable : false},
+                {name : 'updateTime', index : 'update_time', width : 100, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
                 {name : 'updateId', index : 'update_id', width : 100, align:'center', sortable : false},
                 {name : 'remark', index : 'remark_', width : 150, align:'center', sortable : false},
             ],
@@ -182,21 +226,19 @@
                 var table = this;
                 setTimeout(function(){
                     styleCheckbox(table);
-
                     updateActionIcons(table);
                     updatePagerIcons(table);
-                    enableTooltips(table);
                 }, 0);
             }
 
         });
 
         $("#t_grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
-        		 '<td><button type="button" id="online" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>增加</button></td>' +
+        		 '<td><button type="button" id="addSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-plus"></i>增加</button></td>' +
                  '<td>|</td>' +
-                 '<td><button type="button" id="online" class="btn btn-xs btn-success"><i class="ace-icon fa fa-cloud-upload"></i>修改</button></td>' +
+                 '<td><button type="button" id="updateSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-edit"></i>修改</button></td>' +
                  '<td>|</td>' +
-                 '<td><button type="button" id="offline" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-cloud-download"></i>删除</button></td>' +
+                 '<td><button type="button" id="deleteSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-remove""></i>删除</button></td>' +
                  '</tr></table>');
 
         $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
@@ -218,44 +260,7 @@
                 viewicon : 'ace-icon fa fa-search-plus grey',
             }
         )
-
-        //it causes some flicker when reloading or navigating grid
-        //it may be possible to have some custom formatter to do this as the grid is being created to prevent this
-        //or go back to default browser checkbox styles for the grid
-        function styleCheckbox(table) {
-            /**
-             $(table).find('input:checkbox').addClass('ace')
-             .wrap('<label />')
-             .after('<span class="lbl align-top" />')
-
-
-             $('.ui-jqgrid-labels th[id*="_cb"]:first-child')
-             .find('input.cbox[type=checkbox]').addClass('ace')
-             .wrap('<label />').after('<span class="lbl align-top" />');
-             */
-        }
-
-
-        //unlike navButtons icons, action icons in rows seem to be hard-coded
-        //you can change them like this in here if you want
-        function updateActionIcons(table) {
-            /**
-             var replacement =
-             {
-                 'ui-ace-icon fa fa-pencil' : 'ace-icon fa fa-pencil blue',
-                 'ui-ace-icon fa fa-trash-o' : 'ace-icon fa fa-trash-o red',
-                 'ui-icon-disk' : 'ace-icon fa fa-check green',
-                 'ui-icon-cancel' : 'ace-icon fa fa-times red'
-             };
-             $(table).find('.ui-pg-div span.ui-icon').each(function(){
-						var icon = $(this);
-						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
-					})
-             */
-        }
-
-        //replace icons with FontAwesome icons like above
+ 
         function updatePagerIcons(table) {
             var replacement =
                 {
@@ -272,22 +277,28 @@
             })
         }
 
-        function enableTooltips(table) {
-            $('.navtable .ui-pg-button').tooltip({container:'body'});
-            $(table).find('.ui-pg-div').tooltip({container:'body'});
-        }
-
         $(document).one('ajaxloadstart.page', function(e) {
             $.jgrid.gridDestroy(grid_selector);
             $('.ui-jqdialog').remove();
         });
 
-        function attrFmt(cellvalue, options, rowObject){
-            return cellvalue == '1' ? '单片' : '连续剧';
+        function attrNavig(callValue,options,rowObject){
+            var result="";
+            switch (callValue){
+                case 1:
+                    result='首页';
+                    break;
+                case 2:
+                    result = '直播';
+                    break;
+                case 3:
+                    result = '会员';
+            }
+            return result;
         }
 
-        function attrUnFmt(cellvalue, options, rowObject) {
-            return cellvalue == "单片" ? "1" : "2";
+        function attrStatus(callValue, options, rowObject) {
+            return callValue == 1 ? "正常" : "禁用";
         }
 
         $("#search").on("click", function () {
@@ -302,7 +313,7 @@
             }
 
             $("#grid-table").jqGrid('setGridParam', {
-                url : "<c:url value='/json/bestvContent_beanList.do'/>",
+                url : "<c:url value='/json/adSlot_listAdSlots.do'/>",
                 postData : {
                     code: $("#code").val(),
                     attr: $("#attr").val(),
@@ -319,34 +330,45 @@
                 mtype : "post"
             }).trigger("reloadGrid"); //重新载入
         })
-        
-        $("#pcId").on("change", function () {
-            if ($("#pcId").val() == ""){
-                $("#cId").html('').attr("disabled", true);
-            }else {
-                $.get('<c:url value="/json/bestvContent_cascade.do"/>', {"pcId": $("#pcId").val()}, function (data) {
-                    var optionHtml = '<option value="">全部</option>';
-                    for (var i in data.result){
-                        optionHtml = optionHtml + '<option value="'+ i +'">' + data.result[i] + '</option>';
-                    }
-                    $("#cId").html(optionHtml).removeAttr("disabled");
-                })
+
+         $("#addSlot").on("click",function () {
+            $("#adSlotModel").modal();
+        });
+
+        $("#save_adSlot").on("click",function () {
+        	if($("#adSlot_navig").val() == ""){
+                  $("#adSlot_navig").tips({side:2,msg:'请选择导航 ',time:3});
+                  return false;
             }
+        	if($("#adSlot_channelId").val() == ""){
+                $("#adSlot_channelId").tips({side:2,msg:'导航ID必填 ',time:3});
+                return false;
+            }
+            if($("#adSlot_width").val() == ""){
+                $("#adSlot_width").tips({side:2,msg:'宽度必填 ',time:3});
+                return false;
+            }
+            if($("#adSlot_height").val() == ""){
+                $("#adSlot_height").tips({side:2,msg:'高度必填 ',time:3});
+                return false;
+            }
+            $.ajax({
+                url:"<c:url value='/json/adSlot_addAdSlot.do'/>",
+                data:$("#ad_SlotForm").serialize(),
+                type:"post",
+                success:function(data){
+                    $("#adSlotModel").modal('hide');
+                    $("#search").click();
+                },error:function(){
+                    alert("保存失败，无法连接服务器");
+                }
+            });
+
         })
-
-        $("#online, #offline").on("click", onOrOffLine);
-
-        function onOrOffLine(){
-            var actionType = $(this).attr("id") == 'online' ? '1' : '2';//上线为1，下线为2
-            var status1;//上线为102，下线为105
-            var status2;//上线为200，下线为107
-            if (actionType == '1'){
-                status1 = '102';
-                status2 = '105';
-            }else {
-                status1 = '200';
-                status2 = '107';
-            }
+         
+        
+        $("#deleteSlot").on("click",deleteSolt);
+        function deleteSolt(){
             var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
             if (ids.length == 0){
                 bootbox.alert("请选择要操作的记录！");
@@ -355,9 +377,7 @@
             var codes = [];
             for (var index in ids){
                 var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                if (rowData.status == status1 || rowData.status == status2)
-                    continue;
-                codes.push(rowData.code);
+                codes.push(rowData.id); 
             }
             if (codes.length < 1){
                 bootbox.alert("没有选择有效记录！");
@@ -367,7 +387,7 @@
             for (var index in codes){
                 codeStr =codeStr + codes[index] + ',';
             }
-            $.post('<c:url value="/json/bestvContent_onOrOffLine.do"/>', {"codes": codeStr.substring(0, codeStr.length-1), "actionType": actionType}, function (result) {
+            $.post('<c:url value="/json/adSlot_deleteAdSlot.do"/>', {"id": codeStr.substring(0, codeStr.length-1)}, function (result) {
                 bootbox.alert("操作成功！");
                 $("#search").trigger('click');
             });

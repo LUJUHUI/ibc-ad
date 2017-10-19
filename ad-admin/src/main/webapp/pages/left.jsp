@@ -51,7 +51,7 @@
           
         <cas:havePerm url="/adAd.do">
             <li class="">
-                <a href="#" class="dropdown-toggle" menu-url="<c:url value='/pages/adAd/adForm.jsp' />">
+                <a href="#" class="dropdown-toggle" menu-url="<c:url value='/pages/adAd/adShow.jsp' />">
                     <i class="menu-icon fa fa-desktop"></i>
                     <span class="menu-text"> <fmt:message key="ad.ad" /> </span>
                 </a>

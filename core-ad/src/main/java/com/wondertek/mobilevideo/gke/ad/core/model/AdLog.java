@@ -14,16 +14,11 @@ import javax.persistence.Table;
 @Table(name = "ad_log")//广告位
 public class AdLog {
 		private static final long serialVersionUID = 467620661858607767L;
-		@Id
-		@Column(name = "id_")
+		
 		private Integer id;                          //广告位Id
-		@Column(name = "oper_type")
 		private Integer operType;				 //广告位名称
-		@Column(name = "oper_result")
 		private String operResult;						 //导航
-		@Column(name = "oper_id")
 		private Integer operId;				 //导航频道ID
-		@Column(name = "create_time")
 		private String createTime;					 //广告位类型
 		
 		@Id
@@ -35,33 +30,35 @@ public class AdLog {
 		public void setId(Integer id) {
 			this.id = id;
 		}
+		@Column(name = "oper_type")
 		public Integer getOperType() {
 			return operType;
 		}
 		public void setOperType(Integer operType) {
 			this.operType = operType;
 		}
+		@Column(name = "oper_result")
 		public String getOperResult() {
 			return operResult;
 		}
 		public void setOperResult(String operResult) {
 			this.operResult = operResult;
 		}
+		@Column(name = "oper_id")
 		public Integer getOperId() {
 			return operId;
 		}
 		public void setOperId(Integer operId) {
 			this.operId = operId;
 		}
+		@Column(name = "create_time")
 		public String getCreateTime() {
 			return createTime;
 		}
 		public void setCreateTime(String createTime) {
 			this.createTime = createTime;
 		}
-		public static long getSerialversionuid() {
-			return serialVersionUID;
-		}
+	 
 		@Override
 		public int hashCode() {
 			final int prime = 31;
