@@ -28,7 +28,7 @@ public class AdSlotAction extends BaseAction {
 		resultMap.put("success", true);
 		return SUCCESS;
 	}
-	
+
 	public String listAdLogs(){
 		getParams();
 		List returnList =  adSlotManager.getPageList(params,getPageNo(), getPageSize(),getOrder(),getOrder());
