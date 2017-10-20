@@ -19,7 +19,7 @@ public class AdLog {
 		private Integer operType;				 //广告位名称
 		private String operResult;						 //导航
 		private Integer operId;				 //导航频道ID
-		private String createTime;					 //广告位类型
+		private Date createTime;					 //广告位类型
 		
 		@Id
 		@GeneratedValue(strategy = GenerationType.AUTO, generator = "AD_LOG_SEQ")
@@ -52,10 +52,10 @@ public class AdLog {
 			this.operId = operId;
 		}
 		@Column(name = "create_time")
-		public String getCreateTime() {
+		public Date getCreateTime() {
 			return createTime;
 		}
-		public void setCreateTime(String createTime) {
+		public void setCreateTime(Date createTime) {
 			this.createTime = createTime;
 		}
 	 

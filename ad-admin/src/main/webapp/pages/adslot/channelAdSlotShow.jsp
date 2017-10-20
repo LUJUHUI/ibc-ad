@@ -85,10 +85,10 @@
     <div class="page-header">
         <form class="form-inline">
             <label class="control-label" for="code">广告位名称</label>
-            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="soltName">
+            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="slot_Name">
 
             <label class="control-label" for="attr">导航名称</label>
-            <select class="form-control input-sm" style="margin-left: 5px;" id="soltChannel">
+            <select class="form-control input-sm" style="margin-left: 5px;" id="slot_Channel">
                 <option value="">全部</option>
                 <option value="1">首页</option>
                 <option value="2">直播</option>
@@ -96,14 +96,16 @@
             </select>
 			
 			<label class="control-label" for="attr">状态</label>
-            <select class="form-control input-sm" style="margin-left: 5px;" id="status">
+            <select class="form-control input-sm" style="margin-left: 5px;" id="slot_status">
                 <option value="">全部</option>
                 <option value="1">正常</option>
                 <option value="2">禁用</option>
             </select>
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
-
+			<button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
+                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="button.reset"/>
+            </button>
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
                 <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
             </button>
@@ -163,10 +165,12 @@
             mtype: "post",
             url: "<c:url value='/json/adSlot_listAdSlots.do'/>",
             postData: {
-            	   soltName: $("#soltName").val(),
-            	   navig: $("#soltChannel").val(),
-            	   status: $("#status").val(),
+            	   slotName: $('#slot_Name').val(),
+          	       navig: $('#slot_Channel').val(),
+          	       status: $('#slot_status').val(),
             	   type:2,
+            	   beginDate: startDate,
+                   endDate: endDate
             },
             height: 560,
             colNames:[ 
@@ -343,8 +347,14 @@
             return callValue == 1 ? "正常" : "禁用";
         }
 
-        $("#search").on("click", function () {
-
+        $("#reset").on("click", function () {
+        	$('#slot_Name').val("");
+      	    $('#slot_Channel').val("");
+      	    $('#slot_status').val("");
+            search();
+        })
+        $("#search").on("click",search);
+        function search(){
             if($('#createTime').val() == ""){
                 startDate = "";
                 endDate = "";
@@ -357,19 +367,18 @@
             $("#grid-table").jqGrid('setGridParam', {
                 url : "<c:url value='/json/adSlot_listAdSlots.do'/>",
                 postData : {
-                    code: $("#code").val(),
-                    attr: $("#attr").val(),
-                    title: $("#title").val(),
-                    searchName: $("#searchName").val(),
-                    status: $("#status").val(),
-                    pcId: $("#pcId").val(),
-                    cId: $("#cId").val(),
+                		 slotName: $('#slot_Name').val(),
+           	       		 navig: $('#slot_Channel').val(),
+           	       		 status: $('#slot_status').val(),
+              	   		 type:2,
+              	  		 beginDate: startDate,
+                         endDate: endDate
                 },
                 page : 1,
                 datatype: "json",
                 mtype : "post"
             }).trigger("reloadGrid"); //重新载入
-        })
+        }
         
         $("#pcId").on("change", function () {
             if ($("#pcId").val() == ""){

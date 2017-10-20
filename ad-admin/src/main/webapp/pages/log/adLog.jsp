@@ -50,20 +50,22 @@
             <label class="control-label" for="attr">操作类型</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="operType">
                 <option value="">全部</option>
-                <option value="2">新增</option>
+                <option value="1">新增</option>
                 <option value="2">修改</option>
-                <option value="2">删除</option>
+                <option value="3">删除</option>
             </select>
 			
 			<label class="control-label" for="attr">审核结果</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="operResult">
                 <option value="">全部</option>
-                <option value="1">失败</option>
-                <option value="2">通过</option>
+                <option value="失败">失败</option>
+                <option value="通过">通过</option>
             </select>
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
-
+			<button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
+                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="button.reset"/>
+            </button>
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
                 <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
             </button>
@@ -137,10 +139,10 @@
             ],
             colModel:[
                 {name :'id', index:'id', width : 100, align:'center',align:'center', sortable : false },
-                {name : 'operType', index : 'oper_type', width : 120, align:'center', sortable : false},
+                {name : 'operType', index : 'oper_type', width : 120, align:'center', sortable : false,formatter:attrOperType}, 
                 {name : 'operResult', index : 'oper_result', width : 120, align:'center', sortable : false},
                 {name : 'operId', index : 'oper_id', width : 120, align:'center', sortable : false},
-                {name : 'createTime', index : 'create_time', width : 150, align:'center', sortable : false},
+                {name : 'createTime', index : 'create_time', width : 150, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
             ],
             shrinkToFit : false,
             hidegrid : false,
@@ -261,16 +263,28 @@
             $('.ui-jqdialog').remove();
         });
 
-        function attrFmt(cellvalue, options, rowObject){
-            return cellvalue == '1' ? '单片' : '连续剧';
+        function attrOperType(callValue,options,rowObject){
+            var result="";
+            switch (callValue){
+                case 1:
+                    result='新增';
+                    break;
+                case 2:
+                    result = '修改';
+                    break;
+                case 3:
+                    result = '删除';
+            }
+            return result;
         }
-
-        function attrUnFmt(cellvalue, options, rowObject) {
-            return cellvalue == "单片" ? "1" : "2";
-        }
-
-        $("#search").on("click", function () {
-
+        $("#reset").on("click", function () {
+        	$("#logId").val(""),
+        	$("#operType").val(""),
+        	$("#operResult").val(""),
+            search();
+        })
+        $("#search").on("click",search);
+        function search(){
             if($('#createTime').val() == ""){
                 startDate = "";
                 endDate = "";
@@ -291,7 +305,7 @@
                 datatype: "json",
                 mtype : "post"
             }).trigger("reloadGrid"); //重新载入
-        })
+        }
         
         $("#pcId").on("change", function () {
             if ($("#pcId").val() == ""){
