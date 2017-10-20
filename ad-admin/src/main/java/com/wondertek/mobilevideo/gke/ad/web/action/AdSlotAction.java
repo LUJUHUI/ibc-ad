@@ -110,7 +110,7 @@ public class AdSlotAction extends BaseAction {
         
         String status = getRequest().getParameter("status");
         if (StringUtils.isNotBlank(status)){
-            params.put("status", status);
+            params.put("status", Integer.parseInt(status));
         }
         
         String startCreateTime = getRequest().getParameter("beginDate");
