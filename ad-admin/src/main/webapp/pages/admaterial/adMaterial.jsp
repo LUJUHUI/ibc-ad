@@ -9,7 +9,7 @@
 <%@ include file="/common/taglibs.jsp" %>
 
 <%--添加素材模块--%>
-<div class="modal fade bs-example-modal-sm" tabindex="-1" id="adMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
+<div class="modal fade bs-example-modal-sm" tabindex="-1" id="addAdMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -17,7 +17,7 @@
                 <h4 class="modal-title" id="addAdMaterial">添加素材</h4>
             </div>
             <div class="modal-body">
-                <form id="add_material_Form">
+                <form id="add_materialForm">
 
                     <div class="form-group">
                         <label for="add_adMaterialName" class="control-label">素材名称:</label>
@@ -43,7 +43,6 @@
                             <option value="101">待审核</option>
                         </select>
                     </div>
-
                 </form>
                 <div class="modal-footer">
                     <button type="button" id="close_addAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -246,7 +245,7 @@
             <select class="form-control input-sm" id="status" style="margin-left: 5px;">
                 <option value="">全部</option>
                 <option value="101">待审核</option>
-                <option value="102">审核成功</option>
+                <option value="102">审核通过</option>
                 <option value="103">审核失败</option>
                 <option value="104">待使用</option>
                 <option value="105">使用中</option>
@@ -258,7 +257,6 @@
 
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
-
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
                 <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
             </button>
@@ -385,7 +383,9 @@
 
         $("#t_grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
             '<td><button type="button" id="adm_create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-paper-plane-o"></i>创建</button></td>' +
+            '<td>|</td>' +
             '<td><button type="button" id="adm_update" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-wrench"></i>修改</button></td>' +
+            '<td>|</td>' +
             '<td><button type="button" id="adm_delete" class="btn btn-xs btn-danger"><i class="ace-icon  glyphicon glyphicon-remove"></i>删除</button></td>' +
             '</tr></table>');
 
@@ -497,10 +497,10 @@
 
         // 创建素材
         $("#adm_create").on("click",function () {
-            $("#adMaterialModel").modal();
+            $("#addAdMaterialModel").modal();/*this id should match above id whlich equaled 'addAdMaterialModel'*/
         });
 
-        $("#adm_create").on("click",function () {
+        $("#save_addAdMaterial").on("click",function () {
             if($("#add_adMaterialName").val() == ""){
                 $("#add_adMaterialName").tips({side:2,msg:'此项必填 ',time:3});
                 return false;
@@ -519,10 +519,10 @@
             }
             $.ajax({
                 url:"<c:url value='/json/adMaterial_addAdMaterial.do'/>",
-                data:$("#add_material_Form").serialize(),
+                data:$("#add_materialForm").serialize(),
                 type:"post",
                 success:function(data){
-                    $("#adMaterialModel").modal('hide')
+                    $("#addAdMaterialModel").modal('hide')
                     $("#search").click();
                     alert("添加成功!");
                 },error:function(){
@@ -535,8 +535,8 @@
         $("#adm_update").on("click",function () {
             $("#updateAdMaterialModel").modal();
         });
-
-        $("#adm_update").on("click",function () {
+        /*this id:'save_updateAdMaterial' should match above id which button named 'save'*/
+        $("#save_updateAdMaterial").on("click",function () {
             if($("#add_adMaterialName").val() == ""){
                 $("#add_adMaterialName").tips({side:2,msg:'此项必填 ',time:3});
                 return false;
@@ -555,7 +555,7 @@
             }
             $.ajax({
                 url:"<c:url value='/json/adMaterial_updateAdMaterial.do'/>",
-                data:$("#add_material_Form").serialize(),
+                data:$("#add_materialForm").serialize(),
                 type:"post",
                 success:function(data){
                     $("#updateAdMaterialModel").modal('hide')
@@ -572,7 +572,7 @@
             $("#checkAdMaterialModel").modal();
         });
 
-        $("#adm_check").on("click",function () {
+        $("#save_checkAdMaterial").on("click",function () {
            /* if($("#check_adMaterialName").val() == ""){
                 $("#check_adMaterialName").tips({side:2,msg:'此项必填 ',time:3});
                 return false;
@@ -591,7 +591,7 @@
             }
             $.ajax({
                 url:"<c:url value='/json/adMaterial_checkAdMaterial.do'/>",
-                data:$("#add_material_Form").serialize(),
+                data:$("#add_materialForm").serialize(),
                 type:"post",
                 success:function(data){
                     $("#checkAdMaterialModel").modal('hide')
@@ -608,7 +608,7 @@
             $("#deleteadMaterialModel").modal();
         });
 
-        $("#adm_delete").on("click",function () {
+        $("#save_deleteAdMaterial").on("click",function () {
 /*            if($("#add_adMaterialName").val() == ""){
                 $("#add_adMaterialName").tips({side:2,msg:'此项必填 ',time:3});
                 return false;
@@ -626,16 +626,17 @@
                 return false;
             }*/
             $.ajax({
-                url:"<c:url value='/json/adMaterial_deleteAdMaterial.do'/>",
-                data:$("#add_material_Form").serialize(),
-                type:"post",
-                success:function(data){
+                url: "<c:url value='/json/adMaterial_deleteAdMaterial.do'/>",
+                data: $("#add_materialForm").serialize(),
+                type: "post",
+                success: function (data) {
                     $("#deleteadMaterialModel").modal('hide')
                     $("#search").click();
                     alert("删除成功!");
-                },error:function(){
+                }, error: function () {
                     alert("删除失败，无法连接服务器!");
                 }
+
             });
         })
     });
