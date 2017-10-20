@@ -69,14 +69,12 @@
             </button>
         </form>
     </div>
-    <!-- /.page-header -->
     <div class="row">
         <div class="col-xs-12">
             <table id="grid-table"></table>
             <div id="grid-pager"></div>
         </div>
     </div>
-    <!-- /.row -->
 </div>
 
 <script type="text/javascript">
@@ -117,17 +115,17 @@
         var dateRange = $('#createTime').val().replace(/\s/g, "").split("至");
         var startDate = dateRange[0];
         var endDate = dateRange[1];
-
         jQuery(grid_selector).jqGrid({
             datatype: "json",
             mtype: "post",
-            url: "<c:url value='/json/adSlot_listAdLogs'/>",
+            url: "<c:url value='/json/adSlot_listAdLogs.do'/>",
             postData: {
             	logId: $("#logId").val(),
             	operType: $("#operType").val(),
             	operResult: $("#operResult").val(),
-                beginDate: startDate,
+            	beginDate: startDate,
                 endDate: endDate
+            	
             },
             height: 560,
             colNames:[ 
@@ -138,7 +136,7 @@
                 '<fmt:message key="ad.log.createTime"/>',
             ],
             colModel:[
-                {name :' id ', index:'id_', width : 100, align:'center',align:'center', sortable : false },
+                {name :'id', index:'id', width : 100, align:'center',align:'center', sortable : false },
                 {name : 'operType', index : 'oper_type', width : 120, align:'center', sortable : false},
                 {name : 'operResult', index : 'oper_result', width : 120, align:'center', sortable : false},
                 {name : 'operId', index : 'oper_id', width : 120, align:'center', sortable : false},
@@ -283,17 +281,11 @@
             }
 
             $("#grid-table").jqGrid('setGridParam', {
-                url : "<c:url value='/json/bestvContent_beanList.do'/>",
+            	  url: "<c:url value='/json/adSlot_listAdLogs.do'/>",
                 postData : {
-                    code: $("#code").val(),
-                    attr: $("#attr").val(),
-                    title: $("#title").val(),
-                    searchName: $("#searchName").val(),
-                    status: $("#status").val(),
-                    pcId: $("#pcId").val(),
-                    cId: $("#cId").val(),
-                    beginDate: startDate,
-                    endDate: endDate
+                	logId: $("#logId").val(),
+                	operType: $("#operType").val(),
+                	operResult: $("#operResult").val(),
                 },
                 page : 1,
                 datatype: "json",

@@ -14,33 +14,20 @@ import javax.persistence.Table;
 @Table(name = "ad_slot")//广告位
 public class AdSlot {
 		private static final long serialVersionUID = 467620661858607767L;
-		@Id
-		@Column(name = "id")
+	 
 		private int id;                          //广告位Id
-		@Column(name = "slot_name")
 		private String slotName;				 //广告位名称
-		@Column(name = "navig")
-		private Enum navig;						 //导航
-		@Column(name = "channel_id")
+		private Integer navig;						 //导航
 		private Integer channelId;				 //导航频道ID
-		@Column(name = "type_")
 		private Integer type;					 //广告位类型
-		@Column(name = "width_")
 		private Integer width;					 //广告位宽度
-		@Column(name = "height_")
 		private Integer height;					 //广告位高度
-		@Column(name = "status_")
 		private String status;					 //广告位状态
-		@Column(name = "remark_")
 		private String remark;					 //备注
-		@Column(name = "create_time")
-		private String createTime;				 //创建时间
-		@Column(name = "create_id")
-		private String createrId;				 //创建人
-		@Column(name = "update_time")
-		private String updateTime;				 //修改时间
-		@Column(name = "update_id")
-		private String updateId;				 //修改人
+		private Date createTime;				 //创建时间
+		private Integer createrId;				 //创建人
+		private Date updateTime;				 //修改时间
+		private Integer updateId;				 //修改人
 		
 		@Id
 		@GeneratedValue(strategy = GenerationType.AUTO, generator = "AD_SLOT_SEQ")
@@ -51,81 +38,91 @@ public class AdSlot {
 		public void setId(int id) {
 			this.id = id;
 		}
+		@Column(name = "slot_name")
 		public String getSlotName() {
 			return slotName;
 		}
 		public void setSlotName(String slotName) {
 			this.slotName = slotName;
 		}
-		public Enum getNavig() {
+		@Column(name = "navig")
+		public Integer getNavig() {
 			return navig;
 		}
-		public void setNavig(Enum navig) {
+		public void setNavig(Integer navig) {
 			this.navig = navig;
 		}
+		@Column(name = "channel_id")
 		public Integer getChannelId() {
 			return channelId;
 		}
 		public void setChannelId(Integer channelId) {
 			this.channelId = channelId;
 		}
+		@Column(name = "type_")
 		public Integer getType() {
 			return type;
 		}
 		public void setType(Integer type) {
 			this.type = type;
 		}
+		@Column(name = "width_")
 		public Integer getWidth() {
 			return width;
 		}
 		public void setWidth(Integer width) {
 			this.width = width;
 		}
+		@Column(name = "height_")
 		public Integer getHeight() {
 			return height;
 		}
 		public void setHeight(Integer height) {
 			this.height = height;
 		}
+		@Column(name = "status_")
 		public String getStatus() {
 			return status;
 		}
 		public void setStatus(String status) {
 			this.status = status;
 		}
+		@Column(name = "remark_")
 		public String getRemark() {
 			return remark;
 		}
 		public void setRemark(String remark) {
 			this.remark = remark;
 		}
-		public String getCreateTime() {
+		@Column(name = "create_time")
+		public Date getCreateTime() {
 			return createTime;
 		}
-		public void setCreateTime(String createTime) {
+		public void setCreateTime(Date createTime) {
 			this.createTime = createTime;
 		}
-		public String getCreaterId() {
+		@Column(name = "create_id")
+		public Integer getCreaterId() {
 			return createrId;
 		}
-		public void setCreaterId(String createrId) {
+		public void setCreaterId(Integer createrId) {
 			this.createrId = createrId;
 		}
-		public String getUpdateTime() {
+		@Column(name = "update_time")
+		public Date getUpdateTime() {
 			return updateTime;
 		}
-		public void setUpdateTime(String updateTime) {
+		public void setUpdateTime(Date updateTime) {
 			this.updateTime = updateTime;
 		}
-		public String getUpdateId() {
+		@Column(name = "update_id")
+		public Integer getUpdateId() {
 			return updateId;
 		}
-		public void setUpdateId(String updateId) {
+		public void setUpdateId(Integer updateId) {
 			this.updateId = updateId;
 		}
-		public static long getSerialversionuid() {
-			return serialVersionUID;
-		}
+	 
 		@Override
 		public int hashCode() {
 			final int prime = 31;

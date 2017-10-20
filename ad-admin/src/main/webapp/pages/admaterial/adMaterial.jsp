@@ -347,6 +347,10 @@
                 mtype : "post"
             }).trigger("reloadGrid"); //重新载入
         })
+ 		
+        $("#adm_create").on("click",function () {
+            $("#adMaterialModel").modal();
+        });
 
         $("#adm_create").on("click",function () {
             if($("#add_adMaterialName").val() == ""){
