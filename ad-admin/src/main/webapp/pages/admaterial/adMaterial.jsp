@@ -7,12 +7,14 @@
 --%>
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
+
+<%--添加素材模块--%>
 <div class="modal fade bs-example-modal-sm" tabindex="-1" id="adMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="gridSystemModalLabel">添加素材</h4>
+                <h4 class="modal-title" id="addAdMaterial">添加素材</h4>
             </div>
             <div class="modal-body">
                 <form id="add_material_Form">
@@ -44,13 +46,154 @@
 
                 </form>
                 <div class="modal-footer">
-                    <button type="button" id="close_adad" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" id="save_adad" class="btn btn-primary">保存</button>
+                    <button type="button" id="close_addAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" id="save_addAdMaterial" class="btn btn-primary">保存</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 </div>
+
+<%--修改素材模块--%>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" id="updateAdMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="updateMaterial">修改素材</h4>
+            </div>
+            <div class="modal-body">
+                <form id="update_material_Form">
+
+                    <div class="form-group">
+                        <label for="update_adMaterialName" class="control-label">素材名称:</label>
+                        <input type="text" class="form-control" id="update_adMaterialName" name="adMaterial.adMaterialName">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="update_type" class="control-label">素材类型 :</label>
+                        <select class="form-control input-sm" style="margin-left: 5px;" id="update_type" name="adMaterial.type">
+                            <option value="1">图片</option>
+                            <option value="2">文字</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="update_clickHref" class="control-label">链接地址:</label>
+                        <input type="text" class="form-control" id="update_clickHref" name="adMaterial.clickHref">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="update_status" class="control-label">审核状态 :</label>
+                        <select class="form-control input-sm" style="margin-left: 5px;" id="update_status" name="adMaterial.status">
+                            <option value="101">待审核</option>
+                        </select>
+                    </div>
+
+                </form>
+                <div class="modal-footer">
+                    <button type="button" id="close_updateAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" id="save_updateAdMaterial" class="btn btn-primary">保存</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+<%--审核素材模块--%>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" id="checkAdMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="checkAdMaterial">审核素材</h4>
+            </div>
+            <div class="modal-body">
+                <form id="check_material_Form">
+
+                    <div class="form-group">
+                        <label for="add_adMaterialName" class="control-label">素材名称:</label>
+                        <input type="text" class="form-control" id="check_adMaterialName" name="adMaterial.adMaterialName">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="check_type" class="control-label">素材类型 :</label>
+                        <select class="form-control input-sm" style="margin-left: 5px;" id="check_type" name="adMaterial.type">
+                            <option value="1">图片</option>
+                            <option value="2">文字</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="check_clickHref" class="control-label">链接地址:</label>
+                        <input type="text" class="form-control" id="check_clickHref" name="adMaterial.clickHref">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="check_status" class="control-label">审核状态 :</label>
+                        <select class="form-control input-sm" style="margin-left: 5px;" id="check_status" name="adMaterial.status">
+                            <option value="103">审核失败</option>
+                            <option value="104">待使用</option>
+                        </select>
+                    </div>
+
+                </form>
+                <div class="modal-footer">
+                    <button type="button" id="close_checkAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" id="save_checkAdMaterial" class="btn btn-primary">保存</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
+<%--删除素材模块--%>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" id="deleteadMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="deleteMaterial">删除素材</h4>
+            </div>
+            <div class="modal-body">
+                <form id="delete_material_Form">
+
+                    <%--<div class="form-group">--%>
+                        <%--<label for="delete_adMaterialName" class="control-label">素材名称:</label>--%>
+                        <%--<input type="text" class="form-control" id="delete_adMaterialName" name="adMaterial.adMaterialName">--%>
+                    <%--</div>--%>
+
+                    <%--<div class="form-group">--%>
+                        <%--<label for="delete_type" class="control-label">素材类型 :</label>--%>
+                        <%--<select class="form-control input-sm" style="margin-left: 5px;" id="delete_type" name="adMaterial.type">--%>
+                            <%--<option value="1">图片</option>--%>
+                            <%--<option value="2">文字</option>--%>
+                        <%--</select>--%>
+                    <%--</div>--%>
+
+                    <%--<div class="form-group">--%>
+                        <%--<label for="delete_clickHref" class="control-label">链接地址:</label>--%>
+                        <%--<input type="text" class="form-control" id="delete_clickHref" name="adMaterial.clickHref">--%>
+                    <%--</div>--%>
+
+                    <div class="form-group">
+                        <label for="delete_status" class="control-label">审核状态 :</label>
+                        <select class="form-control input-sm" style="margin-left: 5px;" id="delete_status" name="adMaterial.status">
+                            <option value="101">待审核</option>
+                            <option value="103">审核失败</option>
+                        </select>
+                    </div>
+
+                </form>
+                <div class="modal-footer">
+                    <button type="button" id="close_deleteAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" id="save_deleteAdMaterial" class="btn btn-primary">保存</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
         try {
@@ -105,8 +248,9 @@
                 <option value="101">待审核</option>
                 <option value="102">审核成功</option>
                 <option value="103">审核失败</option>
-                <option value="104">已删除</option>
-                <option value="105">已使用</option>
+                <option value="104">待使用</option>
+                <option value="105">使用中</option>
+                <option value="106">已删除</option>
                 <c:forEach var="status" items="${pubStatus}">
                     <option value="${status.key}">${status.value}</option>
                 </c:forEach>
@@ -313,10 +457,13 @@
                     result = '审核失败';
                     break;
                 case 104:
-                    result = '已删除';
+                    result = '待使用';
                     break;
                 case 105:
-                    result = '已使用';
+                    result = '使用中';
+                    break;
+                case 106:
+                    result = '已删除';
                     break;
             }
             return result;
@@ -347,7 +494,8 @@
                 mtype : "post"
             }).trigger("reloadGrid"); //重新载入
         })
- 		
+
+        // 创建素材
         $("#adm_create").on("click",function () {
             $("#adMaterialModel").modal();
         });
@@ -358,7 +506,15 @@
                 return false;
             }
             if($("#add_type").val() == ""){
-                $("#add_type").tips({side:2,msg:'类型不能为空 ',time:3});
+                $("#add_type").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
+            }
+            if($("#add_clickHref").val() == ""){
+                $("#add_type").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
+            }
+            if($("#add_status").val() == ""){
+                $("#add_status").tips({side:2,msg:'此项必填 ',time:3});
                 return false;
             }
             $.ajax({
@@ -368,12 +524,119 @@
                 success:function(data){
                     $("#adMaterialModel").modal('hide')
                     $("#search").click();
-                    alert("添加成功");
+                    alert("添加成功!");
                 },error:function(){
-                    alert("保存失败，无法连接服务器");
+                    alert("添加失败，无法连接服务器!");
                 }
             });
+        })
 
+        // 修改素材
+        $("#adm_update").on("click",function () {
+            $("#updateAdMaterialModel").modal();
+        });
+
+        $("#adm_update").on("click",function () {
+            if($("#add_adMaterialName").val() == ""){
+                $("#add_adMaterialName").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
+            }
+            if($("#add_type").val() == ""){
+                $("#add_type").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
+            }
+            if($("#add_clickHref").val() == ""){
+                $("#add_type").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
+            }
+            if($("#add_status").val() == ""){
+                $("#add_status").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
+            }
+            $.ajax({
+                url:"<c:url value='/json/adMaterial_updateAdMaterial.do'/>",
+                data:$("#add_material_Form").serialize(),
+                type:"post",
+                success:function(data){
+                    $("#updateAdMaterialModel").modal('hide')
+                    $("#search").click();
+                    alert("修改成功!");
+                },error:function(){
+                    alert("修改失败，无法连接服务器!");
+                }
+            });
+        })
+
+        // 审核素材
+        $("#adm_check").on("click",function () {
+            $("#checkAdMaterialModel").modal();
+        });
+
+        $("#adm_check").on("click",function () {
+           /* if($("#check_adMaterialName").val() == ""){
+                $("#check_adMaterialName").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
+            }
+            if($("#check_type").val() == ""){
+                $("#check_type").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
+            }
+            if($("#check_clickHref").val() == ""){
+                $("#check_type").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
+            }*/
+            if($("#check_status").val() == ""){
+                $("#check_status").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
+            }
+            $.ajax({
+                url:"<c:url value='/json/adMaterial_checkAdMaterial.do'/>",
+                data:$("#add_material_Form").serialize(),
+                type:"post",
+                success:function(data){
+                    $("#checkAdMaterialModel").modal('hide')
+                    $("#search").click();
+                    alert("审核成功!");
+                },error:function(){
+                    alert("审核失败，无法连接服务器!");
+                }
+            });
+        })
+
+        //删除素材
+        $("#adm_delete").on("click",function () {
+            $("#deleteadMaterialModel").modal();
+        });
+
+        $("#adm_delete").on("click",function () {
+/*            if($("#add_adMaterialName").val() == ""){
+                $("#add_adMaterialName").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
+            }
+            if($("#add_type").val() == ""){
+                $("#add_type").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
+            }
+            if($("#add_clickHref").val() == ""){
+                $("#add_type").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
+            }
+            if($("#add_status").val() == ""){
+                $("#add_status").tips({side:2,msg:'此项必填 ',time:3});
+                return false;
+            }*/
+            $.ajax({
+                url:"<c:url value='/json/adMaterial_deleteAdMaterial.do'/>",
+                data:$("#add_material_Form").serialize(),
+                type:"post",
+                success:function(data){
+                    $("#deleteadMaterialModel").modal('hide')
+                    $("#search").click();
+                    alert("删除成功!");
+                },error:function(){
+                    alert("删除失败，无法连接服务器!");
+                }
+            });
         })
     });
 </script>

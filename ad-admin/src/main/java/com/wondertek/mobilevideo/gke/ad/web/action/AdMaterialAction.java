@@ -44,8 +44,20 @@ public class AdMaterialAction extends BaseAction {
         return SUCCESS;
     }
 
-//    修改
+    //    修改
     public String updateAdMaterial() {
+        try {
+            adMaterialMangerImpl.saveOrUpdate(adMaterial);
+            resultMap.put("success",true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultMap.put("success",false);
+        }
+        return SUCCESS;
+    }
+
+    //    审核
+    public String checkAdMaterial() {
         try {
             adMaterialMangerImpl.saveOrUpdate(adMaterial);
             resultMap.put("success",true);
