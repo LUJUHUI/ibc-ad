@@ -45,7 +45,7 @@ public class AdSlotAction extends BaseAction {
 		return SUCCESS;
 
 	}
-	
+
 	public String listAdLogs(){
 		getParams();
 		PageList pageList = new PageList();
@@ -110,7 +110,7 @@ public class AdSlotAction extends BaseAction {
         
         String status = getRequest().getParameter("status");
         if (StringUtils.isNotBlank(status)){
-            params.put("status", Integer.parseInt(status));
+            params.put("status", status);
         }
         
         String startCreateTime = getRequest().getParameter("beginDate");
