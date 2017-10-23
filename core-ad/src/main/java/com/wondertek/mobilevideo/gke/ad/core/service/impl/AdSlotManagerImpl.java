@@ -14,7 +14,7 @@ import com.wondertek.mobilevideo.gke.ad.core.service.AdSlotManager;
 import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
  
 @Service
-public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot, Long> implements AdSlotManager {
+public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> implements AdSlotManager {
     @Autowired
 	private AdSlotDao adSlotDao;
     @Autowired

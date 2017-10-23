@@ -15,11 +15,11 @@ import javax.persistence.Table;
 public class AdLog {
 		private static final long serialVersionUID = 467620661858607767L;
 		
-		private Integer id;                          //广告位Id
-		private Integer operType;				 //广告位名称
-		private String operResult;						 //导航
-		private Integer operId;				 //导航频道ID
-		private Date createTime;					 //广告位类型
+		private Integer id;                          //日志Id
+		private Integer operType;				     //操作名称
+		private String operResult;					 //操作结果
+		private String operName;				         //操作人
+		private Date createTime;					 //创建时间
 		
 		@Id
 		@GeneratedValue(strategy = GenerationType.AUTO, generator = "AD_LOG_SEQ")
@@ -44,12 +44,12 @@ public class AdLog {
 		public void setOperResult(String operResult) {
 			this.operResult = operResult;
 		}
-		@Column(name = "oper_id")
-		public Integer getOperId() {
-			return operId;
+		@Column(name = "oper_name")
+		public String getOperName() {
+			return operName;
 		}
-		public void setOperId(Integer operId) {
-			this.operId = operId;
+		public void setOperName(String operName) {
+			this.operName = operName;
 		}
 		@Column(name = "create_time")
 		public Date getCreateTime() {
@@ -58,14 +58,13 @@ public class AdLog {
 		public void setCreateTime(Date createTime) {
 			this.createTime = createTime;
 		}
-	 
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ((createTime == null) ? 0 : createTime.hashCode());
 			result = prime * result + ((id == null) ? 0 : id.hashCode());
-			result = prime * result + ((operId == null) ? 0 : operId.hashCode());
+			result = prime * result + ((operName == null) ? 0 : operName.hashCode());
 			result = prime * result + ((operResult == null) ? 0 : operResult.hashCode());
 			result = prime * result + ((operType == null) ? 0 : operType.hashCode());
 			return result;
@@ -89,10 +88,10 @@ public class AdLog {
 					return false;
 			} else if (!id.equals(other.id))
 				return false;
-			if (operId == null) {
-				if (other.operId != null)
+			if (operName == null) {
+				if (other.operName != null)
 					return false;
-			} else if (!operId.equals(other.operId))
+			} else if (!operName.equals(other.operName))
 				return false;
 			if (operResult == null) {
 				if (other.operResult != null)
@@ -108,9 +107,11 @@ public class AdLog {
 		}
 		@Override
 		public String toString() {
-			return "AdLog [id=" + id + ", operType=" + operType + ", operResult=" + operResult + ", operId=" + operId
-					+ ", createTime=" + createTime + "]";
+			return "AdLog [id=" + id + ", operType=" + operType + ", operResult=" + operResult + ", operName="
+					+ operName + ", createTime=" + createTime + "]";
 		}
+	 
+	  
 	 
 	    
 }

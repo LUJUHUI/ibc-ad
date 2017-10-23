@@ -52,7 +52,7 @@
         <cas:havePerm url="/adAd.do">
             <li class="">
                 <a href="#" class="dropdown-toggle" menu-url="<c:url value='/pages/adAd/adShow.jsp' />">
-                    <i class="menu-icon fa fa-desktop"></i>
+                    <i class="menu-icon fa fa-cube"></i>
                     <span class="menu-text"> <fmt:message key="ad.ad" /> </span>
                 </a>
             </li>
@@ -61,7 +61,7 @@
         <cas:havePerm url="/adMaterial.do">
             <li class="">
                 <a href="#" class="dropdown-toggle" menu-url="<c:url value='/pages/admaterial/adMaterial.jsp' />">
-                    <i class="menu-icon fa fa-desktop"></i>
+                    <i class="menu-icon fa  fa-tags"></i>
                     <span class="menu-text"> <fmt:message key="ad.material" /> </span>
                 </a>
             </li>
@@ -70,7 +70,7 @@
         <cas:havePerm url="/audit.do">
             <li class="">
                 <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-desktop"></i>
+                    <i class="menu-icon fa  fa-pencil"></i>
                     <span class="menu-text"> <fmt:message key="ad.audit" /> </span>
                 
                     <b class="arrow fa fa-angle-down"></b>
@@ -99,7 +99,7 @@
         <cas:havePerm url="/log.do">
             <li class="">
                 <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-desktop"></i>
+                    <i class="menu-icon fa fa-book"></i>
                     <span class="menu-text"> <fmt:message key="ad.log" /> </span>
                 
                     <b class="arrow fa fa-angle-down"></b>

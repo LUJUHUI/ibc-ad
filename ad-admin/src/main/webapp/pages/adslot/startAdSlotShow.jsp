@@ -9,9 +9,15 @@
             </div>
             <div class="modal-body">
                 <form id="ad_SlotForm">
+                	 <div class="form-group">
+                        <input type="hidden" class="form-control" id="adSlot_id" name="adSlot.id">
+                     </div>
+                     <div class="form-group">
+                        <input type="hidden" class="form-control" id="adSlot_name" name="adSlot.slotName" value="开机广告位">
+                     </div>
                      <div class="form-group">
                         <label for="adSlot_navig" class="control-label">导航:</label>
-                        <select class="form-control input-sm" style="margin-left: 5px;" id="adSlot_navig" name="adSlot.navig">
+                        <select class="form-control"  id="adSlot_navig" name="adSlot.navig">
                             <option value="">请选择</option>
                             <option value="1">首页</option>
                             <option value="2">直播</option>
@@ -30,14 +36,30 @@
                         <label for="adSlot_height" class="control-label">广告位高度</label>
                         <input type="text" class="form-control" id="adSlot_height" name="adSlot.height">
                     </div>
+                     <div class="form-group">
+                        <label for="adSlot_remark" class="control-label">备注</label>
+                        <input type="text" class="form-control" id="adSlot_remark" name="adSlot.remark">
+                    </div>
                     <div class="form-group">
                         <label for="adSlot_type" class="control-label" hidden="true"></label>
                         <input type="hidden" class="form-control" id="adSlot_type" name="adSlot.type" value="1"  >
                     </div>
+                     <div class="form-group">
+                        <label for="adSlot_status" class="control-label" hidden="true"></label>
+                        <input type="hidden" class="form-control" id="adSlot_status" name="adSlot.status" >
+                    </div>
+                     <div class="form-group">
+                        <label for="adSlot_createTime" class="control-label" hidden="true"></label>
+                        <input type="hidden" class="form-control" id="adSlot_createTime" name="adSlot.createTime" >
+                    </div>
+                     <div class="form-group">
+                        <label for="adSlot_createPeople" class="control-label" hidden="true"></label>
+                        <input type="hidden" class="form-control" id="adSlot_createPeople" name="adSlot.createPeople">
+                    </div>
                 </form>
                 <div class="modal-footer">
                     <button type="button" id="close_adad" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" id=save_adSlot class="btn btn-primary">保存</button>
+                    <button type="button" id="save_update_adSlot" class="btn btn-primary">保存</button>
                 </div>
             </div> 
         </div> 
@@ -84,9 +106,6 @@
 <div class="page-content">
     <div class="page-header">
         <form class="form-inline">
-            <label class="control-label" for="code">广告位名称</label>
-            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="slot_Name">
-
             <label class="control-label" for="attr">导航名称</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="slot_Channel">
                 <option value="">全部</option>
@@ -98,13 +117,16 @@
 			<label class="control-label" for="attr">状态</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="slot_status">
                 <option value="">全部</option>
-                <option value="1">正常</option>
-                <option value="2">禁用</option>
+                <option value="101">待审核</option>
+                <option value="102">待使用</option>
+                <option value="103">使用中</option>
+                <option value="104">审核失败</option>
+                <option value="105">删除</option>
             </select>
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
 			<button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
-                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="button.reset"/>
+                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
             </button>
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
                 <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
@@ -151,8 +173,8 @@
             "showDropdowns":true,
             "showCustomRangeLabel":false,
             "alwaysShowCalendars": true,
-            "startDate": moment().subtract('days', 30),
-            "endDate": moment().subtract('days', 0),
+            "startDate": moment().subtract('days', 29),
+            "endDate": moment().subtract('days', -1),
             "opens": "left",
             "drops": "down"
         }, function(start, end, label) {//时间改变后执行该方法
@@ -190,18 +212,18 @@
                 '<fmt:message key="ad.slot.remark"/>',
             ],
             colModel:[
-                {name :' id ', index:'id', width : 100, align:'center',hidden:true},
-                {name : 'slotName', index : 'slot_name', width : 100, align:'center', sortable : false},
-                {name : 'navig', index : 'navig', width : 100, align:'center', sortable : false,formatter:attrNavig},
-                {name : 'channelId', index : 'channel_id', width : 300, align:'center', sortable : false},
-                {name : 'width', index : 'width_', width : 100, align:'center', sortable : false},
-                {name : 'height', index : 'height_', width : 150, align:'center', sortable : false},
-                {name : 'status', index : 'status_', width : 120, align:'center', sortable : false,formatter:attrStatus},
-                {name : 'createTime', index : 'create_time', width : 250, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'createrId', index : 'create_id', width : 100, align:'center', sortable : false},
-                {name : 'updateTime', index : 'update_time', width : 100, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'updateId', index : 'update_id', width : 100, align:'center', sortable : false},
-                {name : 'remark', index : 'remark_', width : 150, align:'center', sortable : false},
+                 {name : 'id', index:'id', width : 100, align:'center',hidden:true},
+                 {name : 'slotName', index : 'slot_name', width : 100, align:'center', hidden:true},
+                 {name : 'navig', index : 'navig', width : 100, align:'center', sortable : false,formatter:attrNavig},
+                 {name : 'channelId', index : 'channel_id', width : 100, align:'center', sortable : false},
+                 {name : 'width', index : 'width_', width : 100, align:'center', sortable : false},
+                 {name : 'height', index : 'height_', width : 150, align:'center', sortable : false},
+                 {name : 'status', index : 'status_', width : 120, align:'center', sortable : false,formatter:attrStatus},
+                 {name : 'createTime', index : 'create_time', width : 150, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                 {name : 'createPeople', index : 'create_people', width : 100, align:'center', sortable : false},
+                 {name : 'updateTime', index : 'update_time', width : 150, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                 {name : 'updatePeople', index : 'update_people', width : 100, align:'center', sortable : false},
+                 {name : 'remark', index : 'remark_', width : 150, align:'center', sortable : false},
             ],
             shrinkToFit : false,
             hidegrid : false,
@@ -219,10 +241,6 @@
                 repeatitems : true
             },
             caption: '<fmt:message key="start.slot.content.list" />',
-            <cas:havePerm url="/bestvContent_loadDetailPage.do">
-                ondblClickRow : function (rowid, iRow, iCol, e) {
-                },
-            </cas:havePerm>
             toolbar: [true,'top'],
             loadComplete : function(data) {
                 var table = this;
@@ -241,6 +259,8 @@
                  '<td><button type="button" id="updateSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-edit"></i>修改</button></td>' +
                  '<td>|</td>' +
                  '<td><button type="button" id="deleteSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-remove""></i>删除</button></td>' +
+                 '<td>|</td>' +
+                 '<td><button type="button" id="useSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-check""></i>启用</button></td>' +
                  '</tr></table>');
 
         $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
@@ -300,9 +320,49 @@
         }
 
         function attrStatus(callValue, options, rowObject) {
-            return callValue == 1 ? "正常" : "禁用";
+            var result="";
+            switch (callValue){
+                case '101':
+                    result=  '待审核';
+                    break;
+                case '102':
+                    result = '待使用';
+                    break;
+                case '103':
+                    result = '使用中';
+                    break;
+                case '104':
+                    result = '审核失败';
+                    break;
+                case '105':
+                    result = '删除';
+                    break;
+            }
+            return result;
         }
-
+		
+        function tranStatus(callValue) {
+            var result="";
+            switch (callValue){
+                case '待审核':
+                    result='101';
+                    break;
+                case '待使用':
+                    result = '102';
+                    break;
+                case '使用中':
+                    result = '103';
+                    break;
+                case '审核失败':
+                    result = '104';
+                    break;
+                case '删除':
+                    result = '105';
+                    break;
+            }
+            return result;
+        }
+        
         $("#reset").on("click", function () {
         	$('#slot_Name').val("");
       	    $('#slot_Channel').val("");
@@ -337,10 +397,19 @@
         }
 
          $("#addSlot").on("click",function () {
-            $("#adSlotModel").modal();
+        	 $('#adSlot_id').val("");
+        	 $('#adSlot_navig').val("");
+        	 $('#adSlot_channelId').val("");
+        	 $('#adSlot_width').val("");
+        	 $('#adSlot_height').val("");
+        	 $('#adSlot_remark').val("");
+        	 $('#adSlot_status').val("");
+        	 $('#adSlot_createTime').val("");
+        	 $('#adSlot_createPeople').val("");
+        	 $("#adSlotModel").modal();
         });
-
-        $("#save_adSlot").on("click",function () {
+		//保存广告位
+        $("#save_update_adSlot").on("click",function () {
         	if($("#adSlot_navig").val() == ""){
                   $("#adSlot_navig").tips({side:2,msg:'请选择导航 ',time:3});
                   return false;
@@ -357,21 +426,70 @@
                 $("#adSlot_height").tips({side:2,msg:'高度必填 ',time:3});
                 return false;
             }
-            $.ajax({
-                url:"<c:url value='/json/adSlot_addAdSlot.do'/>",
-                data:$("#ad_SlotForm").serialize(),
-                type:"post",
-                success:function(data){
-                    $("#adSlotModel").modal('hide');
-                    $("#search").click();
-                },error:function(){
-                    alert("保存失败，无法连接服务器");
-                }
-            });
-
-        })
+            if($("#adSlot_id").val() == ""){
+           	   $.ajax({
+                      url:"<c:url value='/json/adSlot_addAdSlot.do'/>",
+                      data:$("#ad_SlotForm").serialize(),
+                      type:"post",
+                      success:function(data){
+                          $("#adSlotModel").modal('hide');
+                          $("#search").click();
+                      },error:function(){
+                          alert("保存失败");
+                      }
+                  });
+            }else{
+           	   $.ajax({
+                      url:"<c:url value='/json/adSlot_updateAdSlot.do'/>",
+                      data:$("#ad_SlotForm").serialize(),
+                      type:"post",
+                      success:function(data){
+                          $("#adSlotModel").modal('hide');
+                          $("#search").click();
+                      },error:function(){
+                          alert("修改失败");
+                      }
+                  });
+            }
          
-        
+        })
+         //修改广告位
+         $("#updateSlot").on("click",function () {
+       	   var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
+              if (ids.length == 0){
+                  bootbox.alert("请选择要操作的记录！");
+                  return;
+              }
+              if (ids.length > 1){
+                  bootbox.alert("只能选择一条记录！");
+                  return;
+              } 
+           for (var index in ids){
+               var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
+               $("#adSlot_id").val(rowData.id);
+               $("#adSlot_channelId").val(rowData.channelId);
+               $("#adSlot_width").val(rowData.width);
+               $("#adSlot_height").val(rowData.height);
+               $("#adSlot_remark").val(rowData.remark);
+               $("#adSlot_status").val(tranStatus(rowData.status));
+               $("#adSlot_createTime").val(rowData.createTime);
+               $("#adSlot_createPeople").val(rowData.createPeople);
+               switch (rowData.navig){
+               case "首页":
+            	   $("#adSlot_navig option[value='1']").attr("selected","selected")
+                   break;
+               case "直播":
+            	   $("#adSlot_navig option[value='2']").attr("selected","selected")
+                   break;
+               case "会员":
+            	   $("#adSlot_navig option[value='3']").attr("selected","selected") 
+            	   break;
+               }
+               
+           }
+            $("#adSlotModel").modal();
+        });
+		//删除广告位
         $("#deleteSlot").on("click",deleteSlot);
         function deleteSlot(){
             var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
@@ -392,9 +510,49 @@
             for (var index in codes){
                 codeStr =codeStr + codes[index] + ',';
             }
-            $.post('<c:url value="/json/adSlot_deleteAdSlot.do"/>', {"id": codeStr.substring(0, codeStr.length-1)}, function (result) {
-                bootbox.alert("操作成功！");
-                $("#search").trigger('click');
+            $.ajax({
+                url:"<c:url value='/json/adSlot_deleteAdSlot.do'/>",
+                data:{"deleteIds": codeStr.substring(0, codeStr.length-1)},
+                type:"post",
+                success:function(data){
+                	bootbox.alert("操作成功！");
+                    $("#search").click();
+                },error:function(){
+                    alert("修改失败");
+                }
+            });
+        }
+        //启用广告位
+        $("#useSlot").on("click",useSlot);
+        function useSlot(){
+            var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
+            if (ids.length == 0){
+                bootbox.alert("请选择要操作的记录！");
+                return;
+            }
+            var codes = [];
+            for (var index in ids){
+                var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
+                codes.push(rowData.id); 
+            }
+            if (codes.length < 1){
+                bootbox.alert("没有选择有效记录！");
+                return;
+            }
+            var codeStr = '';
+            for (var index in codes){
+                codeStr =codeStr + codes[index] + ',';
+            }
+            $.ajax({
+                url:"<c:url value='/json/adSlot_useAdSlot.do'/>",
+                data:{"useIds": codeStr.substring(0, codeStr.length-1)},
+                type:"post",
+                success:function(data){
+                	bootbox.alert("操作成功！");
+                    $("#search").click();
+                },error:function(){
+                    alert("修改失败");
+                }
             });
         }
     });
