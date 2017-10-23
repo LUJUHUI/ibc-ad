@@ -62,7 +62,7 @@
                 <h4 class="modal-title" id="updateMaterial">修改素材</h4>
             </div>
             <div class="modal-body">
-                <form id="update_material_Form">
+                <form id="update_materialForm">
 
                     <div class="form-group">
                         <label for="update_adMaterialName" class="control-label">素材名称:</label>
@@ -532,40 +532,62 @@
         })
 
         // 修改素材
-        $("#adm_update").on("click",function () {
-            $("#updateAdMaterialModel").modal();
-        });
+            $("#adm_update").on("click",update);
+                function update() {
+                    var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
+                    if (ids.length == 0){
+                        bootbox.alert("请选择要操作的记录！");
+                        return;
+                    }
+                    var codes = [];
+                    for (var index in ids){
+                        var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
+                        codes.push(rowData.id);
+                    }
+                    if (codes.length < 1){
+                        bootbox.alert("没有选择有效记录！");
+                        return;
+                    }
+                    var codeStr = '';
+                    for (var index in codes) {
+                        codeStr = codeStr + codes[index] + ',';
+                    }
+
+                $("#updateAdMaterialModel").modal();/*this id should match above id whlich equaled 'updateAdMaterialModel'*/
+            };
         /*this id:'save_updateAdMaterial' should match above id which button named 'save'*/
-        $("#save_updateAdMaterial").on("click",function () {
-            if($("#add_adMaterialName").val() == ""){
-                $("#add_adMaterialName").tips({side:2,msg:'此项必填 ',time:3});
-                return false;
-            }
-            if($("#add_type").val() == ""){
-                $("#add_type").tips({side:2,msg:'此项必填 ',time:3});
-                return false;
-            }
-            if($("#add_clickHref").val() == ""){
-                $("#add_type").tips({side:2,msg:'此项必填 ',time:3});
-                return false;
-            }
-            if($("#add_status").val() == ""){
-                $("#add_status").tips({side:2,msg:'此项必填 ',time:3});
-                return false;
-            }
-            $.ajax({
-                url:"<c:url value='/json/adMaterial_updateAdMaterial.do'/>",
-                data:$("#add_materialForm").serialize(),
-                type:"post",
-                success:function(data){
-                    $("#updateAdMaterialModel").modal('hide')
-                    $("#search").click();
-                    alert("修改成功!");
-                },error:function(){
-                    alert("修改失败，无法连接服务器!");
+        $("#save_updateAdMaterial").on("click",function() {
+                if ($("#update_adMaterialName").val() == "") {
+                    $("#update_adMaterialName").tips({side: 2, msg: '此项必填 ', time: 3});
+                    return false;
                 }
-            });
-        })
+                if ($("#update_type").val() == "") {
+                    $("#update_type").tips({side: 2, msg: '此项必填 ', time: 3});
+                    return false;
+                }
+                if ($("#update_clickHref").val() == "") {
+                    $("#update_type").tips({side: 2, msg: '此项必填 ', time: 3});
+                    return false;
+                }
+                if ($("#update_status").val() == "") {
+                    $("#update_status").tips({side: 2, msg: '此项必填 ', time: 3});
+                    return false;
+                }
+                $.ajax({
+                    url: "<c:url value='/json/adMaterial_updateAdMaterial.do'/>",
+                    data: $("#update_materialForm").serialize(),
+                    type: "post",
+                    success: function (data) {
+                        $("#updateAdMaterialModel").modal('hide')
+                        $("#search").click();
+                        alert("修改成功!");
+                    }, error: function () {
+                        alert("修改失败，无法连接服务器!");
+                    }
+                });
+            })
+
+
 
 /*        // 审核素材
         $("#adm_check").on("click",function () {

@@ -57,7 +57,7 @@ public class AdMaterialAction extends BaseAction {
     }
 
     //    审核
-    public String checkAdMaterial() {
+   /* public String checkAdMaterial() {
         try {
             adMaterialMangerImpl.saveOrUpdate(adMaterial);
             resultMap.put("success",true);
@@ -67,10 +67,19 @@ public class AdMaterialAction extends BaseAction {
         }
         return SUCCESS;
     }
-
+*/
     //    删除
     public String delateAdMaterial() {
         try {
+            String materialId = getRequest().getParameter("materialId");
+            String[] ids = materialId.split(",");
+            for (String adMaterialId: ids) {
+                if(adMaterialId.equals(adMaterialId)){
+                    return adMaterialId;
+                }
+            }
+//            adMaterial.getId();
+//            adMaterial.getALREADY_DELETED_STATUS();
             adMaterialMangerImpl.saveOrUpdate(adMaterial);
             resultMap.put("success",true);
         } catch (Exception e) {
@@ -80,6 +89,10 @@ public class AdMaterialAction extends BaseAction {
         return SUCCESS;
     }
     private void getParams() {
+        String materialId = getRequest().getParameter("materialId");
+        if (StringUtils.isNotBlank(materialId)) {
+            params.put("materialId", materialId);
+        }
         String materialName = getRequest().getParameter("materialName");
         if (StringUtils.isNotBlank(materialName)) {
             params.put("materialName", materialName);

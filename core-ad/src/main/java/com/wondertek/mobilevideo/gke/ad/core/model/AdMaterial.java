@@ -10,6 +10,17 @@ import java.util.Date;
 @Entity
 @Table(name = "ad_material")
 public class AdMaterial implements Serializable {
+    // 待审核
+    private int WAIT_CHECK_STATUS = 101;
+    // 审核通过
+    private int CHECK_STATUS_SUCCESS = 102;
+    //审核失败
+    private int CHECK_STATUS_FAILED = 103;
+    // 已删除
+    private int ALREADY_DELETED_STATUS = 104;
+    //已使用
+    private int ALREADY_USED_STATUS = 105;
+
     @Id
     @Column(name = "id_")
     private int id;  // 素材ID
@@ -100,6 +111,46 @@ public class AdMaterial implements Serializable {
 
     public void setUpdateId(int updateId) {
         this.updateId = updateId;
+    }
+
+    public int getWAIT_CHECK_STATUS() {
+        return WAIT_CHECK_STATUS;
+    }
+
+    public void setWAIT_CHECK_STATUS(int WAIT_CHECK_STATUS) {
+        this.WAIT_CHECK_STATUS = WAIT_CHECK_STATUS;
+    }
+
+    public int getCHECK_STATUS_SUCCESS() {
+        return CHECK_STATUS_SUCCESS;
+    }
+
+    public void setCHECK_STATUS_SUCCESS(int CHECK_STATUS_SUCCESS) {
+        this.CHECK_STATUS_SUCCESS = CHECK_STATUS_SUCCESS;
+    }
+
+    public int getCHECK_STATUS_FAILED() {
+        return CHECK_STATUS_FAILED;
+    }
+
+    public void setCHECK_STATUS_FAILED(int CHECK_STATUS_FAILED) {
+        this.CHECK_STATUS_FAILED = CHECK_STATUS_FAILED;
+    }
+
+    public int getALREADY_DELETED_STATUS() {
+        return ALREADY_DELETED_STATUS;
+    }
+
+    public void setALREADY_DELETED_STATUS(int ALREADY_DELETED_STATUS) {
+        this.ALREADY_DELETED_STATUS = ALREADY_DELETED_STATUS;
+    }
+
+    public int getALREADY_USED_STATUS() {
+        return ALREADY_USED_STATUS;
+    }
+
+    public void setALREADY_USED_STATUS(int ALREADY_USED_STATUS) {
+        this.ALREADY_USED_STATUS = ALREADY_USED_STATUS;
     }
 
     @Override
