@@ -91,5 +91,4 @@ public interface GenericManager<T, PK extends Serializable> {
   	
   	void saveOrUpdate(T object);
   	
-   
 }

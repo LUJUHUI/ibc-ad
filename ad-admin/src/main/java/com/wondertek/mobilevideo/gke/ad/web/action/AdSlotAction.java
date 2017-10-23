@@ -37,7 +37,8 @@ public class AdSlotAction extends BaseAction {
 		try {
 			pageList =  adSlotManagerImpl.getPageList(params,getPageNo(),getPageSize(),getSort(),getOrder());
 		}catch (Exception e){
-			
+			e.printStackTrace();
+			resultMap.put("success",false);
 		}
 		resultMap.put("rows", pageList.getList());
 		resultMap.put("records", pageList.getRecordCount());
@@ -52,15 +53,20 @@ public class AdSlotAction extends BaseAction {
 		try {
 			pageList =  adLogManagerImpl.getPageList(params,getPageNo(),getPageSize(),getSort(),getOrder());
 		}catch (Exception e){
-			
+			e.printStackTrace();
+			resultMap.put("success",false);
 		}
 		resultMap.put("rows", pageList.getList());
 		resultMap.put("records", pageList.getRecordCount());
 		resultMap.put("pageCount", pageList.getPageCount());
 		return SUCCESS;
 	}
+	
 	public String addAdSlot() {
 		try {
+			adSlot.setStatus("101");
+			adSlot.setCreateTime(new Date());
+			adSlot.setCreatePeople(getUsername());
 			adSlotManagerImpl.save(adSlot);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,8 +77,9 @@ public class AdSlotAction extends BaseAction {
 	
 	public String updateAdSlot() {
 		try {
+			adSlot.setUpdatePeople(getUsername());
+			adSlot.setUpdateTime(new Date());
 			adSlotManagerImpl.saveOrUpdate(adSlot);
-			resultMap.put("success",true); 
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("success",false);
@@ -82,8 +89,29 @@ public class AdSlotAction extends BaseAction {
 	
 	public String deleteAdSlot() {
 		try {
-			adSlotManagerImpl.saveOrUpdate(adSlot);
-			resultMap.put("success",true); 
+		String [] str =getRequest().getParameter("deleteIds").split(",");
+		for (String slotId : str) {
+			AdSlot slot = adSlotManagerImpl.get(Integer.parseInt(slotId));
+			slot.setStatus("105");
+			slot.setUpdateTime(new Date());
+			adSlotManagerImpl.saveOrUpdate(slot);
+		}	
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("success",false);
+		}
+		return SUCCESS;
+	}
+	
+	public String useAdSlot() {
+		try {
+		String [] str =getRequest().getParameter("useIds").split(",");
+		for (String slotId : str) {
+			AdSlot slot = adSlotManagerImpl.get(Integer.parseInt(slotId));
+			slot.setStatus("101");
+			slot.setUpdateTime(new Date());
+			adSlotManagerImpl.saveOrUpdate(slot);
+		}	
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("success",false);
@@ -125,7 +153,7 @@ public class AdSlotAction extends BaseAction {
         
         String logId = getRequest().getParameter("logId");
         if (StringUtils.isNotBlank(logId)){
-            params.put("logId", Integer.parseInt(logId));
+            params.put("id", Integer.parseInt(logId));
         }
         
         String operResult = getRequest().getParameter("operResult");

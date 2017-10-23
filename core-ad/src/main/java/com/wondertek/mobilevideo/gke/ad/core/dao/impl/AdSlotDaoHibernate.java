@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class AdSlotDaoHibernate extends GenericDaoHibernate<AdSlot, Long> implements AdSlotDao{
+public class AdSlotDaoHibernate extends GenericDaoHibernate<AdSlot,Integer> implements AdSlotDao{
 
 	public AdSlotDaoHibernate() {
 		super(AdSlot.class);
 	}
-	
+
 }

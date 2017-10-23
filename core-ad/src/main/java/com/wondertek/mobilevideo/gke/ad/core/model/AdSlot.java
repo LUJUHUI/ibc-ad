@@ -14,20 +14,20 @@ import javax.persistence.Table;
 @Table(name = "ad_slot")//广告位
 public class AdSlot {
 		private static final long serialVersionUID = 467620661858607767L;
-	 
+		
 		private int id;                          //广告位Id
-		private String slotName;				 //广告位名称
-		private Integer navig;						 //导航
+		private String slotName;				 //广告位名称 
+		private Integer navig;				     //导航   1.首页   2.直播   3.会员
 		private Integer channelId;				 //导航频道ID
-		private Integer type;					 //广告位类型
+		private Integer type;					 //广告位类型 1.1：开机广告位  	2：频道广告位，漂浮形式存在 3：导航广告位，弹窗形式存在
 		private Integer width;					 //广告位宽度
 		private Integer height;					 //广告位高度
-		private String status;					 //广告位状态
+		private String status;					 //广告位状态  101 待审核、102 待使用、103使用中、104 审核失败、105 删除 
 		private String remark;					 //备注
 		private Date createTime;				 //创建时间
-		private Integer createrId;				 //创建人
+		private String createPeople;				 //创建人
 		private Date updateTime;				 //修改时间
-		private Integer updateId;				 //修改人
+		private String updatePeople;				 //修改人
 		
 		@Id
 		@GeneratedValue(strategy = GenerationType.AUTO, generator = "AD_SLOT_SEQ")
@@ -101,12 +101,12 @@ public class AdSlot {
 		public void setCreateTime(Date createTime) {
 			this.createTime = createTime;
 		}
-		@Column(name = "create_id")
-		public Integer getCreaterId() {
-			return createrId;
+		@Column(name = "create_people")
+		public String getCreatePeople() {
+			return createPeople;
 		}
-		public void setCreaterId(Integer createrId) {
-			this.createrId = createrId;
+		public void setCreatePeople(String createPeople) {
+			this.createPeople = createPeople;
 		}
 		@Column(name = "update_time")
 		public Date getUpdateTime() {
@@ -115,21 +115,20 @@ public class AdSlot {
 		public void setUpdateTime(Date updateTime) {
 			this.updateTime = updateTime;
 		}
-		@Column(name = "update_id")
-		public Integer getUpdateId() {
-			return updateId;
+		@Column(name = "update_people")
+		public String getUpdatePeople() {
+			return updatePeople;
 		}
-		public void setUpdateId(Integer updateId) {
-			this.updateId = updateId;
+		public void setUpdatePeople(String updatePeople) {
+			this.updatePeople = updatePeople;
 		}
-	 
 		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ((channelId == null) ? 0 : channelId.hashCode());
+			result = prime * result + ((createPeople == null) ? 0 : createPeople.hashCode());
 			result = prime * result + ((createTime == null) ? 0 : createTime.hashCode());
-			result = prime * result + ((createrId == null) ? 0 : createrId.hashCode());
 			result = prime * result + ((height == null) ? 0 : height.hashCode());
 			result = prime * result + id;
 			result = prime * result + ((navig == null) ? 0 : navig.hashCode());
@@ -137,7 +136,7 @@ public class AdSlot {
 			result = prime * result + ((slotName == null) ? 0 : slotName.hashCode());
 			result = prime * result + ((status == null) ? 0 : status.hashCode());
 			result = prime * result + ((type == null) ? 0 : type.hashCode());
-			result = prime * result + ((updateId == null) ? 0 : updateId.hashCode());
+			result = prime * result + ((updatePeople == null) ? 0 : updatePeople.hashCode());
 			result = prime * result + ((updateTime == null) ? 0 : updateTime.hashCode());
 			result = prime * result + ((width == null) ? 0 : width.hashCode());
 			return result;
@@ -156,15 +155,15 @@ public class AdSlot {
 					return false;
 			} else if (!channelId.equals(other.channelId))
 				return false;
+			if (createPeople == null) {
+				if (other.createPeople != null)
+					return false;
+			} else if (!createPeople.equals(other.createPeople))
+				return false;
 			if (createTime == null) {
 				if (other.createTime != null)
 					return false;
 			} else if (!createTime.equals(other.createTime))
-				return false;
-			if (createrId == null) {
-				if (other.createrId != null)
-					return false;
-			} else if (!createrId.equals(other.createrId))
 				return false;
 			if (height == null) {
 				if (other.height != null)
@@ -198,10 +197,10 @@ public class AdSlot {
 					return false;
 			} else if (!type.equals(other.type))
 				return false;
-			if (updateId == null) {
-				if (other.updateId != null)
+			if (updatePeople == null) {
+				if (other.updatePeople != null)
 					return false;
-			} else if (!updateId.equals(other.updateId))
+			} else if (!updatePeople.equals(other.updatePeople))
 				return false;
 			if (updateTime == null) {
 				if (other.updateTime != null)
@@ -219,9 +218,10 @@ public class AdSlot {
 		public String toString() {
 			return "AdSlot [id=" + id + ", slotName=" + slotName + ", navig=" + navig + ", channelId=" + channelId
 					+ ", type=" + type + ", width=" + width + ", height=" + height + ", status=" + status + ", remark="
-					+ remark + ", createTime=" + createTime + ", createrId=" + createrId + ", updateTime=" + updateTime
-					+ ", updateId=" + updateId + "]";
+					+ remark + ", createTime=" + createTime + ", createPeople=" + createPeople + ", updateTime="
+					+ updateTime + ", updatePeople=" + updatePeople + "]";
 		}
-
+	    
+		
 		
 }

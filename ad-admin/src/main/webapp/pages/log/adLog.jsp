@@ -1,8 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
-<%@page import="com.wondertek.mobilevideo.gke.ad.BcConstants"%>
-<%@ page import="com.wondertek.mobilevideo.gke.ad.core.model.DataDict" %>
-
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
         try {
@@ -64,7 +61,7 @@
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
 			<button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
-                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="button.reset"/>
+                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
             </button>
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
                 <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
@@ -78,7 +75,6 @@
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
 
     jQuery(function($) {
@@ -141,7 +137,7 @@
                 {name :'id', index:'id', width : 100, align:'center',align:'center', sortable : false },
                 {name : 'operType', index : 'oper_type', width : 120, align:'center', sortable : false,formatter:attrOperType}, 
                 {name : 'operResult', index : 'oper_result', width : 120, align:'center', sortable : false},
-                {name : 'operId', index : 'oper_id', width : 120, align:'center', sortable : false},
+                {name : 'operName', index : 'oper_name', width : 120, align:'center', sortable : false},
                 {name : 'createTime', index : 'create_time', width : 150, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
             ],
             shrinkToFit : false,
@@ -160,12 +156,6 @@
                 repeatitems : true
             },
             caption: '<fmt:message key="ad.log.list" />',
-            <cas:havePerm url="/bestvContent_loadDetailPage.do">
-                ondblClickRow : function (rowid, iRow, iCol, e) {
-                    openMainPage('<c:url value="/pages/contentShow/bestvContentDetail.jsp"/>', {"id": rowid}, function () {
-                    });
-                },
-            </cas:havePerm>
             toolbar: [true,'top'],
             loadComplete : function(data) {
                 var table = this;
@@ -199,44 +189,7 @@
                 viewicon : 'ace-icon fa fa-search-plus grey',
             }
         )
-
-        //it causes some flicker when reloading or navigating grid
-        //it may be possible to have some custom formatter to do this as the grid is being created to prevent this
-        //or go back to default browser checkbox styles for the grid
-        function styleCheckbox(table) {
-            /**
-             $(table).find('input:checkbox').addClass('ace')
-             .wrap('<label />')
-             .after('<span class="lbl align-top" />')
-
-
-             $('.ui-jqgrid-labels th[id*="_cb"]:first-child')
-             .find('input.cbox[type=checkbox]').addClass('ace')
-             .wrap('<label />').after('<span class="lbl align-top" />');
-             */
-        }
-
-
-        //unlike navButtons icons, action icons in rows seem to be hard-coded
-        //you can change them like this in here if you want
-        function updateActionIcons(table) {
-            /**
-             var replacement =
-             {
-                 'ui-ace-icon fa fa-pencil' : 'ace-icon fa fa-pencil blue',
-                 'ui-ace-icon fa fa-trash-o' : 'ace-icon fa fa-trash-o red',
-                 'ui-icon-disk' : 'ace-icon fa fa-check green',
-                 'ui-icon-cancel' : 'ace-icon fa fa-times red'
-             };
-             $(table).find('.ui-pg-div span.ui-icon').each(function(){
-						var icon = $(this);
-						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
-					})
-             */
-        }
-
-        //replace icons with FontAwesome icons like above
+  
         function updatePagerIcons(table) {
             var replacement =
                 {
@@ -306,58 +259,6 @@
                 mtype : "post"
             }).trigger("reloadGrid"); //重新载入
         }
-        
-        $("#pcId").on("change", function () {
-            if ($("#pcId").val() == ""){
-                $("#cId").html('').attr("disabled", true);
-            }else {
-                $.get('<c:url value="/json/bestvContent_cascade.do"/>', {"pcId": $("#pcId").val()}, function (data) {
-                    var optionHtml = '<option value="">全部</option>';
-                    for (var i in data.result){
-                        optionHtml = optionHtml + '<option value="'+ i +'">' + data.result[i] + '</option>';
-                    }
-                    $("#cId").html(optionHtml).removeAttr("disabled");
-                })
-            }
-        })
-
-        $("#online, #offline").on("click", onOrOffLine);
-
-        function onOrOffLine(){
-            var actionType = $(this).attr("id") == 'online' ? '1' : '2';//上线为1，下线为2
-            var status1;//上线为102，下线为105
-            var status2;//上线为200，下线为107
-            if (actionType == '1'){
-                status1 = '102';
-                status2 = '105';
-            }else {
-                status1 = '200';
-                status2 = '107';
-            }
-            var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
-            if (ids.length == 0){
-                bootbox.alert("请选择要操作的记录！");
-                return;
-            }
-            var codes = [];
-            for (var index in ids){
-                var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                if (rowData.status == status1 || rowData.status == status2)
-                    continue;
-                codes.push(rowData.code);
-            }
-            if (codes.length < 1){
-                bootbox.alert("没有选择有效记录！");
-                return;
-            }
-            var codeStr = '';
-            for (var index in codes){
-                codeStr =codeStr + codes[index] + ',';
-            }
-            $.post('<c:url value="/json/bestvContent_onOrOffLine.do"/>', {"codes": codeStr.substring(0, codeStr.length-1), "actionType": actionType}, function (result) {
-                bootbox.alert("操作成功！");
-                $("#search").trigger('click');
-            });
-        }
+ 
     });
 </script>

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class AdLogDaoHibernate extends GenericDaoHibernate<AdLog, Long> implements AdLogDao{
+public class AdLogDaoHibernate extends GenericDaoHibernate<AdLog, Integer> implements AdLogDao{
 
 	public AdLogDaoHibernate() {
 		super(AdLog.class);

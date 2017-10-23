@@ -498,4 +498,5 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
 		Session sess = getSession();
 		sess.saveOrUpdate(object);
 	}
+ 
 }
