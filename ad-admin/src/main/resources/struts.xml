@@ -68,12 +68,12 @@
                 <param name="root">resultMap</param>
             </result>
         </action>
-        
+
        <action name="adSlot_*" class="com.wondertek.mobilevideo.gke.ad.web.action.AdSlotAction" method="{1}">
             <result type="json">
                 <param name="root">resultMap</param>
             </result>
         </action>
-        
+
     </package>
 </struts>
