@@ -99,7 +99,7 @@
     </div><!-- /.modal -->
 </div>
 
-<%--审核素材模块--%>
+<%--&lt;%&ndash;审核素材模块&ndash;%&gt;
 <div class="modal fade bs-example-modal-sm" tabindex="-1" id="checkAdMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -144,7 +144,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-</div>
+</div>--%>
 
 <%--删除素材模块--%>
 <div class="modal fade bs-example-modal-sm" tabindex="-1" id="deleteadMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -235,14 +235,14 @@
             <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="materialName">
 
             <label class="control-label" for="type">素材类型</label>
-            <select class="form-control input-sm" style="margin-left: 5px;" id="type">
+            <select class="form-control input-sm" readonly="readonly"  style="margin-left: 5px;" id="type">
                 <option value="">全部</option>
                 <option value="1">图片</option>
                 <option value="2">文字</option>
             </select>
 
             <label class="control-label" for="status">素材状态</label>
-            <select class="form-control input-sm" id="status" style="margin-left: 5px;">
+            <select class="form-control input-sm" readonly="readonly" id="status" style="margin-left: 5px;">
                 <option value="">全部</option>
                 <option value="101">待审核</option>
                 <option value="102">审核通过</option>
@@ -567,13 +567,13 @@
             });
         })
 
-        // 审核素材
+/*        // 审核素材
         $("#adm_check").on("click",function () {
             $("#checkAdMaterialModel").modal();
         });
 
         $("#save_checkAdMaterial").on("click",function () {
-           /* if($("#check_adMaterialName").val() == ""){
+           /!* if($("#check_adMaterialName").val() == ""){
                 $("#check_adMaterialName").tips({side:2,msg:'此项必填 ',time:3});
                 return false;
             }
@@ -584,7 +584,7 @@
             if($("#check_clickHref").val() == ""){
                 $("#check_type").tips({side:2,msg:'此项必填 ',time:3});
                 return false;
-            }*/
+            }*!/
             if($("#check_status").val() == ""){
                 $("#check_status").tips({side:2,msg:'此项必填 ',time:3});
                 return false;
@@ -601,44 +601,38 @@
                     alert("审核失败，无法连接服务器!");
                 }
             });
-        })
+        })*/
 
         //删除素材
         $("#adm_delete").on("click",function () {
             $("#deleteadMaterialModel").modal();
         });
 
-        $("#save_deleteAdMaterial").on("click",function () {
-/*            if($("#add_adMaterialName").val() == ""){
-                $("#add_adMaterialName").tips({side:2,msg:'此项必填 ',time:3});
-                return false;
+        $("#save_deleteAdMaterial").on("click",deleteAdMaterial);
+        function deleteAdMaterial() {
+            var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
+            if (ids.length == 0){
+                bootbox.alert("请选择要操作的记录！");
+                return;
             }
-            if($("#add_type").val() == ""){
-                $("#add_type").tips({side:2,msg:'此项必填 ',time:3});
-                return false;
+            var codes = [];
+            for (var index in ids){
+                var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
+                codes.push(rowData.id);
             }
-            if($("#add_clickHref").val() == ""){
-                $("#add_type").tips({side:2,msg:'此项必填 ',time:3});
-                return false;
+            if (codes.length < 1){
+                bootbox.alert("没有选择有效记录！");
+                return;
             }
-            if($("#add_status").val() == ""){
-                $("#add_status").tips({side:2,msg:'此项必填 ',time:3});
-                return false;
-            }*/
-            $.ajax({
-                url: "<c:url value='/json/adMaterial_deleteAdMaterial.do'/>",
-                data: $("#add_materialForm").serialize(),
-                type: "post",
-                success: function (data) {
-                    $("#deleteadMaterialModel").modal('hide')
-                    $("#search").click();
-                    alert("删除成功!");
-                }, error: function () {
-                    alert("删除失败，无法连接服务器!");
-                }
-
+            var codeStr = '';
+            for (var index in codes){
+                codeStr =codeStr + codes[index] + ',';
+            }
+            $.post('<c:url value="/json/adSlot_delateAdMaterial.do"/>', {"id": codeStr.substring(0, codeStr.length-1)}, function (result) {
+                bootbox.alert("操作成功！");
+                $("#search").trigger('click');
             });
-        })
+        }
     });
 </script>
 
