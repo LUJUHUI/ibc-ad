@@ -27,9 +27,9 @@ public class AdMaterial implements Serializable {
     private int type;    //素材类型  1:图片;2:文字
     private String clickHref;  // 链接地址
     private int status;  // 状态  101:待审核;102:审核成功;103:审核失败;104:待使用;105:使用中;106：已删除
-    private Date createTime = new Date();  //创建时间
+    private Date createTime ;  //创建时间
     private String createPerson;       //创建者ID
-    private Date updateTime = new Date();   //修改时间
+    private Date updateTime;   //修改时间
     private String updatePerson;   //修改者ID
 
     public AdMaterial() {

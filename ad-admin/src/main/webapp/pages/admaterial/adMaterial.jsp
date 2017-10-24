@@ -20,13 +20,8 @@
                 <form id="add_materialForm">
 
                     <div class="form-group">
-                        <label for="add_id" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="add_id" name="adMaterial.adMaterialId" value="素材ID">
-                    </div>
-
-                    <div class="form-group">
                         <label for="add_adMaterialName" class="control-label">素材名称:</label>
-                        <input type="text" class="form-control" id="add_adMaterialName" name="adMaterial.adMaterialName">
+                        <input type="text" class="form-control" id="add_adMaterialName" name="adMaterial.materialName">
                     </div>
 
                     <div class="form-group">
@@ -40,33 +35,6 @@
                     <div class="form-group">
                         <label for="add_clickHref" class="control-label">链接地址:</label>
                         <input type="text" class="form-control" id="add_clickHref" name="adMaterial.clickHref">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="add_status" class="control-label">状态 :</label>
-                        <input type="text" class="form-control" id="add_status" name="adMaterial.status" value="待审核">
-            </div>
-
-                    <div class="form-group">
-                        <label for="createNewTime" class="control-label">新建时间 :</label>
-                        <input type="text" class="form-control" readonly="readonly" id="createNewTime">
-                        <input type="hidden" class="form-control" id="nst_date" name="adMaterial.startTime" value="">
-                        <input type="hidden" class="form-control" id="ned_date" name="adMaterial.endTime" value="">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="add_createPerson" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="add_createPerson" name="adMaterial.createPerson">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="add_updateTime" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="add_updateTime" name="adMaterial.updateTime" >
-                    </div>
-
-                    <div class="form-group">
-                        <label for="add_updatePerson" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="add_updatePerson" name="adMaterial.updatePerson">
                     </div>
 
                 </form>
@@ -92,12 +60,12 @@
 
                     <div class="form-group">
                         <label for="update_id" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="update_id" name="adMaterial.adMaterialId" value="素材ID">
+                        <input type="hidden" class="form-control" id="update_id" name="adMaterial.id" value="素材ID">
                     </div>
 
                     <div class="form-group">
                         <label for="update_adMaterialName" class="control-label">素材名称:</label>
-                        <input type="text" class="form-control" id="update_adMaterialName" name="adMaterial.adMaterialName">
+                        <input type="text" class="form-control" id="update_adMaterialName" name="adMaterial.materialName">
                     </div>
 
                     <div class="form-group">
@@ -125,18 +93,6 @@
                     <div class="form-group">
                         <label for="update_createPerson" class="control-label" hidden="true"></label>
                         <input type="hidden" class="form-control" id="update_createPerson" name="adMaterial.createPerson">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="updateTime" class="control-label">修改时间 :</label>
-                        <input type="text" class="form-control" readonly="readonly" id="updateTime">
-                        <input type="hidden" class="form-control" id="st_date" name="adMaterial.startTime" value="">
-                        <input type="hidden" class="form-control" id="ed_date" name="adMaterial.endTime" value="">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="update_updatePerson" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="update_updatePerson" name="adMaterial.updatePerson">
                     </div>
 
                 </form>
@@ -283,8 +239,8 @@
             "showDropdowns":true,
             "showCustomRangeLabel":false,
             "alwaysShowCalendars": true,
-            "startDate": moment().subtract('days', 30),
-            "endDate": moment().subtract('days', 0),
+            "startDate": moment().subtract('days', 29),
+            "endDate": moment().subtract('days', -1),
             "opens": "left",
             "drops": "down"
         }, function(start, end, label) {//时间改变后执行该方法
@@ -297,7 +253,7 @@
         jQuery(grid_selector).jqGrid({
             datatype: "json",
             mtype: "post",
-            url: "<c:url value='/json/adMaterial_getAdMaterial.do'/>",
+            url: "<c:url value='/json/adMaterial_getAdMaterials.do'/>",
             postData: {
                 materialName: $("#materialName").val(),
                 type: $("#type").val(),
@@ -385,15 +341,6 @@
             }
         )
 
-
-        function styleCheckbox(table) {
-
-        }
-
-        function updateActionIcons(table) {
-
-        }
-
         function updatePagerIcons(table) {
             var replacement =
                 {
@@ -456,7 +403,7 @@
             }
 
             $("#grid-table").jqGrid('setGridParam', {
-                url : "<c:url value='/json/adMaterial_getAdMaterial.do'/>",
+                url : "<c:url value='/json/adMaterial_getAdMaterials.do'/>",
                 postData : {
                     materialName: $("#materialName").val(),
                     type: $("#type").val(),
@@ -471,15 +418,9 @@
         })
         /* -------新建素材(start)--------------*/
         $("#adm_create").on("click",function () {
-            $("#add_id").val("");
             $("#add_adMaterialName").val("");
             $("#add_type").val("");
             $("#add_clickHref").val("");
-            $("#add_status").val("");
-            $("#add_createTime").val("");
-            $("#add_createPerson").val("");
-            $("#add_createTime").val("");
-            $("#add_updatePerson").val("");
             $("#addAdMaterialModel").modal();/*this id should match above id whlich equaled 'addAdMaterialModel'*/
         });
 
@@ -494,10 +435,6 @@
             }
             if($("#add_clickHref").val() == ""){
                 $("#add_type").tips({side:2,msg:'此项必填 ',time:3});
-                return false;
-            }
-            if($("#add_status").val() == ""){
-                $("#add_status").tips({side:2,msg:'此项必填 ',time:3});
                 return false;
             }
             $.ajax({
@@ -516,70 +453,62 @@
         /* -------新建素材(end)--------------*/
 
         /* -------修改素材(start)------------*/
-            $("#adm_update").on("click",update);
-                function update() {
-                    var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
-                    if (ids.length == 0){
-                        bootbox.alert("请选择要操作的记录！");
-                        return;
-                    }
-                    var codes = [];
-                    for (var index in ids){
-                        var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                        if(rowData.status == 104){
-                            bootbox.alert("没有选择有效记录！");
-                            return;
-                        }else{
-                            codes.push(rowData.id);
-                        }
-                    }
-                    for (var index in ids){
-                        var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
+        $("#adm_update").on("click",update);
+        function update() {
+            var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
+            if (ids.length == 0){
+                bootbox.alert("请选择要操作的记录！");
+                return;
+            }
+            var codes = [];
+            for (var index in ids){
+                var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
+                if(rowData.status == 104){
+                    bootbox.alert("没有选择有效记录！");
+                    return;
+                }else{
+                    codes.push(rowData.id);
+                }
+            }
+            for (var index in ids){
+                var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
 
-                        $("#update_id").val(rowData.id);
-                        $("#update_adMaterialName").val(rowData.materialName);
-                        $("#update_type").val(rowData.type);
-                        $("#update_clickHref").val(rowData.clickHref);
-                        $("#update_status").val(rowData.status);
-                        $("#update_createTime").val(rowData.createTime);
-                        $("#update_createPerson").val(rowData.createPerson);
-                        $("#update_createTime").val(rowData.updateTime);
-                        $("#update_updatePerson").val(rowData.updatePerson);
-                    }
-                $("#updateAdMaterialModel").modal();/*this id should match above id whlich equaled 'updateAdMaterialModel'*/
-            };
-        /*this id:'save_updateAdMaterial' should match above id which button named 'save'*/
+                $("#update_id").val(rowData.id);
+                $("#update_adMaterialName").val(rowData.materialName);
+                $("#update_type").val(rowData.type);
+                $("#update_clickHref").val(rowData.clickHref);
+                $("#update_status").val(rowData.status);
+                $("#update_createTime").val(rowData.createTime);
+                $("#update_createPerson").val(rowData.createPerson);
+            }
+            $("#updateAdMaterialModel").modal();
+        };
         $("#save_updateAdMaterial").on("click",function() {
-            alert("tt")
-                if ($("#update_adMaterialName").val() == "") {
-                    $("#update_adMaterialName").tips({side: 2, msg: '此项必填 ', time: 3});
-                    return false;
+            if ($("#update_adMaterialName").val() == "") {
+                $("#update_adMaterialName").tips({side: 2, msg: '此项必填 ', time: 3});
+                return false;
+            }
+            if ($("#update_type").val() == "") {
+                $("#update_type").tips({side: 2, msg: '此项必填 ', time: 3});
+                return false;
+            }
+            if ($("#update_clickHref").val() == "") {
+                $("#update_clickHref").tips({side: 2, msg: '此项必填 ', time: 3});
+                return false;
+            }
+            $.ajax({
+                url: "<c:url value='/json/adMaterial_updateAdMaterial.do'/>",
+                data: $("#update_materialForm").serialize(),
+                type: "post",
+                success: function (data) {
+                    $("#updateAdMaterialModel").modal('hide')
+                    $("#search").click();
+                    alert("修改成功!");
+                }, error: function () {
+                    alert("修改失败，无法连接服务器!");
                 }
-                if ($("#update_type").val() == "") {
-                    $("#update_type").tips({side: 2, msg: '此项必填 ', time: 3});
-                    return false;
-                }
-                if ($("#update_clickHref").val() == "") {
-                    $("#update_type").tips({side: 2, msg: '此项必填 ', time: 3});
-                    return false;
-                }
-                if ($("#update_status").val() == "") {
-                    $("#update_status").tips({side: 2, msg: '此项必填 ', time: 3});
-                    return false;
-                }
-                $.ajax({
-                    url: "<c:url value='/json/adMaterial_updateAdMaterial.do'/>",
-                    data: $("#update_materialForm").serialize(),
-                    type: "post",
-                    success: function (data) {
-                        $("#updateAdMaterialModel").modal('hide')
-                        $("#search").click();
-                        alert("修改成功!");
-                    }, error: function () {
-                        alert("修改失败，无法连接服务器!");
-                    }
-                });
-            })
+            });
+        })
         /* -------修改素材(end)------------*/
 
         /* -------删除素材(start)----------*/

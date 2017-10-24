@@ -15,11 +15,11 @@ public class AdMaterialAction extends BaseAction {
 
     @Autowired
     private AdMaterialManger adMaterialMangerImpl;
-    
+
     private AdMaterial adMaterial;
     private Map<String, Object> params = new HashMap<String,Object>();
     //    查询
-    public String getAdMaterial(){
+    public String getAdMaterials(){
         getParams();
         PageList pageList = new PageList();
         try {
@@ -35,8 +35,9 @@ public class AdMaterialAction extends BaseAction {
     //     增加
     public String addAdMaterial() {
         try {
-        	adMaterial.setCreatePerson(getUsername());
-        	adMaterial.setCreateTime(new Date());
+            adMaterial.setCreatePerson(getUsername());
+            adMaterial.setCreateTime(new Date());
+            adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_101.get_status());
             adMaterialMangerImpl.save(adMaterial);
             resultMap.put("success",true);
         } catch (Exception e) {
@@ -49,6 +50,8 @@ public class AdMaterialAction extends BaseAction {
     //    修改
     public String updateAdMaterial() {
         try {
+            adMaterial.setUpdatePerson(getUsername());
+            adMaterial.setUpdateTime(new Date());
             adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_101.get_status());
             adMaterialMangerImpl.saveOrUpdate(adMaterial);
             resultMap.put("success",true);
@@ -61,10 +64,10 @@ public class AdMaterialAction extends BaseAction {
     //    删除
     public String delateAdMaterial() {
         try {
-        	String[] ids = getRequest().getParameter("materialIds").split(",");
+            String[] ids = getRequest().getParameter("materialIds").split(",");
             for (String adMaterialId: ids) {
-            	AdMaterial material = adMaterialMangerImpl.get(Integer.parseInt(adMaterialId));
-            	material.setStatus(AdMaterial.AdMaterialStatus.STATUS_106.get_status());
+                AdMaterial material = adMaterialMangerImpl.get(Integer.parseInt(adMaterialId));
+                material.setStatus(AdMaterial.AdMaterialStatus.STATUS_106.get_status());
                 adMaterialMangerImpl.saveOrUpdate(material);
             }
             resultMap.put("success",true);
@@ -102,11 +105,16 @@ public class AdMaterialAction extends BaseAction {
 
     }
 
+
     public void setAdMaterial(AdMaterial adMaterial) {
         this.adMaterial = adMaterial;
     }
 
-    public void getAdMaterial(AdMaterial adMaterial) {
-        this.adMaterial = adMaterial;
+    public AdMaterial getAdMaterial() {
+        return adMaterial;
+    }
+
+    public void setParams(Map<String, Object> params) {
+        this.params = params;
     }
 }
