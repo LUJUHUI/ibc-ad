@@ -1,36 +1,35 @@
 package com.wondertek.mobilevideo.gke.ad.core.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "ad_material")
 public class AdMaterial implements Serializable {
+    public enum AdMaterialStatus {
+        STATUS_101(101), STATUS_102(102),STATUS_103(103), STATUS_104(104), STATUS_105(105),STATUS_106(106);
 
-    @Id
-    @Column(name = "id_")
+        private final int _status;
+
+        private AdMaterialStatus(int _status) {
+            this._status = _status;
+        }
+
+        public int get_status() {
+            return _status;
+        }
+    }
+
     private int id;  // 素材ID
-    @Column(name = "material_name")
     private String materialName; //广告素材名
-    @Column(name = "type_")
     private int type;    //素材类型  1:图片;2:文字
-    @Column(name = "click_href")
     private String clickHref;  // 链接地址
-    @Column(name = "status_")
     private int status;  // 审核状态  101:待审核;102:审核通过;103:审核失败;104:已删除;105:已使用
-    @Column(name = "create_time")
     private Date createTime = new Date();  //创建时间
-    @Column(name = "create_person")
     private String createPerson;       //创建者ID
-    @Column(name = "update_time")
     private Date updateTime = new Date();   //修改时间
-    @Column(name = "update_person")
     private String updatePerson;   //修改者ID
-
     public AdMaterial() {
         super();
     }
@@ -39,14 +38,17 @@ public class AdMaterial implements Serializable {
         this.id = id;
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "AD_ADMATERIAL_SEQ")
+    @SequenceGenerator(name = "AD_ADMATERIAL_SEQ", allocationSize = 1, sequenceName = "AD_ADMATERIAL_SEQ")
+    @Column(name = "id_")
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
+    @Column(name = "material_name")
     public String getMaterialName() {
         return materialName;
     }
@@ -54,7 +56,7 @@ public class AdMaterial implements Serializable {
     public void setMaterialName(String materialName) {
         this.materialName = materialName;
     }
-
+    @Column(name = "type_")
     public int getType() {
         return type;
     }
@@ -62,7 +64,7 @@ public class AdMaterial implements Serializable {
     public void setType(int type) {
         this.type = type;
     }
-
+    @Column(name = "click_href")
     public String getClickHref() {
         return clickHref;
     }
@@ -70,7 +72,7 @@ public class AdMaterial implements Serializable {
     public void setClickHref(String clickHref) {
         this.clickHref = clickHref;
     }
-
+    @Column(name = "status_")
     public int getStatus() {
         return status;
     }
@@ -78,7 +80,7 @@ public class AdMaterial implements Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
-
+    @Column(name = "create_time")
     public Date getCreateTime() {
         return createTime;
     }
@@ -86,11 +88,11 @@ public class AdMaterial implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-
+    @Column(name = "create_person")
     public String getCreatePerson() {
         return createPerson;
     }
-
+    @Column(name = "update_person")
     public void setCreatePerson(String createPerson) {
         this.createPerson = createPerson;
     }
@@ -102,7 +104,7 @@ public class AdMaterial implements Serializable {
     public void setUpdatePerson(String updatePerson) {
         this.updatePerson = updatePerson;
     }
-
+    @Column(name = "update_time")
     public Date getUpdateTime() {
         return updateTime;
     }

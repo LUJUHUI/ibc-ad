@@ -63,7 +63,7 @@ public class AdMaterialAction extends BaseAction {
         	String[] ids = getRequest().getParameter("materialIds").split(",");
             for (String adMaterialId: ids) {
             	AdMaterial material = adMaterialMangerImpl.get(Integer.parseInt(adMaterialId));
-            	material.setStatus(106);
+            	material.setStatus(AdMaterial.AdMaterialStatus.STATUS_106.get_status());
                 adMaterialMangerImpl.saveOrUpdate(material);
             }
             resultMap.put("success",true);
