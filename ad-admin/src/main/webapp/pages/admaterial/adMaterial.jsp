@@ -175,14 +175,14 @@
             <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="materialName">
 
             <label class="control-label" for="type">素材类型</label>
-            <select class="form-control input-sm" readonly="readonly"  style="margin-left: 5px;" id="type">
+            <select class="form-control input-sm" style="margin-left: 5px;" id="type">
                 <option value="">全部</option>
                 <option value="1">图片</option>
                 <option value="2">文字</option>
             </select>
 
             <label class="control-label" for="status">素材状态</label>
-            <select class="form-control input-sm" readonly="readonly" id="status" style="margin-left: 5px;">
+            <select class="form-control input-sm"  id="status" style="margin-left: 5px;">
                 <option value="">全部</option>
                 <option value="101">待审核</option>
                 <option value="102">审核通过</option>
