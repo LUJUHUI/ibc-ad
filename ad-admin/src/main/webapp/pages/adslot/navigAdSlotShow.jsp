@@ -216,11 +216,11 @@
                 {name : 'width', index : 'width_', width : 100, align:'center', sortable : false},
                 {name : 'height', index : 'height_', width : 150, align:'center', sortable : false},
                 {name : 'status', index : 'status_', width : 120, align:'center', sortable : false,formatter:attrStatus},
-                {name : 'createTime', index : 'create_time', width : 150, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'createPeople', index : 'create_people', width : 100, align:'center', sortable : false},
-                {name : 'updateTime', index : 'update_time', width : 150, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'updatePeople', index : 'update_people', width : 100, align:'center', sortable : false},
-                {name : 'remark', index : 'remark_', width : 150, align:'center', sortable : false},
+                {name : 'createTime', index : 'create_time', width : 200, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'createPeople', index : 'create_people', width : 150, align:'center', sortable : false},
+                {name : 'updateTime', index : 'update_time', width : 200, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'updatePeople', index : 'update_people', width : 150, align:'center', sortable : false},
+                {name : 'remark', index : 'remark_', width : 200, align:'center', sortable : false},
             ],
             shrinkToFit : false,
             hidegrid : false,
@@ -325,45 +325,45 @@
 
         function attrStatus(callValue, options, rowObject) {
             var result="";
-            switch (callValue){
-                case '101':
-                    result='待审核';
-                    break;
-                case '102':
-                    result = '待使用';
-                    break;
-                case '103':
-                    result = '使用中';
-                    break;
-                case '104':
-                    result = '审核失败';
-                    break;
-                case '105':
-                    result = '删除';
-                    break;
-            }
+	            switch (callValue){
+	            case  101:
+	                result=  '待审核';
+	                break;
+	            case  102:
+	                result = '待使用';
+	                break;
+	            case  103:
+	                result = '使用中';
+	                break;
+	            case  104:
+	                result = '审核失败';
+	                break;
+	            case  105:
+	                result = '删除';
+	                break;
+	        }
             return result;
         }
 		
         function tranStatus(callValue) {
             var result="";
-            switch (callValue){
-                case '待审核':
-                    result= '101';
-                    break;
-                case '待使用':
-                    result = '102';
-                    break;
-                case '使用中':
-                    result = '103';
-                    break;
-                case '审核失败':
-                    result = '104';
-                    break;
-                case '删除':
-                    result = '105';
-                    break;
-            }
+	            switch (callValue){
+	            case  101:
+	                result=  '待审核';
+	                break;
+	            case  102:
+	                result = '待使用';
+	                break;
+	            case  103:
+	                result = '使用中';
+	                break;
+	            case  104:
+	                result = '审核失败';
+	                break;
+	            case  105:
+	                result = '删除';
+	                break;
+	        }	
             return result;
         }
         
@@ -470,6 +470,7 @@
                } 
             for (var index in ids){
                 var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
+                if(rowData.status != "使用中"){
                 $("#adSlot_id").val(rowData.id);
                 $("#adSlot_channelId").val(rowData.channelId);
                 $("#adSlot_width").val(rowData.width);
@@ -489,9 +490,12 @@
              	   $("#adSlot_navig option[value='3']").attr("selected","selected") 
              	   break;
                 }
-                
+                   $("#adSlotModel").modal();
+                }else{
+                   bootbox.alert("该广告位正在使用，不能修改！");  	
+                }
             }
-             $("#adSlotModel").modal();
+             
          });
         //删除广告位
         $("#deleteSlot").on("click",deleteSlot);
@@ -502,18 +506,22 @@
                 return;
             }
             var codes = [];
+            var del = true;
             for (var index in ids){
                 var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                codes.push(rowData.id); 
-            }
-            if (codes.length < 1){
-                bootbox.alert("没有选择有效记录！");
-                return;
+                if(rowData.status == "待审核" || rowData.status == "审核失败"){
+                    codes.push(rowData.id); 
+                }else{
+                    bootbox.alert("该记录中有，非审核失败或待审核状态！");
+                    del = false;
+                }
             }
             var codeStr = '';
             for (var index in codes){
                 codeStr =codeStr + codes[index] + ',';
             }
+            if(codes.length > 0 && del == true){
+            if(confirm("确定删除广告位")){
             $.ajax({
                 url:"<c:url value='/json/adSlot_deleteAdSlot.do'/>",
                 data:{"deleteIds": codeStr.substring(0, codeStr.length-1)},
@@ -522,9 +530,11 @@
                 	bootbox.alert("操作成功！");
                     $("#search").click();
                 },error:function(){
-                    alert("修改失败");
+                    alert("删除失败");
                 }
             });
+            }
+            }
         }
         //启用广告位
         $("#useSlot").on("click",useSlot);
@@ -535,18 +545,22 @@
                 return;
             }
             var codes = [];
+            var use = true;
             for (var index in ids){
                 var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                codes.push(rowData.id); 
-            }
-            if (codes.length < 1){
-                bootbox.alert("没有选择有效记录！");
-                return;
+                if(rowData.status == "删除"){
+                    codes.push(rowData.id);
+                }else{
+                    bootbox.alert("记录中有非删除状态，不能启用！");
+                    use = false;
+                }
             }
             var codeStr = '';
             for (var index in codes){
                 codeStr =codeStr + codes[index] + ',';
             }
+            if(codes.length > 0 && use == true){
+            if(confirm("确定启用广告位")){
             $.ajax({
                 url:"<c:url value='/json/adSlot_useAdSlot.do'/>",
                 data:{"useIds": codeStr.substring(0, codeStr.length-1)},
@@ -555,9 +569,11 @@
                 	bootbox.alert("操作成功！");
                     $("#search").click();
                 },error:function(){
-                    alert("修改失败");
+                    alert("启用失败");
                 }
             });
+            }
+            }
         }
     });
 </script>
