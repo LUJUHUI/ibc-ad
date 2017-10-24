@@ -531,16 +531,27 @@
                     var codes = [];
                     for (var index in ids){
                         var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                        codes.push(rowData.id);
+                        console.log(rowData[index].status);
+                        if(rowData[index].status == ''){
+                            bootbox.alert("没有选择有效记录！");
+                            return;
+                        }else{
+                            codes.push(rowData.id);
+                        }
+
                     }
-                    if (codes.length < 1){
-                        bootbox.alert("没有选择有效记录！");
-                        return;
+                    if (codes.length > 0){
+                        //js调试
+                        //alert(data)   console.log(data)
+                        //ajax
+                        //请求数据
+                        //放到模态框中
+                        //$("#maName").val();
                     }
-                    var codeStr = '';
-                    for (var index in codes) {
-                        codeStr = codeStr + codes[index] + ',';
-                    }
+//                    var codeStr = '';
+//                    for (var index in codes) {
+//                        codeStr = codeStr + codes[index] + ',';
+//                    }
 
                 $("#updateAdMaterialModel").modal();/*this id should match above id whlich equaled 'updateAdMaterialModel'*/
             };
