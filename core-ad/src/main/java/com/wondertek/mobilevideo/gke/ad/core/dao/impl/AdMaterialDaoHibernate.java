@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * create by lujuhui 2017/10/18 9:48
  */
 @Repository
-public class AdMaterialDaoHibernate extends GenericDaoHibernate<AdMaterial,Long> implements AdMaterialDao{
+public class AdMaterialDaoHibernate extends GenericDaoHibernate<AdMaterial,Integer> implements AdMaterialDao{
     public AdMaterialDaoHibernate() {
         super(AdMaterial.class);
     }

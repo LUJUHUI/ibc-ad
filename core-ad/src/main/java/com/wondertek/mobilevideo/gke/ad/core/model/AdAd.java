@@ -14,14 +14,14 @@ public class AdAd implements Serializable {
     public enum AdadStatus {
         STATUS_101(101), STATUS_102(102),STATUS_103(103), STATUS_104(104), STATUS_105(105);
         
-        private final int _status;
+        private final int adStatus;
 
         private AdadStatus(int _status) {
-            this._status = _status;
+            this.adStatus = _status;
         }
 
-        public int get_status() {
-            return _status;
+        public int getAdStatus() {
+            return adStatus;
         }
     }
 

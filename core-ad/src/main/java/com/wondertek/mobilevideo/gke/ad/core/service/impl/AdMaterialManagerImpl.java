@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdMaterialManagerImpl extends GenericManagerImpl<AdMaterial,Long> implements AdMaterialManger {
+public class AdMaterialManagerImpl extends GenericManagerImpl<AdMaterial,Integer> implements AdMaterialManger {
 
     @Autowired
     private AdMaterialDao adMaterialDao;
