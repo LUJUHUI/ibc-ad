@@ -42,4 +42,17 @@ public class AdAdManagerImpl extends  GenericManagerImpl<AdAd, Long> implements 
 		adAdMaterialDao.save(adAdMaterial);
 		return object;
 	}
+
+	@Transient
+	public void remove(String[] ids, String userName) throws Exception {
+		for (String id: ids) {
+			AdAd adAd = adAdDao.get(Long.valueOf(id));
+			if (AdAd.AdadStatus.STATUS_103.getAdStatus() != adAd.getStatus()) {
+				adAd.setStatus(AdAd.AdadStatus.STATUS_105.getAdStatus());
+				adAdDao.saveOrUpdate(adAd);
+			}else{
+				throw new RuntimeException();
+			}
+		}
+	}
 }
