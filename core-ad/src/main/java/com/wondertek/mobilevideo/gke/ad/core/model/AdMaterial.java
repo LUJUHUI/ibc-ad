@@ -41,6 +41,14 @@ public class AdMaterial implements Serializable {
     @Column(name = "update_id")
     private int updateId;   //修改者ID
 
+    public AdMaterial() {
+        super();
+    }
+    
+    public AdMaterial(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

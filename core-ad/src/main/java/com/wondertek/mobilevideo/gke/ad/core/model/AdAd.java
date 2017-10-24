@@ -11,17 +11,39 @@ import java.util.Date;
 public class AdAd implements Serializable {
 
 
-	private Long id;			//id
+    public enum AdadStatus {
+        STATUS_101(101), STATUS_102(102),STATUS_103(103), STATUS_104(104), STATUS_105(105);
+        
+        private final int _status;
+
+        private AdadStatus(int _status) {
+            this._status = _status;
+        }
+
+        public int get_status() {
+            return _status;
+        }
+    }
+
+    private Long id;			//id
 	private Long soltId;		//广告位id
 	private String adName;		//广告名称
 	private Date startTime;		//广告生效时间 
 	private Date endTime;		//广告结束时间
 	private int status;			//状态 101:草稿，102：待投放，103：投放中，104：投放完成，105：删除
 	private String remark;		//备注
-	private Date createTime;	//创建时间
+	private Date createTime = new Date();	//创建时间
 	private String createId;	//创建人
-	private Date updateTime;	//更新时间
+	private Date updateTime = new Date();	//更新时间
 	private String updateId;	//更新人
+
+	public AdAd() {
+		super();
+	}
+
+	public AdAd(Long id) {
+		this.id = id;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "AD_AD_SEQ")
@@ -52,7 +74,7 @@ public class AdAd implements Serializable {
 		this.adName = adName;
 	}
 
-	@JSON(format = "yyyy-MM-dd HH:mm:ss")
+	@JSON(format = "yyyy-MM-dd HH:mm")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="start_time")
 	public Date getStartTime() {
@@ -63,7 +85,7 @@ public class AdAd implements Serializable {
 		this.startTime = startTime;
 	}
 	
-	@JSON(format = "yyyy-MM-dd HH:mm:ss")
+	@JSON(format = "yyyy-MM-dd HH:mm")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "end_time")
 	public Date getEndTime() {
@@ -131,6 +153,23 @@ public class AdAd implements Serializable {
 	}
 
 	@Override
+	public String toString() {
+		return "AdAd{" +
+				"id=" + id +
+				", soltId=" + soltId +
+				", adName='" + adName + '\'' +
+				", startTime=" + startTime +
+				", endTime=" + endTime +
+				", status=" + status +
+				", remark='" + remark + '\'' +
+				", createTime=" + createTime +
+				", createId='" + createId + '\'' +
+				", updateTime=" + updateTime +
+				", updateId='" + updateId + '\'' +
+				'}';
+	}
+
+	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
@@ -164,22 +203,5 @@ public class AdAd implements Serializable {
 		result = 31 * result + (updateTime != null ? updateTime.hashCode() : 0);
 		result = 31 * result + (updateId != null ? updateId.hashCode() : 0);
 		return result;
-	}
-
-	@Override
-	public String toString() {
-		return "AdAd{" +
-				"id=" + id +
-				", soltId=" + soltId +
-				", adName='" + adName + '\'' +
-				", startTime=" + startTime +
-				", endTime=" + endTime +
-				", status=" + status +
-				", remark='" + remark + '\'' +
-				", createTime=" + createTime +
-				", createId='" + createId + '\'' +
-				", updateTime=" + updateTime +
-				", updateId='" + updateId + '\'' +
-				'}';
 	}
 }

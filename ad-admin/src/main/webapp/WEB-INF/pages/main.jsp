@@ -130,6 +130,7 @@
 
 	<script src="assets/js/main.js"></script>
 	<script src="assets/js/jquery.tips.js"></script>
+	<script src="assets/js/chosen.jquery.min.js"></script>
 
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
