@@ -61,11 +61,9 @@ public class AdAdAction extends BaseAction{
 	}
 
 	public String getAdMaterial() {
-		//List<AdMaterial> adMaterials = new ArrayList<AdMaterial>();
 		PageList pageList = new PageList();
 		try {
             params.put("status", 102);
-            //adMaterials = adMaterialMangerImpl.find(params);
 			pageList = adMaterialMangerImpl.getPageList(params, getPageNo(), getPageSize(), getSort(), getOrder());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -80,7 +78,7 @@ public class AdAdAction extends BaseAction{
 		resultMap.put("success", true);
 		try {
 			String materialId = getRequest().getParameter("materialId");
-			adAd.setStatus(StringUtils.isNotBlank(materialId) ? AdAd.AdadStatus.STATUS_102.get_status():AdAd.AdadStatus.STATUS_102.get_status());
+			adAd.setStatus(StringUtils.isNotBlank(materialId) ? AdAd.AdadStatus.STATUS_102.getAdStatus():AdAd.AdadStatus.STATUS_102.getAdStatus());
 			adAd.setCreateId(getUsername());
 			adAd.setUpdateId(getUsername());
 			adAdManagerImpl.save(adAd,materialId);
@@ -97,6 +95,28 @@ public class AdAdAction extends BaseAction{
 			Long adId = Long.valueOf(getRequest().getParameter("adId"));
 			String[] materialIds = getRequest().getParameter("materailIds").split(",");
 			adAdMaterialManagerImpl.save(adId,materialIds,getUsername());
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("success",false);
+		}
+		return SUCCESS;
+	}
+
+	/**
+	 * 
+	 * return code：101 删除成功，102，删除失败，投放中广告不能删除
+	 * @return 
+	 */
+	public String deleteAd() {
+		resultMap.put("success",true);
+		try {
+			String[] adId = getRequest().getParameter("id").split(",");
+			try {
+				adAdManagerImpl.remove(adId,getUsername());
+				resultMap.put("code",101);
+			} catch (RuntimeException e) {
+				resultMap.put("code",102);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("success",false);
