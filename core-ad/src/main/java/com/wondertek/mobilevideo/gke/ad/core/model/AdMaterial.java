@@ -8,7 +8,7 @@ import java.util.Date;
 @Table(name = "ad_material")
 public class AdMaterial implements Serializable {
     public enum AdMaterialStatus {
-        // 状态  101:待审核;102:审核成功;103:审核失败;104:待使用;105:使用中;106：已删除
+        /*状态  101:待审核;102:审核成功;103:审核失败;104:待使用;105:使用中;106：已删除*/
         STATUS_101(101), STATUS_102(102),STATUS_103(103), STATUS_104(104), STATUS_105(105),STATUS_106(106);
 
         private final int _status;
@@ -27,10 +27,10 @@ public class AdMaterial implements Serializable {
     private int type;    //素材类型  1:图片;2:文字
     private String clickHref;  // 链接地址
     private int status;  // 状态  101:待审核;102:审核成功;103:审核失败;104:待使用;105:使用中;106：已删除
-    private String createPerson;       //创建者ID
     private Date createTime = new Date();  //创建时间
-    private String updatePerson;   //修改者ID
+    private String createPerson;       //创建者ID
     private Date updateTime = new Date();   //修改时间
+    private String updatePerson;   //修改者ID
 
     public AdMaterial() {
         super();
@@ -83,15 +83,6 @@ public class AdMaterial implements Serializable {
         this.status = status;
     }
 
-    //创建者ID get/set
-    @Column(name = "create_person")
-    public String getCreatePerson() {
-        return createPerson;
-    }
-    public void setCreatePerson(String createPerson) {
-        this.createPerson = createPerson;
-    }
-
     //创建时间 get/set
     @Column(name = "create_time")
     public Date getCreateTime() {
@@ -101,14 +92,15 @@ public class AdMaterial implements Serializable {
         this.createTime = createTime;
     }
 
-    //修改者ID get/set
-    @Column(name = "update_person")
-    public String getUpdatePerson() {
-        return updatePerson;
+    //创建者ID get/set
+    @Column(name = "create_person")
+    public String getCreatePerson() {
+        return createPerson;
     }
-    public void setUpdatePerson(String updatePerson) {
-        this.updatePerson = updatePerson;
+    public void setCreatePerson(String createPerson) {
+        this.createPerson = createPerson;
     }
+
     //修改时间 get/set
     @Column(name = "update_time")
     public Date getUpdateTime() {
@@ -116,6 +108,15 @@ public class AdMaterial implements Serializable {
     }
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    //修改者ID get/set
+    @Column(name = "update_person")
+    public String getUpdatePerson() {
+        return updatePerson;
+    }
+    public void setUpdatePerson(String updatePerson) {
+        this.updatePerson = updatePerson;
     }
 
     @Override

@@ -8,13 +8,13 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
 
-<%--添加素材模块--%>
+<%--新建素材模块--%>
 <div class="modal fade bs-example-modal-sm" tabindex="-1" id="addAdMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="addAdMaterial">添加素材</h4>
+                <h4 class="modal-title" id="addAdMaterial">新建素材</h4>
             </div>
             <div class="modal-body">
                 <form id="add_materialForm">
@@ -38,9 +38,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="add_status" class="control-label">审核状态 :</label>
-                        <input type="text" class="form-control" id="update_status" name="adMaterial.status" value="待审核">
+                        <label for="add_status" class="control-label">状态 :</label>
+                        <input type="text" class="form-control" id="add_status" name="adMaterial.status" value="待审核">
+            </div>
+
+                    <div class="form-group">
+                        <label for="createTime" class="control-label">新建时间 :</label>
+                        <input type="text" class="form-control" readonly="readonly" id="createTime">
+                        <input type="hidden" class="form-control" id="startDate" name="adMaterial.startTime" value="">
+                        <input type="hidden" class="form-control" id="endDate" name="adMaterial.endTime" value="">
                     </div>
+
                 </form>
                 <div class="modal-footer">
                     <button type="button" id="close_addAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -81,9 +89,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="update_status" class="control-label">审核状态 :</label>
+                        <label for="update_status" class="control-label">状态 :</label>
                          <input type="text" class="form-control" id="update_status" name="adMaterial.status">
                     </div>
+
+                    <div class="form-group">
+                        <label for="updateTime" class="control-label">修改时间 :</label>
+                        <input type="text" class="form-control" readonly="readonly" id="updateTime">
+                        <input type="hidden" class="form-control" id="st_date" name="adMaterial.startTime" value="">
+                        <input type="hidden" class="form-control" id="ed_date" name="adMaterial.endTime" value="">
+                    </div>
+
                 </form>
                 <div class="modal-footer">
                     <button type="button" id="close_updateAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -93,53 +109,6 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 </div>
-
-<%--&lt;%&ndash;审核素材模块&ndash;%&gt;
-<div class="modal fade bs-example-modal-sm" tabindex="-1" id="checkAdMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="checkAdMaterial">审核素材</h4>
-            </div>
-            <div class="modal-body">
-                <form id="check_material_Form">
-
-                    <div class="form-group">
-                        <label for="add_adMaterialName" class="control-label">素材名称:</label>
-                        <input type="text" class="form-control" id="check_adMaterialName" name="adMaterial.adMaterialName">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="check_type" class="control-label">素材类型 :</label>
-                        <select class="form-control input-sm" style="margin-left: 5px;" id="check_type" name="adMaterial.type">
-                            <option value="1">图片</option>
-                            <option value="2">文字</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="check_clickHref" class="control-label">链接地址:</label>
-                        <input type="text" class="form-control" id="check_clickHref" name="adMaterial.clickHref">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="check_status" class="control-label">审核状态 :</label>
-                        <select class="form-control input-sm" style="margin-left: 5px;" id="check_status" name="adMaterial.status">
-                            <option value="103">审核失败</option>
-                            <option value="104">待使用</option>
-                        </select>
-                    </div>
-
-                </form>
-                <div class="modal-footer">
-                    <button type="button" id="close_checkAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" id="save_checkAdMaterial" class="btn btn-primary">保存</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-</div>--%>
 
 <%--删除素材模块--%>
 <div class="modal fade bs-example-modal-sm" tabindex="-1" id="deleteadMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
@@ -151,25 +120,6 @@
             </div>
             <div class="modal-body">
                 <form id="delete_material_Form">
-
-                    <%--<div class="form-group">--%>
-                        <%--<label for="delete_adMaterialName" class="control-label">素材名称:</label>--%>
-                        <%--<input type="text" class="form-control" id="delete_adMaterialName" name="adMaterial.adMaterialName">--%>
-                    <%--</div>--%>
-
-                    <%--<div class="form-group">--%>
-                        <%--<label for="delete_type" class="control-label">素材类型 :</label>--%>
-                        <%--<select class="form-control input-sm" style="margin-left: 5px;" id="delete_type" name="adMaterial.type">--%>
-                            <%--<option value="1">图片</option>--%>
-                            <%--<option value="2">文字</option>--%>
-                        <%--</select>--%>
-                    <%--</div>--%>
-
-                    <%--<div class="form-group">--%>
-                        <%--<label for="delete_clickHref" class="control-label">链接地址:</label>--%>
-                        <%--<input type="text" class="form-control" id="delete_clickHref" name="adMaterial.clickHref">--%>
-                    <%--</div>--%>
-
                     <div class="form-group">
                         <label for="delete_status" class="control-label">审核状态 :</label>
                         <select class="form-control input-sm" style="margin-left: 5px;" id="delete_status" name="adMaterial.status">
@@ -305,7 +255,6 @@
         var dateRange = $('#createTime').val().replace(/\s/g, "").split("至");
         var startDate = dateRange[0];
         var endDate = dateRange[1];
-
         jQuery(grid_selector).jqGrid({
             datatype: "json",
             mtype: "post",
@@ -418,7 +367,6 @@
             $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function(){
                 var icon = $(this);
                 var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-
                 if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
             })
         }
@@ -484,7 +432,16 @@
             }).trigger("reloadGrid"); //重新载入
         })
 
-        // 创建素材
+        $("#adm_update").on("click",function () {
+            $('#update_adMaterialName').val("");
+            $('#update_type').val("");
+            $('#update_clickHref').val("");
+            $('#update_status').val("");
+            $('#updateTime').val("");
+            $("#updateAdMaterialModel").modal();
+        });
+
+        /* -------新建素材(start)--------------*/
         $("#adm_create").on("click",function () {
             $("#addAdMaterialModel").modal();/*this id should match above id whlich equaled 'addAdMaterialModel'*/
         });
@@ -519,8 +476,9 @@
                 }
             });
         })
+        /* -------新建素材(end)--------------*/
 
-        // 修改素材
+        /* -------修改素材(start)------------*/
             $("#adm_update").on("click",update);
                 function update() {
                     var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
@@ -531,27 +489,35 @@
                     var codes = [];
                     for (var index in ids){
                         var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                        console.log(rowData[index].status);
-                        if(rowData[index].status == ''){
+                        if(rowData.status == 104){
                             bootbox.alert("没有选择有效记录！");
                             return;
                         }else{
                             codes.push(rowData.id);
                         }
-
                     }
-                    if (codes.length > 0){
+                    for (var index in ids){
+                        var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
+                        $("#update_adMaterialName").val(rowData.adMaterialName);
+                        $("#update_type").val(rowData.type);
+                        $("#update_clickHref").val(rowData.clickHref);
+                        $("#update_status").val(statusFmt(rowData.status));
+                        $("#updateTime").val(rowData.updateTime);
+
+                        switch (rowData.status){
+                            case "待审核":
+                                $("#update_status option[value='101']").attr("selected","selected")
+                                break;
+                        }
+                    }
+/*                    if (codes.length > 0){
                         //js调试
                         //alert(data)   console.log(data)
                         //ajax
                         //请求数据
                         //放到模态框中
                         //$("#maName").val();
-                    }
-//                    var codeStr = '';
-//                    for (var index in codes) {
-//                        codeStr = codeStr + codes[index] + ',';
-//                    }
+                    }*/
 
                 $("#updateAdMaterialModel").modal();/*this id should match above id whlich equaled 'updateAdMaterialModel'*/
             };
@@ -585,51 +551,10 @@
                         alert("修改失败，无法连接服务器!");
                     }
                 });
-            })
-
-
-
-/*        // 审核素材
-        $("#adm_check").on("click",function () {
-            $("#checkAdMaterialModel").modal();
-        });
-
-        $("#save_checkAdMaterial").on("click",function () {
-           /!* if($("#check_adMaterialName").val() == ""){
-                $("#check_adMaterialName").tips({side:2,msg:'此项必填 ',time:3});
-                return false;
             }
-            if($("#check_type").val() == ""){
-                $("#check_type").tips({side:2,msg:'此项必填 ',time:3});
-                return false;
-            }
-            if($("#check_clickHref").val() == ""){
-                $("#check_type").tips({side:2,msg:'此项必填 ',time:3});
-                return false;
-            }*!/
-            if($("#check_status").val() == ""){
-                $("#check_status").tips({side:2,msg:'此项必填 ',time:3});
-                return false;
-            }
-            $.ajax({
-                url:"<c:url value='/json/adMaterial_checkAdMaterial.do'/>",
-                data:$("#add_materialForm").serialize(),
-                type:"post",
-                success:function(data){
-                    $("#checkAdMaterialModel").modal('hide')
-                    $("#search").click();
-                    alert("审核成功!");
-                },error:function(){
-                    alert("审核失败，无法连接服务器!");
-                }
-            });
-        })*/
+        /* -------修改素材(end)------------*/
 
-     /*    //删除素材
-        $("#adm_delete").on("click",function () {
-            $("#deleteadMaterialModel").modal();
-        });
- */
+        /* -------删除素材(start)----------*/
         $("#adm_delete").on("click",deleteAdMaterial);
         function deleteAdMaterial() {
             var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
@@ -655,6 +580,7 @@
                 $("#search").trigger('click');
             });
         }
+        /* -------删除素材(end)----------*/
     });
 </script>
 
