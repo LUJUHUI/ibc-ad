@@ -20,6 +20,11 @@
                 <form id="add_materialForm">
 
                     <div class="form-group">
+                        <label for="add_id" class="control-label" hidden="true"></label>
+                        <input type="hidden" class="form-control" id="add_id" name="adMaterial.adMaterialId" value="素材ID">
+                    </div>
+
+                    <div class="form-group">
                         <label for="add_adMaterialName" class="control-label">素材名称:</label>
                         <input type="text" class="form-control" id="add_adMaterialName" name="adMaterial.adMaterialName">
                     </div>
@@ -43,10 +48,25 @@
             </div>
 
                     <div class="form-group">
-                        <label for="createTime" class="control-label">新建时间 :</label>
-                        <input type="text" class="form-control" readonly="readonly" id="createTime">
-                        <input type="hidden" class="form-control" id="startDate" name="adMaterial.startTime" value="">
-                        <input type="hidden" class="form-control" id="endDate" name="adMaterial.endTime" value="">
+                        <label for="createNewTime" class="control-label">新建时间 :</label>
+                        <input type="text" class="form-control" readonly="readonly" id="createNewTime">
+                        <input type="hidden" class="form-control" id="nst_date" name="adMaterial.startTime" value="">
+                        <input type="hidden" class="form-control" id="ned_date" name="adMaterial.endTime" value="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="add_createPerson" class="control-label" hidden="true"></label>
+                        <input type="hidden" class="form-control" id="add_createPerson" name="adMaterial.createPerson">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="add_updateTime" class="control-label" hidden="true"></label>
+                        <input type="hidden" class="form-control" id="add_updateTime" name="adMaterial.updateTime" >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="add_updatePerson" class="control-label" hidden="true"></label>
+                        <input type="hidden" class="form-control" id="add_updatePerson" name="adMaterial.updatePerson">
                     </div>
 
                 </form>
@@ -71,6 +91,11 @@
                 <form id="update_materialForm">
 
                     <div class="form-group">
+                        <label for="update_id" class="control-label" hidden="true"></label>
+                        <input type="hidden" class="form-control" id="update_id" name="adMaterial.adMaterialId" value="素材ID">
+                    </div>
+
+                    <div class="form-group">
                         <label for="update_adMaterialName" class="control-label">素材名称:</label>
                         <input type="text" class="form-control" id="update_adMaterialName" name="adMaterial.adMaterialName">
                     </div>
@@ -89,8 +114,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="update_status" class="control-label">状态 :</label>
-                         <input type="text" class="form-control" id="update_status" name="adMaterial.status">
+                        <label for="update_status" class="control-label" hidden="true"></label>
+                        <input type="hidden" class="form-control" id="update_status" name="adMaterial.status" value="素材状态">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="update_createTime" class="control-label" hidden="true"></label>
+                        <input type="hidden" class="form-control" id="update_createTime" name="adMaterial.createTime" >
+                    </div>
+                    <div class="form-group">
+                        <label for="update_createPerson" class="control-label" hidden="true"></label>
+                        <input type="hidden" class="form-control" id="update_createPerson" name="adMaterial.createPerson">
                     </div>
 
                     <div class="form-group">
@@ -98,6 +132,11 @@
                         <input type="text" class="form-control" readonly="readonly" id="updateTime">
                         <input type="hidden" class="form-control" id="st_date" name="adMaterial.startTime" value="">
                         <input type="hidden" class="form-control" id="ed_date" name="adMaterial.endTime" value="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="update_updatePerson" class="control-label" hidden="true"></label>
+                        <input type="hidden" class="form-control" id="update_updatePerson" name="adMaterial.updatePerson">
                     </div>
 
                 </form>
@@ -274,9 +313,9 @@
                 '<fmt:message key="ad.material.clickHref"/>',
                 '<fmt:message key="ad.material.status"/>',
                 '<fmt:message key="ad.material.createTime"/>',
-                '<fmt:message key="ad.material.createId"/>',
+                '<fmt:message key="ad.material.createPerson"/>',
                 '<fmt:message key="ad.material.updateTime"/>',
-                '<fmt:message key="ad.material.updateId"/>'
+                '<fmt:message key="ad.material.updatePreson"/>'
             ],
             colModel:[
                 {name:'id',index:'id', width : 80,align:'center', sortable : true,hidden:true},
@@ -285,9 +324,9 @@
                 {name : 'clickHref', index : 'clickHref', width : 280, align:'center', sortable : true},
                 {name : 'status', index : 'status', width : 108, align:'center', sortable : false,formatter:statusFmt},
                 {name : 'createTime', index : 'createTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'createId', index : 'createId', width : 100, align:'center', sortable : true},
+                {name : 'createPerson', index : 'createPerson', width : 100, align:'center', sortable : true},
                 {name : 'updateTime', index : 'updateTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'updateId', index : 'updateId', width : 100, align:'center', sortable : true},
+                {name : 'updatePerson', index : 'updatePerson', width : 100, align:'center', sortable : true},
             ],
             shrinkToFit : false,
             hidegrid : false,
@@ -310,7 +349,6 @@
                 var table = this;
                 setTimeout(function(){
                     styleCheckbox(table);
-
                     updateActionIcons(table);
                     updatePagerIcons(table);
                     enableTooltips(table);
@@ -431,18 +469,17 @@
                 mtype : "post"
             }).trigger("reloadGrid"); //重新载入
         })
-
-        $("#adm_update").on("click",function () {
-            $('#update_adMaterialName').val("");
-            $('#update_type').val("");
-            $('#update_clickHref').val("");
-            $('#update_status').val("");
-            $('#updateTime').val("");
-            $("#updateAdMaterialModel").modal();
-        });
-
         /* -------新建素材(start)--------------*/
         $("#adm_create").on("click",function () {
+            $("#add_id").val("");
+            $("#add_adMaterialName").val("");
+            $("#add_type").val("");
+            $("#add_clickHref").val("");
+            $("#add_status").val("");
+            $("#add_createTime").val("");
+            $("#add_createPerson").val("");
+            $("#add_createTime").val("");
+            $("#add_updatePerson").val("");
             $("#addAdMaterialModel").modal();/*this id should match above id whlich equaled 'addAdMaterialModel'*/
         });
 
@@ -498,22 +535,22 @@
                     }
                     for (var index in ids){
                         var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                        $("#update_adMaterialName").val(rowData.adMaterialName);
+
+                        $("#update_id").val(rowData.id);
+                        $("#update_adMaterialName").val(rowData.materialName);
                         $("#update_type").val(rowData.type);
                         $("#update_clickHref").val(rowData.clickHref);
-                        $("#update_status").val(statusFmt(rowData.status));
-                        $("#updateTime").val(rowData.updateTime);
-
-                        switch (rowData.status){
-                            case "待审核":
-                                $("#update_status option[value='101']").attr("selected","selected")
-                                break;
-                        }
+                        $("#update_status").val(rowData.status);
+                        $("#update_createTime").val(rowData.createTime);
+                        $("#update_createPerson").val(rowData.createPerson);
+                        $("#update_createTime").val(rowData.updateTime);
+                        $("#update_updatePerson").val(rowData.updatePerson);
                     }
                 $("#updateAdMaterialModel").modal();/*this id should match above id whlich equaled 'updateAdMaterialModel'*/
             };
         /*this id:'save_updateAdMaterial' should match above id which button named 'save'*/
         $("#save_updateAdMaterial").on("click",function() {
+            alert("tt")
                 if ($("#update_adMaterialName").val() == "") {
                     $("#update_adMaterialName").tips({side: 2, msg: '此项必填 ', time: 3});
                     return false;

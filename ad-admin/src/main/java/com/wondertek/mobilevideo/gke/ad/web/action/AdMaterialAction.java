@@ -49,6 +49,7 @@ public class AdMaterialAction extends BaseAction {
     //    修改
     public String updateAdMaterial() {
         try {
+            adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_101.get_status());
             adMaterialMangerImpl.saveOrUpdate(adMaterial);
             resultMap.put("success",true);
         } catch (Exception e) {
@@ -105,7 +106,7 @@ public class AdMaterialAction extends BaseAction {
         this.adMaterial = adMaterial;
     }
 
-    public void setParams(Map<String, Object> params) {
-        this.params = params;
+    public void getAdMaterial(AdMaterial adMaterial) {
+        this.adMaterial = adMaterial;
     }
 }
