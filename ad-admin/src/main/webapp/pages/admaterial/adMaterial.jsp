@@ -510,15 +510,6 @@
                                 break;
                         }
                     }
-/*                    if (codes.length > 0){
-                        //js调试
-                        //alert(data)   console.log(data)
-                        //ajax
-                        //请求数据
-                        //放到模态框中
-                        //$("#maName").val();
-                    }*/
-
                 $("#updateAdMaterialModel").modal();/*this id should match above id whlich equaled 'updateAdMaterialModel'*/
             };
         /*this id:'save_updateAdMaterial' should match above id which button named 'save'*/
@@ -551,7 +542,7 @@
                         alert("修改失败，无法连接服务器!");
                     }
                 });
-            }
+            })
         /* -------修改素材(end)------------*/
 
         /* -------删除素材(start)----------*/
