@@ -75,5 +75,11 @@
             </result>
         </action>
 
+        <action name="adMaterial_*" class="com.wondertek.mobilevideo.gke.ad.web.action.AdMaterialAction" method="{1}">
+            <result type="json">
+                <param name="root">resultMap</param>
+            </result>
+        </action>
+
     </package>
 </struts>

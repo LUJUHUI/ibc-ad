@@ -39,9 +39,7 @@
 
                     <div class="form-group">
                         <label for="add_status" class="control-label">审核状态 :</label>
-                        <select class="form-control input-sm" style="margin-left: 5px;" id="add_status" name="adMaterial.status">
-                            <option value="101">待审核</option>
-                        </select>
+                        <input type="text" class="form-control" id="update_status" name="adMaterial.status" value="待审核">
                     </div>
                 </form>
                 <div class="modal-footer">
@@ -84,11 +82,8 @@
 
                     <div class="form-group">
                         <label for="update_status" class="control-label">审核状态 :</label>
-                        <select class="form-control input-sm" style="margin-left: 5px;" id="update_status" name="adMaterial.status">
-                            <option value="101">待审核</option>
-                        </select>
+                         <input type="text" class="form-control" id="update_status" name="adMaterial.status">
                     </div>
-
                 </form>
                 <div class="modal-footer">
                     <button type="button" id="close_updateAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -335,7 +330,7 @@
                 '<fmt:message key="ad.material.updateId"/>'
             ],
             colModel:[
-                {name:'id',index:'id', width : 80,align:'center', sortable : true},
+                {name:'id',index:'id', width : 80,align:'center', sortable : true,hidden:true},
                 {name: 'materialName',index: 'materialName', width : 300, align:'center', sortable : true},
                 {name : 'type', index : 'type', width : 270, align:'center', sortable : true},
                 {name : 'clickHref', index : 'clickHref', width : 280, align:'center', sortable : true},
@@ -361,12 +356,6 @@
                 repeatitems : true
             },
             caption: '<fmt:message key="ad.material" />',
-            <cas:havePerm url="/ad.material.do">
-            ondblClickRow : function (rowid, iRow, iCol, e) {
-                openMainPage('<c:url value="/pages/admaterial/adMaterial.jsp"/>', {"id": rowid}, function () {
-                });
-            },
-            </cas:havePerm>
             toolbar: [true,'top'],
             loadComplete : function(data) {
                 var table = this;
@@ -625,12 +614,12 @@
             });
         })*/
 
-        //删除素材
+     /*    //删除素材
         $("#adm_delete").on("click",function () {
             $("#deleteadMaterialModel").modal();
         });
-
-        $("#save_deleteAdMaterial").on("click",deleteAdMaterial);
+ */
+        $("#adm_delete").on("click",deleteAdMaterial);
         function deleteAdMaterial() {
             var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
             if (ids.length == 0){
@@ -650,7 +639,7 @@
             for (var index in codes){
                 codeStr =codeStr + codes[index] + ',';
             }
-            $.post('<c:url value="/json/adSlot_delateAdMaterial.do"/>', {"id": codeStr.substring(0, codeStr.length-1)}, function (result) {
+            $.post('<c:url value="/json/adMaterial_delateAdMaterial.do"/>', {"materialIds": codeStr.substring(0, codeStr.length-1)}, function (result) {
                 bootbox.alert("操作成功！");
                 $("#search").trigger('click');
             });

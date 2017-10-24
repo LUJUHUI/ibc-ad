@@ -7,6 +7,7 @@ import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,9 +15,9 @@ public class AdMaterialAction extends BaseAction {
 
     @Autowired
     private AdMaterialManger adMaterialMangerImpl;
+    
     private AdMaterial adMaterial;
     private Map<String, Object> params = new HashMap<String,Object>();
-
     //    查询
     public String getAdMaterial(){
         getParams();
@@ -31,10 +32,11 @@ public class AdMaterialAction extends BaseAction {
         resultMap.put("pageCount", pageList.getPageCount());
         return SUCCESS;
     }
-
     //     增加
     public String addAdMaterial() {
         try {
+        	adMaterial.setCreatePerson(getUsername());
+        	adMaterial.setCreateTime(new Date());
             adMaterialMangerImpl.save(adMaterial);
             resultMap.put("success",true);
         } catch (Exception e) {
@@ -55,32 +57,15 @@ public class AdMaterialAction extends BaseAction {
         }
         return SUCCESS;
     }
-
-    //    审核
-   /* public String checkAdMaterial() {
-        try {
-            adMaterialMangerImpl.saveOrUpdate(adMaterial);
-            resultMap.put("success",true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            resultMap.put("success",false);
-        }
-        return SUCCESS;
-    }
-*/
     //    删除
     public String delateAdMaterial() {
         try {
-            String materialId = getRequest().getParameter("materialId");
-            String[] ids = materialId.split(",");
+        	String[] ids = getRequest().getParameter("materialIds").split(",");
             for (String adMaterialId: ids) {
-                if(adMaterialId.equals(adMaterialId)){
-                    return adMaterialId;
-                }
+            	AdMaterial material = adMaterialMangerImpl.get(Integer.parseInt(adMaterialId));
+            	material.setStatus(106);
+                adMaterialMangerImpl.saveOrUpdate(material);
             }
-//            adMaterial.getId();
-//            adMaterial.getALREADY_DELETED_STATUS();
-            adMaterialMangerImpl.saveOrUpdate(adMaterial);
             resultMap.put("success",true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,14 +99,6 @@ public class AdMaterialAction extends BaseAction {
             params.put("createTime_endTime",DateUtil.parseDate(DateUtil.DATE_YYYY_MM_DD_PATTERN,endDate) );
         }
 
-    }
-
-    public AdMaterialManger getAdMaterialMangerImpl() {
-        return adMaterialMangerImpl;
-    }
-
-    public void setAdMaterialMangerImpl(AdMaterialManger adMaterialMangerImpl) {
-        this.adMaterialMangerImpl = adMaterialMangerImpl;
     }
 
     public void setAdMaterial(AdMaterial adMaterial) {
