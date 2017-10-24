@@ -15,7 +15,7 @@
             <fmt:message key="ad.log"/>
         </li> 
         <li class="active">
-            <span><fmt:message key="ad.log"/></span>
+            <span><fmt:message key="ad.log.check"/></span>
         </li>
     </ul>
     <!-- /.breadcrumb -->

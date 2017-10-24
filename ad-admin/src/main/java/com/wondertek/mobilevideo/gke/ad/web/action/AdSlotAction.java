@@ -64,7 +64,7 @@ public class AdSlotAction extends BaseAction {
 	
 	public String addAdSlot() {
 		try {
-			adSlot.setStatus("101");
+			adSlot.setStatus(AdSlot.AdSlotStatus.STATUS_101.get_status());
 			adSlot.setCreateTime(new Date());
 			adSlot.setCreatePeople(getUsername());
 			adSlotManagerImpl.save(adSlot);
@@ -79,6 +79,7 @@ public class AdSlotAction extends BaseAction {
 		try {
 			adSlot.setUpdatePeople(getUsername());
 			adSlot.setUpdateTime(new Date());
+			adSlot.setStatus(AdSlot.AdSlotStatus.STATUS_101.get_status());
 			adSlotManagerImpl.saveOrUpdate(adSlot);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,7 +93,7 @@ public class AdSlotAction extends BaseAction {
 		String [] str =getRequest().getParameter("deleteIds").split(",");
 		for (String slotId : str) {
 			AdSlot slot = adSlotManagerImpl.get(Integer.parseInt(slotId));
-			slot.setStatus("105");
+			slot.setStatus(AdSlot.AdSlotStatus.STATUS_105.get_status());
 			slot.setUpdateTime(new Date());
 			adSlotManagerImpl.saveOrUpdate(slot);
 		}	
@@ -108,7 +109,7 @@ public class AdSlotAction extends BaseAction {
 		String [] str =getRequest().getParameter("useIds").split(",");
 		for (String slotId : str) {
 			AdSlot slot = adSlotManagerImpl.get(Integer.parseInt(slotId));
-			slot.setStatus("101");
+			slot.setStatus(AdSlot.AdSlotStatus.STATUS_101.get_status());
 			slot.setUpdateTime(new Date());
 			adSlotManagerImpl.saveOrUpdate(slot);
 		}	

@@ -110,7 +110,7 @@
                     <cas:havePerm url="/json/bestvContent_beanList.do">
                         <li>
                             <a href="#" menu-url="<c:url value='/pages/log/adLog.jsp' />">
-                                <fmt:message key="ad.log" />
+                                <fmt:message key="ad.log.check" />
                             </a>
                             <b class="arrow"></b>
                         </li>

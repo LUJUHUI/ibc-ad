@@ -13,6 +13,21 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ad_slot")//广告位
 public class AdSlot {
+	
+
+	    public enum AdSlotStatus {
+	        STATUS_101(101), STATUS_102(102),STATUS_103(103), STATUS_104(104), STATUS_105(105);
+	        
+	        private final int _status;
+	
+	        private AdSlotStatus(int _status) {
+	            this._status = _status;
+	        }
+	
+	        public int get_status() {
+	            return _status;
+	        }
+	    }
 		private static final long serialVersionUID = 467620661858607767L;
 		
 		private int id;                          //广告位Id
@@ -22,7 +37,7 @@ public class AdSlot {
 		private Integer type;					 //广告位类型 1.1：开机广告位  	2：频道广告位，漂浮形式存在 3：导航广告位，弹窗形式存在
 		private Integer width;					 //广告位宽度
 		private Integer height;					 //广告位高度
-		private String status;					 //广告位状态  101 待审核、102 待使用、103使用中、104 审核失败、105 删除 
+		private Integer status;					 //广告位状态  101 待审核、102 待使用、103使用中、104 审核失败、105 删除 
 		private String remark;					 //备注
 		private Date createTime;				 //创建时间
 		private String createPeople;				 //创建人
@@ -81,10 +96,10 @@ public class AdSlot {
 			this.height = height;
 		}
 		@Column(name = "status_")
-		public String getStatus() {
+		public Integer getStatus() {
 			return status;
 		}
-		public void setStatus(String status) {
+		public void setStatus(Integer status) {
 			this.status = status;
 		}
 		@Column(name = "remark_")
