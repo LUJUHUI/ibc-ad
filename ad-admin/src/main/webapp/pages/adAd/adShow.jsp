@@ -15,46 +15,28 @@
                         <input type="text" class="form-control" id="add_adName" name="adAd.adName">
                     </div>
                     <div class="form-group">
-                        <label for="add_startTime" class="control-label">投放时间 :</label>
-                        <input type="text" class="form-control" id="add_startTime">
+                        <label for="add_startTime"  class="control-label">投放时间 :</label>
+                        <input type="text" class="form-control" readonly="readonly" id="add_startTime">
                         <input type="hidden" class="form-control" id="add_st" name="adAd.startTime" value="">
                         <input type="hidden" class="form-control" id="add_et" name="adAd.endTime" value="">
                     </div>
                     <div class="form-group">
                         <label for="add_soltId" class="control-label">投放位置 :</label>
                         <select class="form-control input-sm" style="margin-left: 5px;" id="add_soltId" name="adAd.soltId">
-                            <option value="">请选择</option>
-                            <option value="1">Alabama</option>
-                            <option value="2">Alaska</option>
-                            <option value="3">Arizona</option>
-                            <option value="4">Arkansas</option>
-                            <option value="6">California</option>
-                            <option value="7">Colorado</option>
-                            <option value="8">Connecticut</option>
-                            <option value="9">Delaware</option>
-                            <option value="10">Florida</option>
-                            <option value="11">Georgia</option>
-                            <option value="12">Hawaii</option>
-                            <option value="13">Idaho</option>
+                            <option value="" selected="selected">请选择广告位</option>
+                           
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="add_material" class="control-label">使用素材 :</label>
-                        <select class="form-control input-sm" style="margin-left: 5px;" id="add_material" name="adAd.materialId">
-                            <option value="">请选择</option>
-                            <option value="AL">Alabama</option>
-                            <option value="AK">Alaska</option>
-                            <option value="AZ">Arizona</option>
-                            <option value="AR">Arkansas</option>
-                            <option value="CA">California</option>
-                            <option value="CO">Colorado</option>
-                            <option value="CT">Connecticut</option>
-                            <option value="DE">Delaware</option>
-                            <option value="FL">Florida</option>
-                            <option value="GA">Georgia</option>
-                            <option value="HI">Hawaii</option>
-                            <option value="ID">Idaho</option>
+                        <select class="form-control input-sm" style="margin-left: 5px;" id="add_material" name="materialId">
+                            <option value="" selected="selected">请选择素材</option>
+                           
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="add_remark" class="control-label">备注 :</label>
+                        <textarea id="add_remark" class="form-control" name="adAd.remark"></textarea>
                     </div>
                 </form>
                 <div class="modal-footer">
@@ -139,7 +121,27 @@
 <script type="text/javascript">
 
     jQuery(function($) {
-       
+       $.get("<c:url value='/json/adad_getAdSlot.do'/>",function (result) {
+           console.log(result)
+           var soltStr = '';
+           $(result.root).each(function (index,items) {
+               soltStr+= '<option value="'+items.id+'">'+items.slotName+'</option>';
+           });
+           console.log(soltStr);
+           $("#add_soltId").append(soltStr);
+          
+       });
+
+        $.get("<c:url value='/json/adad_getAdMaterial.do'/>",function (result) {
+            console.log(result)
+            var soltStr = '';
+            $(result.root).each(function (index,items) {
+                soltStr+= '<option value="'+items.id+'">'+items.materialName+'</option>';
+            });
+            console.log(soltStr);
+            $("#add_material").append(soltStr);
+
+        });
         //$('.chosen-select').chosen({allow_single_deselect:true});
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
@@ -173,16 +175,16 @@
             //alert(label);
         });
         $('#add_startTime').daterangepicker({
-            startDate: moment().subtract('days', 30),
+            startDate: moment().subtract('days', 0),
             endDate: moment().subtract('days', 0),
             timePicker: true,
             timePickerIncrement : 5, // 时间的增量，单位为分钟
-            timePicker24Hour : true, // 是否使用12小时制来显   示时间
+            timePicker24Hour : true, // 是否使用12小时制来显示时间
             locale: {
-                format: 'YYYY-MM-DD h:mm'
+                format: 'YYYY-MM-DD HH:mm'
             }
         }, function(start, end, label) {//时间改变后执行该方法
-            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+            //console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
         });
         var startTime = $('#startTime').val().replace(/\s/g, "").split("至");
         var startDate = startTime[0];
@@ -239,6 +241,12 @@
                 repeatitems : true
             },
             caption: '<fmt:message key="ad.ad.list" />',
+            <cas:havePerm url="/bestvContent_loadDetailPage.do">
+            ondblClickRow : function (rowid, iRow, iCol, e) {
+                openMainPage('<c:url value="/pages/adAd/adAddMaterial.jsp"/>', {"id": rowid}, function () {
+                });
+            },
+            </cas:havePerm>
             toolbar: [true,'top'],
             loadComplete : function(data) {
                 var table = this;
@@ -316,18 +324,24 @@
         });
 
         function statusFmt(cellvalue, options, rowObject){
+            console.log(cellvalue)
             var result="";
             switch (cellvalue){
                 case 101:
                     result='草稿';
+                    break;
                 case 102:
                     result = '待投放';
+                    break;
                 case 103:
                     result = '投放中';
+                    break;
                 case 104:
                     result = '投放完成';
+                    break;
                 case 105:
                     result = '已删除';
+                    break;
             }
             return result;
         }
@@ -358,14 +372,12 @@
         })
         $("#add").on("click",function () {
             $("#addAdModel").modal();
-            <%--openMainPage('<c:url value="/pages/adAd/adAddForm.jsp"/>', {"id": "addAd"}, function () {--%>
+            <%--openMainPage('<c:url value="/pages/adAd/adAddMaterial.jsp"/>', {"id": "addAd"}, function () {--%>
             <%--});--%>
         });
 
         $("#save_adad").on("click",function () {
-            var st = $('#add_startTime').val().replace(/\s/g, "").split("至");
-            $("#add_st").val(formatDate(st[0]));
-            $("#add_et").val(formatDate(st[1]));
+            
             var adName = $("#add_adName").val();
             if(adName == null || adName == ''){
                 $("#add_adName").tips({side:2,msg:'此项必填 ',time:3});
@@ -375,6 +387,9 @@
                 $("#add_soltId").tips({side:2,msg:'请选择广告位 ',time:3});
                 return false;
             }
+            var st = $('#add_startTime').val().replace(/\s/g, "").split("至");
+            $("#add_st").val(formatDate(st[0]));
+            $("#add_et").val(formatDate(st[1]));
             $.ajax({
                 url:"<c:url value='/json/adad_save.do'/>",
                 data:$("#add_adadForm").serialize(),
@@ -389,8 +404,31 @@
 
         })
         
+        $("#addAdModel").on("hidden.bs.modal",function () {
+            $("#add_adadForm")[0].reset();
+        })
+        
+        $("#addAdMaterial").on("click",function () {
+            var row = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
+            if (row.length == 0){
+                bootbox.alert("请选择要操作的记录！");
+                return;
+            }
+            if(row.length > 1){
+                bootbox.alert("请最多选择一条记录！");
+                return;
+            }
+            var materailIds = [];
+            $.each(row,function (index,items) {
+                materailIds.push(items);
+            })
+            var rowData = $("#grid-table").jqGrid('getRowData', row);
+            openMainPage('<c:url value="/pages/adAd/adAddMaterial.jsp"/>', {"id": rowData.id}, function () {
+            });
+        });
+        
         function formatDate(str) {
-            return str.substr(0, 10) + " " + str.substr(10, str.length);
+            return str.substr(0, 10) + " " + str.substr(10, str.length)+":00";
         }
        
     });

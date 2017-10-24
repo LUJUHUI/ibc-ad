@@ -8,3 +8,5 @@ import com.wondertek.mobilevideo.gke.ad.core.model.AdSlot;
  */
 public interface AdAdDao extends GenericDao<AdAd, Long>{
 }
+
+

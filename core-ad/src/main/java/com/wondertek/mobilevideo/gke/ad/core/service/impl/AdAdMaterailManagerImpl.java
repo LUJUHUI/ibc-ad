@@ -2,10 +2,12 @@ package com.wondertek.mobilevideo.gke.ad.core.service.impl;
 
 import com.wondertek.mobilevideo.gke.ad.core.dao.AdAdDao;
 import com.wondertek.mobilevideo.gke.ad.core.dao.AdAdMaterialDao;
+import com.wondertek.mobilevideo.gke.ad.core.dao.GenericDao;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdAd;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdAdMaterial;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterial;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdAdManager;
+import com.wondertek.mobilevideo.gke.ad.core.service.AdAdMaterialManager;
 import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,30 +18,21 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AdAdManagerImpl extends  GenericManagerImpl<AdAd, Long> implements AdAdManager {
+public class AdAdMaterailManagerImpl extends  GenericManagerImpl<AdAdMaterial, Long> implements AdAdMaterialManager {
     
-	@Autowired
-	private AdAdDao adAdDao;
 	@Autowired
 	private AdAdMaterialDao adAdMaterialDao;
 	
-	
 	@Autowired
-	public AdAdManagerImpl(AdAdDao adAdDao) {
-		super(adAdDao);
-		this.adAdDao = adAdDao;
+	public AdAdMaterailManagerImpl(AdAdMaterialDao adAdMaterialDao) {
+		super(adAdMaterialDao);
+		this.adAdMaterialDao = adAdMaterialDao;
 	}
 
-
 	@Transient
-	public AdAd save(AdAd object, String materialId) {
-		object = adAdDao.save(object);
-		AdAdMaterial adAdMaterial = new AdAdMaterial();
-		adAdMaterial.setAdId(object);
-		adAdMaterial.setMaterialId(new AdMaterial(Integer.parseInt(materialId)));
-		adAdMaterial.setCreateId(object.getCreateId());
-		adAdMaterial.setUpdateId(object.getUpdateId());
-		adAdMaterialDao.save(adAdMaterial);
-		return object;
+	public void save(Long adId, String[] materialIds,String userName) {
+		for (String mId : materialIds) {
+			save(new AdAdMaterial(new AdAd(adId), new AdMaterial(), userName, userName));
+		}
 	}
 }
