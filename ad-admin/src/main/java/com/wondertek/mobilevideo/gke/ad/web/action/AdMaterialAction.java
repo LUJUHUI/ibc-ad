@@ -7,9 +7,8 @@ import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.math.BigInteger;
+import java.util.*;
 
 public class AdMaterialAction extends BaseAction {
 
@@ -96,11 +95,17 @@ public class AdMaterialAction extends BaseAction {
         }
         String beginDate = getRequest().getParameter("beginDate");
         if (StringUtils.isNotBlank(beginDate)) {
-            params.put("createTime_beginTime",DateUtil.parseDate(DateUtil.DATE_YYYY_MM_DD_PATTERN,beginDate) );
+            params.put("createTime_beginTime",DateUtil.parseDate(DateUtil.DATE_TIME_PATTERN,beginDate) );
         }
         String endDate = getRequest().getParameter("endDate");
         if (StringUtils.isNotBlank(endDate)) {
-            params.put("createTime_endTime",DateUtil.parseDate(DateUtil.DATE_YYYY_MM_DD_PATTERN,endDate) );
+            params.put("createTime_endTime",DateUtil.parseDate(DateUtil.DATE_TIME_PATTERN,endDate) );
+        }
+        String status_notIn = getRequest().getParameter("status_not");
+        if (StringUtils.isNotBlank(status_notIn)) {
+            List<Integer> list = new ArrayList<Integer>();
+            list.add(new Integer(status_notIn));
+            params.put("status_notIn",list);
         }
 
     }

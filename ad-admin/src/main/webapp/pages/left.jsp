@@ -67,32 +67,73 @@
             </li>
         </cas:havePerm>
 
-        <cas:havePerm url="/audit.do">
+        <cas:havePerm url="/verify.do">
             <li class="">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa  fa-pencil"></i>
-                    <span class="menu-text"> <fmt:message key="ad.audit" /> </span>
-                
+                    <span class="menu-text"> <fmt:message key="ad.verify" /> </span>
                     <b class="arrow fa fa-angle-down"></b>
                 </a>
             
                 <b class="arrow"></b>
                 
-                    <%--<ul class="submenu">--%>
-                    <%--<cas:havePerm url="/json/bestvContent_beanList.do">--%>
-                    <%--<li>--%>
-                    <%--<a href="#" menu-url="<c:url value='/pages/contentShow/bestvContentShow.jsp' />">--%>
-                    <%--<fmt:message key="ad.slot.open" />--%>
-                    <%--</a>--%>
-                    <%----%>
-                    <%--<b class="arrow"></b>--%>
-                    <%--</li>--%>
-                    <%--<c:if test="${empty mainIndex}">--%>
-                    <%--<c:set var="mainIndex"--%>
-                    <%--value="/pages/contentShow/bestvContentShow.jsp" scope="session"></c:set>--%>
-                    <%--</c:if>--%>
-                    <%--</cas:havePerm>--%>
-                    <%--</ul>--%>
+                <ul class="submenu">
+                    <cas:havePerm url="/json/verify_wait.do">
+                    <li>
+                        <a href="#" class="dropdown-toggle">
+                            <span class="menu-text"> <fmt:message key="ad.verify.wait" /> </span>
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <b class="arrow"></b>
+                        <ul class="submenu">
+                            <cas:havePerm url="/json/verify_wait_slot.do">
+                                <li>
+                                    <a href="#" menu-url="<c:url value='/pages/verify/adSlotVerify.jsp?status=101' />" class="dropdown-toggle">
+                                    <span class="menu-text"> <fmt:message key="ad.verify.wait.slot" /> </span>
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                            </cas:havePerm>
+                            <cas:havePerm url="/json/verify_wait_material.do">
+                                <li>
+                                    <a href="#" menu-url="<c:url value='/pages/verify/adMaterialVerify.jsp?status=101' />" class="dropdown-toggle">
+                                        <span class="menu-text"> <fmt:message key="ad.verify.wait.material" /> </span>
+                                    </a>
+                                    <b class="arrow"></b>
+                                </li>
+                            </cas:havePerm>
+                        </ul>
+                    </li>
+                    </cas:havePerm>
+    
+                    <cas:havePerm url="/json/verify_already.do">
+                        <li>
+                            <a href="#" class="dropdown-toggle">
+                                <span class="menu-text"> <fmt:message key="ad.verify.already" /> </span>
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+                            <ul class="submenu">
+                                <cas:havePerm url="/json/verify_already_slot.do">
+                                    <li>
+                                        <a href="#" menu-url="<c:url value='/pages/verify/adSlotVerify.jsp?status=0' />" class="dropdown-toggle">
+                                            <span class="menu-text"> <fmt:message key="ad.verify.already.slot" /> </span>
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                </cas:havePerm>
+                                <cas:havePerm url="/json/verify_already_material.do">
+                                    <li>
+                                        <a href="#" menu-url="<c:url value='/pages/verify/adMaterialVerify.jsp?status=0' />" class="dropdown-toggle">
+                                            <span class="menu-text"> <fmt:message key="ad.verify.already.material" /> </span>
+                                        </a>
+                                        <b class="arrow"></b>
+                                    </li>
+                                </cas:havePerm>
+                            </ul>
+                        </li>
+                    </cas:havePerm>
+                </ul>
             </li>
         </cas:havePerm>
         

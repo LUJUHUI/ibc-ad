@@ -197,8 +197,8 @@
             postData: {
                 status:$("#status").val(),
                 adName:$("#adName").val(),
-                startTime: startDate,
-                endTime: endDate
+                startTime: startDate + " 00:00:00",
+                endTime: endDate + " 23:59:59"
             },
             height: 560,
             colNames:[
@@ -362,8 +362,8 @@
                 postData : {
                     status:$("#status").val(),
                     adName:$("#adName").val(),
-                    startTime: startDate,
-                    endTime: endDate
+                    startTime: startDate + " 00:00:00",
+                    endTime: endDate + " 23:59:59"
                 },
                 page : 1,
                 datatype: "json",
@@ -425,6 +425,37 @@
             var rowData = $("#grid-table").jqGrid('getRowData', row);
             openMainPage('<c:url value="/pages/adAd/adAddMaterial.jsp"/>', {"id": rowData.id}, function () {
             });
+        });
+
+        $("#remove").on("click", function () {
+            var row = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
+            if (row.length == 0){
+                bootbox.alert("请选择要操作的记录！");
+                return;
+            }
+            var materailIds = [];
+            $.each(row,function (index,items) {
+                if(row[index].status == 103){
+                    bootbox.alert('"'+row[index].name+'"处于投放中，不能删除！');
+                    return;
+                }else{
+                    materailIds.push(items);
+                }
+            });
+            $.post("<c:url value='/json/adad_deleteAd.do'/>",{id:materailIds.join(",")},function (response) {
+                console.log(response);
+                if(response.success == true && response.code == 101){
+                    bootbox.alert('操作成功！');
+                    $("#search").click();
+                    return;
+                }else if (response.success == true && response.code == 102){
+                    bootbox.alert('删除失败，操作记录中有处于“投放中”状态，不能删除 ！');
+                    return;
+                }else{
+                    bootbox.alert('删除失败，系统发生异常，请刷新页面后重试 ！');
+                    return;
+                }
+            })
         });
         
         function formatDate(str) {

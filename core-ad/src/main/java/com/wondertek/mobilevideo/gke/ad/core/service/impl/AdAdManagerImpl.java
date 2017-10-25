@@ -7,11 +7,13 @@ import com.wondertek.mobilevideo.gke.ad.core.model.AdAdMaterial;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterial;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdAdManager;
 import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Transient;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,13 +35,20 @@ public class AdAdManagerImpl extends  GenericManagerImpl<AdAd, Long> implements 
 
 	@Transient
 	public AdAd save(AdAd object, String materialId) {
-		object = adAdDao.save(object);
-		AdAdMaterial adAdMaterial = new AdAdMaterial();
-		adAdMaterial.setAdId(object);
-		adAdMaterial.setMaterialId(new AdMaterial(Integer.parseInt(materialId)));
-		adAdMaterial.setCreateId(object.getCreateId());
-		adAdMaterial.setUpdateId(object.getUpdateId());
-		adAdMaterialDao.save(adAdMaterial);
+        Date date = new Date();
+        object.setCreateTime(date);
+        object.setUpdateTime(date);
+        object = adAdDao.save(object);
+        if (StringUtils.isNotBlank(materialId)) {
+            AdAdMaterial adAdMaterial = new AdAdMaterial();
+            adAdMaterial.setAdId(object);
+            adAdMaterial.setMaterialId(new AdMaterial(Integer.parseInt(materialId)));
+            adAdMaterial.setCreateId(object.getCreateId());
+            adAdMaterial.setUpdateId(object.getUpdateId());
+            adAdMaterial.setCreateTime(date);
+            adAdMaterial.setUpdateTime(date);
+            adAdMaterialDao.save(adAdMaterial);
+        }
 		return object;
 	}
 
@@ -49,6 +58,7 @@ public class AdAdManagerImpl extends  GenericManagerImpl<AdAd, Long> implements 
 			AdAd adAd = adAdDao.get(Long.valueOf(id));
 			if (AdAd.AdadStatus.STATUS_103.getAdStatus() != adAd.getStatus()) {
 				adAd.setStatus(AdAd.AdadStatus.STATUS_105.getAdStatus());
+				adAd.setUpdateTime(new Date());
 				adAdDao.saveOrUpdate(adAd);
 			}else{
 				throw new RuntimeException();

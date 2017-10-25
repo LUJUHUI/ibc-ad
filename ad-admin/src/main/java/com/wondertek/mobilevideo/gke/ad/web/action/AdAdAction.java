@@ -11,6 +11,7 @@ import com.wondertek.mobilevideo.gke.ad.core.service.AdMaterialManger;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdSlotManager;
 import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 import org.apache.commons.lang.StringUtils;
+import org.jaxen.expr.iter.IterableAncestorOrSelfAxis;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -63,7 +64,11 @@ public class AdAdAction extends BaseAction{
 	public String getAdMaterial() {
 		PageList pageList = new PageList();
 		try {
-            params.put("status", 102);
+            List<Integer> status=new ArrayList<Integer>();
+            status.add(AdMaterial.AdMaterialStatus.STATUS_104.get_status());
+            status.add(AdMaterial.AdMaterialStatus.STATUS_105.get_status());
+//            Integer[] status = {,};
+            params.put("status_in", status);
 			pageList = adMaterialMangerImpl.getPageList(params, getPageNo(), getPageSize(), getSort(), getOrder());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,7 +83,7 @@ public class AdAdAction extends BaseAction{
 		resultMap.put("success", true);
 		try {
 			String materialId = getRequest().getParameter("materialId");
-			adAd.setStatus(StringUtils.isNotBlank(materialId) ? AdAd.AdadStatus.STATUS_102.getAdStatus():AdAd.AdadStatus.STATUS_102.getAdStatus());
+			adAd.setStatus(StringUtils.isNotBlank(materialId) ? AdAd.AdadStatus.STATUS_102.getAdStatus():AdAd.AdadStatus.STATUS_101.getAdStatus());
 			adAd.setCreateId(getUsername());
 			adAd.setUpdateId(getUsername());
 			adAdManagerImpl.save(adAd,materialId);
@@ -89,6 +94,10 @@ public class AdAdAction extends BaseAction{
 		return SUCCESS;
 	}
 
+    /**
+     * 关联素材
+     * @return
+     */
 	public String addAdMaterial() {
 		resultMap.put("success",true);
 		try {
@@ -127,11 +136,11 @@ public class AdAdAction extends BaseAction{
 	private void getParams() {
 		String startTime = getRequest().getParameter("startTime");
 		if (StringUtils.isNotBlank(startTime)) {
-			params.put("startTime_beginTime", DateUtil.parseDate(DateUtil.DATE_YYYY_MM_DD_PATTERN,startTime));
+			params.put("startTime_beginTime", DateUtil.parseDate(DateUtil.DATE_TIME_PATTERN,startTime));
 		}
 		String endTime = getRequest().getParameter("endTime");
 		if (StringUtils.isNotBlank(endTime)) {
-			params.put("endTime_endTime", DateUtil.parseDate(DateUtil.DATE_YYYY_MM_DD_PATTERN,endTime));
+			params.put("endTime_endTime", DateUtil.parseDate(DateUtil.DATE_TIME_PATTERN,endTime));  
 		}
 		String status = getRequest().getParameter("status");
 		if (StringUtils.isNotBlank(status)) {
