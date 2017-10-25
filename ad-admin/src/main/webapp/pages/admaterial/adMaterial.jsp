@@ -258,8 +258,8 @@
                 materialName: $("#materialName").val(),
                 type: $("#type").val(),
                 status: $("#status").val(),
-                beginDate: startDate,
-                endDate: endDate
+                beginDate: startDate +" 00:00:00",
+                endDate: endDate+" 23:59:59"
             },
             height: 560,
             colNames:[
@@ -408,8 +408,8 @@
                     materialName: $("#materialName").val(),
                     type: $("#type").val(),
                     status: $("#status").val(),
-                    beginDate: startDate,
-                    endDate: endDate
+                    beginDate: startDate +" 00:00:00",
+                    endDate: endDate+" 23:59:59"
                 },
                 page : 1,
                 datatype: "json",

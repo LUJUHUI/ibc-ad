@@ -7,7 +7,6 @@ import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigInteger;
 import java.util.*;
 
 public class AdMaterialAction extends BaseAction {
@@ -36,7 +35,7 @@ public class AdMaterialAction extends BaseAction {
         try {
             adMaterial.setCreatePerson(getUsername());
             adMaterial.setCreateTime(new Date());
-            adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_101.get_status());
+            adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_101.getStatus());
             adMaterialMangerImpl.save(adMaterial);
             resultMap.put("success",true);
         } catch (Exception e) {
@@ -51,7 +50,7 @@ public class AdMaterialAction extends BaseAction {
         try {
             adMaterial.setUpdatePerson(getUsername());
             adMaterial.setUpdateTime(new Date());
-            adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_101.get_status());
+            adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_101.getStatus());
             adMaterialMangerImpl.saveOrUpdate(adMaterial);
             resultMap.put("success",true);
         } catch (Exception e) {
@@ -66,7 +65,7 @@ public class AdMaterialAction extends BaseAction {
             String[] ids = getRequest().getParameter("materialIds").split(",");
             for (String adMaterialId: ids) {
                 AdMaterial material = adMaterialMangerImpl.get(Integer.parseInt(adMaterialId));
-                material.setStatus(AdMaterial.AdMaterialStatus.STATUS_106.get_status());
+                material.setStatus(AdMaterial.AdMaterialStatus.STATUS_106.getStatus());
                 adMaterialMangerImpl.saveOrUpdate(material);
             }
             resultMap.put("success",true);

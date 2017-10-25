@@ -11,14 +11,14 @@ public class AdMaterial implements Serializable {
         /*状态  101:待审核;102:审核成功;103:审核失败;104:待使用;105:使用中;106：已删除*/
         STATUS_101(101), STATUS_102(102),STATUS_103(103), STATUS_104(104), STATUS_105(105),STATUS_106(106);
 
-        private final int _status;
+        private final int status;
 
-        private AdMaterialStatus(int _status) {
-            this._status = _status;
+        private AdMaterialStatus(int status) {
+            this.status = status;
         }
 
-        public int get_status() {
-            return _status;
+        public int getStatus() {
+            return status;
         }
     }
 
