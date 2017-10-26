@@ -14,9 +14,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ad_log")//广告位
 public class AdLog {
-		public enum adLogStatus{
-			
-		}
+			public enum AdLogOperType {
+	        TYPE_101(301), TYPE_102(302),TYPE_103(303);
+	        
+	        private final int _type;
+	
+	        private AdLogOperType(int _type) {
+	            this._type = _type;
+	        }
+	
+	        public int get_type() {
+	            return _type;
+	        }
+	    }
 		private static final long serialVersionUID = 467620661858607767L;
 		
 		private Integer id;                          //日志Id

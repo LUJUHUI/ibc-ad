@@ -435,7 +435,13 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
 					} else if (paramName.endsWith("_endTime")) {
 						whereString.append(" and " + paramName.replaceAll("_endTime", "") + " <= ?");
 						params.add(paramValue);
-					} else {
+					} else if (paramName.endsWith("_startTime")) {
+						whereString.append(" and " + paramName.replaceAll("_startTime", "") + " <= ?");
+						params.add(paramValue);
+					} else if (paramName.endsWith("_lastTime")) {
+						whereString.append(" and " + paramName.replaceAll("_lastTime", "") + " >= ?");
+						params.add(paramValue);
+					}  else {
 						whereString.append(" and " + paramName + " = ?");
 						params.add(paramValue);
 					}

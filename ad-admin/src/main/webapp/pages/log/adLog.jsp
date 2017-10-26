@@ -47,9 +47,9 @@
             <label class="control-label" for="attr">操作类型</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="operType">
                 <option value="">全部</option>
-                <option value="1">新增</option>
-                <option value="2">修改</option>
-                <option value="3">删除</option>
+                <option value=301>新增</option>
+                <option value=302>修改</option>
+                <option value=303>删除</option>
             </select>
 			
 			<label class="control-label" for="attr">审核结果</label>
@@ -121,8 +121,9 @@
             	logId: $("#logId").val(),
             	operType: $("#operType").val(),
             	operResult: $("#operResult").val(),
-            	beginDate: startDate,
-                endDate: endDate
+            	startDate: startDate + " 00:00:00",
+          	    endDate: endDate + " 23:59:59"
+                
             },
             height: 560,
             colNames:[ 
@@ -133,7 +134,7 @@
                 '<fmt:message key="ad.log.createTime"/>',
             ],
             colModel:[
-                {name :'id', index:'id', width : 250, align:'center',align:'center', sortable : false },
+                {name : 'id', index:'id', width : 250, align:'center',sortable : false },
                 {name : 'operType', index : 'oper_type', width : 350, align:'center', sortable : false,formatter:attrOperType}, 
                 {name : 'operResult', index : 'oper_result', width : 350, align:'center', sortable : false},
                 {name : 'operName', index : 'oper_name', width : 350, align:'center', sortable : false},
@@ -214,20 +215,22 @@
             $('.ui-jqdialog').remove();
         });
 
-        function attrOperType(callValue,options,rowObject){
+        function attrOperType(callValue) {
             var result="";
-            switch (callValue){
-                case 301:
-                    result='新增';
-                    break;
-                case 302:
-                    result = '修改';
-                    break;
-                case 303:
-                    result = '删除';
-            }
+	            switch (callValue){
+	            case  301:
+	                result=  '新增';
+	                break;
+	            case  302:
+	                result = '修改';
+	                break;
+	            case  303:
+	                result = '删除';
+	                break;
+	        }
             return result;
         }
+		
         $("#reset").on("click", function () {
         	$("#logId").val(""),
         	$("#operType").val(""),
@@ -251,6 +254,8 @@
                 	logId: $("#logId").val(),
                 	operType: $("#operType").val(),
                 	operResult: $("#operResult").val(),
+                	startDate: startDate + " 00:00:00",
+              	    endDate: endDate + " 23:59:59"
                 },
                 page : 1,
                 datatype: "json",

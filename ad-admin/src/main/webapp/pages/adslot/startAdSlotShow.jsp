@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="gridSystemModalLabel">添加广告位</h4>
+                <h4 class="modal-title" id="gridSystemModalLabel">添加开机广告位</h4>
             </div>
             <div class="modal-body">
                 <form id="ad_SlotForm">
@@ -176,8 +176,8 @@
             	   navig: $('#slot_Channel').val(),
             	   status: $('#slot_status').val(),
             	   type:1,
-            	   startTime: startDate + " 00:00:00",
-                   endTime: endDate + " 23:59:59"
+            	   startDate: startDate + " 00:00:00",
+            	   endDate: endDate + " 23:59:59"
             },
             height: 560,
             colNames:[ 
@@ -227,6 +227,7 @@
                     styleCheckbox(table);
                     updateActionIcons(table);
                     updatePagerIcons(table);
+                    enableTooltips(table);
                 }, 0);
             }
 
@@ -247,22 +248,28 @@
         //navButtons
         jQuery(grid_selector).jqGrid('navGrid',pager_selector,
             { 	//navbar options
-                edit: false,
-                editicon : 'ace-icon fa fa-pencil blue',
-                add: false,
-                addicon : 'ace-icon fa fa-plus-circle purple',
-                del: false,
-                delicon : 'ace-icon fa fa-trash-o red',
-                search: false,
-                searchicon : 'ace-icon fa fa-search orange',
-                refresh: true,
-                refreshicon : 'ace-icon fa fa-refresh green',
-                view: false,
-                viewicon : 'ace-icon fa fa-search-plus grey',
+        	   edit: false,
+               editicon : 'ace-icon fa fa-pencil blue',
+               add: false,
+               addicon : 'ace-icon fa fa-plus-circle purple',
+               del: false,
+               delicon : 'ace-icon fa fa-trash-o red',
+               search: false,
+               searchicon : 'ace-icon fa fa-search orange',
+               refresh: true,
+               refreshicon : 'ace-icon fa fa-refresh green',
+               view: false,
+               viewicon : 'ace-icon fa fa-search-plus grey',
             }
         )
- 
-        function updatePagerIcons(table) {
+ 	    function styleCheckbox(table) {
+            
+        }
+
+        function updateActionIcons(table) {
+            
+        }
+       function updatePagerIcons(table) {
             var replacement =
                 {
                     'ui-icon-seek-first' : 'ace-icon fa fa-angle-double-left bigger-140',
@@ -277,12 +284,17 @@
                 if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
             })
         }
-
+		
+        function enableTooltips(table) {
+            $('.navtable .ui-pg-button').tooltip({container:'body'});
+            $(table).find('.ui-pg-div').tooltip({container:'body'});
+        }
+        
         $(document).one('ajaxloadstart.page', function(e) {
             $.jgrid.gridDestroy(grid_selector);
             $('.ui-jqdialog').remove();
         });
-        function attrStatus(callValue, options, rowObject) {
+        function attrStatus(callValue) {
             var result="";
 	            switch (callValue){
 	            case  101:
@@ -348,8 +360,8 @@
                 	slotName: $('#slot_Name').val(),
               	    status: $('#slot_status').val(),
               	    type:1,
-                    beginDate: startDate,
-                    endDate: endDate
+              	    startDate: startDate + " 00:00:00",
+            	    endDate: endDate + " 23:59:59"
                 },
                 page : 1,
                 datatype: "json",

@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="gridSystemModalLabel">添加广告位</h4>
+                <h4 class="modal-title" id="gridSystemModalLabel">添加导航广告位</h4>
             </div>
             <div class="modal-body">
                 <form id="ad_SlotForm">
@@ -190,8 +190,8 @@
           	       navig: $('#slot_Channel').val(),
           	       status: $('#slot_status').val(),
             	   type:3,
-            	   startTime: startDate + " 00:00:00",
-                   endTime: endDate + " 23:59:59"
+            	   startDate: startDate + " 00:00:00",
+           	       endDate: endDate + " 23:59:59"
             },
             height: 560,
             colNames:[ 
@@ -241,7 +241,6 @@
                 var table = this;
                 setTimeout(function(){
                     styleCheckbox(table);
-
                     updateActionIcons(table);
                     updatePagerIcons(table);
                     enableTooltips(table);
@@ -279,7 +278,13 @@
                 viewicon : 'ace-icon fa fa-search-plus grey',
             }
         )
- 
+        function styleCheckbox(table) {
+            
+        }
+
+        function updateActionIcons(table) {
+            
+        }
         function updatePagerIcons(table) {
             var replacement =
                 {
@@ -321,7 +326,7 @@
             return result;
         }
 
-        function attrStatus(callValue, options, rowObject) {
+        function attrStatus(callValue) {
             var result="";
 	            switch (callValue){
 	            case  101:
@@ -389,8 +394,8 @@
               	    navig: $('#slot_Channel').val(),
               	    status: $('#slot_status').val(),
               	    type:3,
-              	    beginDate: startDate,
-                    endDate: endDate
+              	    startDate: startDate + " 00:00:00",
+          	        endDate: endDate + " 23:59:59"
                 },
                 page : 1,
                 datatype: "json",

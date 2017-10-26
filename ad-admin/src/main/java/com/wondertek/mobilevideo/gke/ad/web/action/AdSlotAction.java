@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.Preparable;
+import com.wondertek.mobilevideo.core.util.DateUtil;
 import com.wondertek.mobilevideo.core.util.StringUtil;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdSlot;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdLogManager;
@@ -150,17 +151,17 @@ public class AdSlotAction extends BaseAction {
         
         String status = getRequest().getParameter("status");
         if (StringUtils.isNotBlank(status)){
-            params.put("status",  status);
+            params.put("status",Integer.parseInt(status));
         }
         
-        String startCreateTime = getRequest().getParameter("beginDate");
+        String startCreateTime = getRequest().getParameter("startDate");
         if (StringUtils.isNotBlank(startCreateTime)){
-            params.put("createTime_beginTime", tranDate(startCreateTime));
+            params.put("createTime_beginTime", DateUtil.parseDate(DateUtil.DATE_TIME_PATTERN,startCreateTime));
         }
         
         String endCreateTime = getRequest().getParameter("endDate");
         if (StringUtils.isNotBlank(endCreateTime)){
-            params.put("createTime_endTime", tranDate(endCreateTime));
+            params.put("createTime_endTime", DateUtil.parseDate(DateUtil.DATE_TIME_PATTERN,endCreateTime));
         }
         
         String logId = getRequest().getParameter("logId");
@@ -178,18 +179,6 @@ public class AdSlotAction extends BaseAction {
             params.put("operType", Integer.parseInt(operType));
         }
     
-    }
-    
-    public Date tranDate(String string){
-    	Date date = null;
-    	if(null != string && "" != string){
-    	  try {
-			date =  new SimpleDateFormat("yyyy-MM-dd").parse(string);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-    	}
-    	return date;
     }
     
 	public AdSlot getAdSlot() {

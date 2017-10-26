@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.Transient;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,18 +25,18 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 		super(adSlotDao);
 		this.adSlotDao = adSlotDao;
 	}
-    @Transient
+    @Transactional
     public AdSlot save(AdSlot adSlot){
     	adSlotDao.save(adSlot);
     	return adSlot;
     }
     
-    @Transient
+    @Transactional
     public void saveOrUpdate(AdSlot adSlot){
     	adSlotDao.saveOrUpdate(adSlot);
     }
     
-    @Transient
+    @Transactional
 	public void deleteSlot(String str) {
 		String[] strings = str.split(",");
 		for (String slotId : strings) {
@@ -47,7 +47,7 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 		}		
 	}
     
-    @Transient
+    @Transactional
   	public void useSlot(String str) {
   		String[] strings = str.split(",");
   		for (String slotId : strings) {
