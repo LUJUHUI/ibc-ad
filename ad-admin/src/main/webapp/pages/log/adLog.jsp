@@ -123,7 +123,6 @@
             	operResult: $("#operResult").val(),
             	beginDate: startDate,
                 endDate: endDate
-            	
             },
             height: 560,
             colNames:[ 
@@ -134,11 +133,11 @@
                 '<fmt:message key="ad.log.createTime"/>',
             ],
             colModel:[
-                {name :'id', index:'id', width : 100, align:'center',align:'center', sortable : false },
-                {name : 'operType', index : 'oper_type', width : 120, align:'center', sortable : false,formatter:attrOperType}, 
-                {name : 'operResult', index : 'oper_result', width : 120, align:'center', sortable : false},
-                {name : 'operName', index : 'oper_name', width : 120, align:'center', sortable : false},
-                {name : 'createTime', index : 'create_time', width : 150, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name :'id', index:'id', width : 250, align:'center',align:'center', sortable : false },
+                {name : 'operType', index : 'oper_type', width : 350, align:'center', sortable : false,formatter:attrOperType}, 
+                {name : 'operResult', index : 'oper_result', width : 350, align:'center', sortable : false},
+                {name : 'operName', index : 'oper_name', width : 350, align:'center', sortable : false},
+                {name : 'createTime', index : 'create_time', width : 350, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
             ],
             shrinkToFit : false,
             hidegrid : false,
@@ -161,7 +160,6 @@
                 var table = this;
                 setTimeout(function(){
                     styleCheckbox(table);
-
                     updateActionIcons(table);
                     updatePagerIcons(table);
                     enableTooltips(table);
@@ -169,7 +167,7 @@
             }
 
         });
-
+        $("#t_grid-table").addClass("hidden");
         $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 
         //navButtons
@@ -219,13 +217,13 @@
         function attrOperType(callValue,options,rowObject){
             var result="";
             switch (callValue){
-                case 1:
+                case 301:
                     result='新增';
                     break;
-                case 2:
+                case 302:
                     result = '修改';
                     break;
-                case 3:
+                case 303:
                     result = '删除';
             }
             return result;

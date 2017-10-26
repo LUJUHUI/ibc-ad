@@ -109,6 +109,27 @@ public class AdSlotAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
+	//审核
+	public String verify() {
+		resultMap.put("success", true);
+		try {
+			String slotId = getRequest().getParameter("id");
+			String verifyType = getRequest().getParameter("type");//0:通过，1：驳回
+			AdSlot adSlot = adSlotManagerImpl.get(Integer.parseInt(slotId));
+			if ("0".equals(verifyType)) {
+				adSlot.setStatus(AdSlot.AdSlotStatus.STATUS_102.get_status());
+			}else{
+				adSlot.setStatus(AdSlot.AdSlotStatus.STATUS_103.get_status());
+			}
+			adSlot.setUpdatePeople(getUsername());
+			adSlot.setUpdateTime(new Date());
+			adSlotManagerImpl.saveOrUpdate(adSlot);
+		} catch (Exception e) {
+			resultMap.put("success", false);
+			e.printStackTrace();
+		}
+		return SUCCESS;
+	}
 	
 	/*********搜索需要参数**********/
     public void  getParams(){

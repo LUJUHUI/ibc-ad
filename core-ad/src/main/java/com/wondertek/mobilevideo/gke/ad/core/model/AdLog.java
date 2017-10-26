@@ -1,5 +1,6 @@
 package com.wondertek.mobilevideo.gke.ad.core.model;
 
+import java.awt.*;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,12 +14,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ad_log")//广告位
 public class AdLog {
+		public enum adLogStatus{
+			
+		}
 		private static final long serialVersionUID = 467620661858607767L;
 		
 		private Integer id;                          //日志Id
 		private Integer operType;				     //操作名称
 		private String operResult;					 //操作结果
-		private String operName;				         //操作人
+		private String operName;				     //操作人
 		private Date createTime;					 //创建时间
 		
 		@Id

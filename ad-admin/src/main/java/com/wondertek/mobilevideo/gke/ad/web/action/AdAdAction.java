@@ -2,7 +2,6 @@ package com.wondertek.mobilevideo.gke.ad.web.action;
 
 import com.wondertek.mobilevideo.core.util.DateUtil;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdAd;
-import com.wondertek.mobilevideo.gke.ad.core.model.AdAdMaterial;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterial;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdSlot;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdAdManager;
@@ -11,7 +10,6 @@ import com.wondertek.mobilevideo.gke.ad.core.service.AdMaterialManger;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdSlotManager;
 import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 import org.apache.commons.lang.StringUtils;
-import org.jaxen.expr.iter.IterableAncestorOrSelfAxis;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;

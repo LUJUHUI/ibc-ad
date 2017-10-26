@@ -435,11 +435,13 @@
             }
             var materailIds = [];
             $.each(row,function (index,items) {
-                if(row[index].status == 103){
-                    bootbox.alert('"'+row[index].name+'"处于投放中，不能删除！');
-                    return;
+               
+                var rowdDta = $("#grid-table").jqGrid('getRowData', row[index])
+                if(rowdDta.status == '投放中'){
+                    bootbox.alert('"'+rowdDta.adName+'"处于投放中，不能删除！');
+                    throw SyntaxError("自定义异常，请忽略。");
                 }else{
-                    materailIds.push(items);
+                    materailIds.push(rowdDta.id);
                 }
             });
             $.post("<c:url value='/json/adad_deleteAd.do'/>",{id:materailIds.join(",")},function (response) {

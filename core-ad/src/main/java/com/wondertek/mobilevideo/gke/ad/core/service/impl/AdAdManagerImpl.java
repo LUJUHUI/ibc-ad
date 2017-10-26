@@ -6,16 +6,12 @@ import com.wondertek.mobilevideo.gke.ad.core.model.AdAd;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdAdMaterial;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterial;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdAdManager;
-import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Transient;
-import java.util.ArrayList;
+import javax.transaction.Transactional;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class AdAdManagerImpl extends  GenericManagerImpl<AdAd, Long> implements AdAdManager {
@@ -33,7 +29,7 @@ public class AdAdManagerImpl extends  GenericManagerImpl<AdAd, Long> implements 
 	}
 
 
-	@Transient
+	@Transactional
 	public AdAd save(AdAd object, String materialId) {
         Date date = new Date();
         object.setCreateTime(date);
@@ -52,7 +48,7 @@ public class AdAdManagerImpl extends  GenericManagerImpl<AdAd, Long> implements 
 		return object;
 	}
 
-	@Transient
+	@Transactional
 	public void remove(String[] ids, String userName) throws Exception {
 		for (String id: ids) {
 			AdAd adAd = adAdDao.get(Long.valueOf(id));

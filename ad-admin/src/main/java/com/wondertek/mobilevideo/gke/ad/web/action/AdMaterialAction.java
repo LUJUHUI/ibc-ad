@@ -75,6 +75,26 @@ public class AdMaterialAction extends BaseAction {
         }
         return SUCCESS;
     }
+    //审核
+    public String verify() {
+        resultMap.put("success", true);
+        try {
+            String materialId = getRequest().getParameter("ids");
+            String verifyType = getRequest().getParameter("type");//0:通过，1：驳回
+            try {
+                adMaterialMangerImpl.verify(materialId, Integer.parseInt(verifyType),getUsername());
+                resultMap.put("code", 101);
+            } catch (RuntimeException e2) {
+                e2.printStackTrace();
+                resultMap.put("code", 102);
+            }
+        } catch (Exception e) {
+            resultMap.put("success", false);
+            e.printStackTrace();
+        }
+        return SUCCESS;
+    }
+
     private void getParams() {
         String materialId = getRequest().getParameter("materialId");
         if (StringUtils.isNotBlank(materialId)) {

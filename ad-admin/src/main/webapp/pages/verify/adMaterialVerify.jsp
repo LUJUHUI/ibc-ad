@@ -161,9 +161,9 @@
                 {name : 'clickHref', index : 'clickHref', width : 280, align:'center', sortable : true},
                 {name : 'status', index : 'status', width : 108, align:'center', sortable : false,formatter:statusFmt},
                 {name : 'createTime', index : 'createTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'createId', index : 'createId', width : 100, align:'center', sortable : true},
+                {name : 'createPerson', index : 'createPerson', width : 100, align:'center', sortable : true},
                 {name : 'updateTime', index : 'updateTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'updateId', index : 'updateId', width : 100, align:'center', sortable : true},
+                {name : 'updatePerson', index : 'updatePerson', width : 100, align:'center', sortable : true},
             ],
             shrinkToFit : false,
             hidegrid : false,
@@ -197,9 +197,9 @@
 
         if(status == 101){
             $("#t_grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
-                '<td><button type="button" id="adm_create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-paper-plane-o"></i>审核通过</button></td>' +
+                '<td><button type="button" id="verify_via" class="btn btn-xs btn-success"><i class="ace-icon fa fa-paper-plane-o"></i>审核通过</button></td>' +
                 '<td>|</td>' +
-                '<td><button type="button" id="adm_update" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-wrench"></i>审核驳回</button></td>' +
+                '<td><button type="button" id="verify_refuse" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-wrench"></i>审核驳回</button></td>' +
                 '<td></td>' +
                 '</tr></table>');
         }else{
@@ -326,6 +326,56 @@
                 datatype: "json",
                 mtype : "post"
             }).trigger("reloadGrid"); //重新载入
+        })
+        function verify(ids,type) {
+            $.ajax({
+                url: "<c:url value='/json/adMaterial_verify.do'/>",
+                data:{ids:ids.join(","),type:type},
+                type:"post",
+                success:function (resp) {
+                    if(resp.success == true) {
+                        if(resp.code == 101){
+                            bootbox.alert("操作成功！");
+                            $("#search").click();
+                        }else if (resp.code = 102){
+                            bootbox.alert("操作失败，节目中有未处于”待审核“状态节目！");
+                        }
+                    }else{
+                        bootbox.alert("系统发生异常，操作失败！"); 
+                    }
+                   
+                },error:function () {
+                    
+                }
+            });
+        }
+        //审核通过
+        $("#verify_via").on("click",function () {
+            var rows = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
+            if (rows.length == 0){
+                bootbox.alert("请选择要操作的记录！");
+                return;
+            }
+            var ids = [];
+            $.each(rows,function (index, items) {
+                var rowdDta = $("#grid-table").jqGrid('getRowData', rows[index])
+                ids.push(rowdDta.id);
+            })
+            verify(ids,0);
+        })
+        //审核驳回
+        $("#verify_refuse").on("click",function () {
+            var rows = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
+            if (rows.length == 0){
+                bootbox.alert("请选择要操作的记录！");
+                return;
+            }
+            var ids = [];
+            $.each(rows,function (index, items) {
+                var rowdDta = $("#grid-table").jqGrid('getRowData', rows[index])
+                ids.push(rowdDta.id);
+            })
+            verify(ids,1);
         })
 
     });

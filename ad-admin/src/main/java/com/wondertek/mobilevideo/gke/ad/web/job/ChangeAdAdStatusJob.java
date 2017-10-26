@@ -1,21 +1,16 @@
 package com.wondertek.mobilevideo.gke.ad.web.job;
 
+import com.wondertek.mobilevideo.gke.ad.core.model.AdAd;
+import com.wondertek.mobilevideo.gke.ad.core.service.AdAdManager;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.quartz.QuartzJobBean;
-import org.springframework.stereotype.Component;
-
-import com.wondertek.mobilevideo.gke.ad.core.model.AdAd;
-import com.wondertek.mobilevideo.gke.ad.core.service.AdAdManager;
 
 /**
  * Created by Administrator on 2017/6/15.
