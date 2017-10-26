@@ -299,7 +299,7 @@
                 root : 'rows',
                 repeatitems : true
             },
-            caption: '<fmt:message key="ad.material" />',
+
             toolbar: [true,'top'],
             loadComplete : function(data) {
                 var table = this;
@@ -310,7 +310,6 @@
                     enableTooltips(table);
                 }, 0);
             }
-
         });
 
         $("#t_grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +

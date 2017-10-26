@@ -197,9 +197,9 @@
                 '<fmt:message key="ad.material.clickHref"/>',
                 '<fmt:message key="ad.material.status"/>',
                 '<fmt:message key="ad.material.createTime"/>',
-                '<fmt:message key="ad.material.createId"/>',
+                '<fmt:message key="ad.material.createPerson"/>',
                 '<fmt:message key="ad.material.updateTime"/>',
-                '<fmt:message key="ad.material.updateId"/>'
+                '<fmt:message key="ad.material.updatePreson"/>'
             ],
             colModel:[
                 {name:'id',index:'id', width : 80,align:'center', sortable : true},
