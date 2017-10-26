@@ -90,13 +90,8 @@ public class AdSlotAction extends BaseAction {
 	
 	public String deleteAdSlot() {
 		try {
-		String [] str =getRequest().getParameter("deleteIds").split(",");
-		for (String slotId : str) {
-			AdSlot slot = adSlotManagerImpl.get(Integer.parseInt(slotId));
-			slot.setStatus(AdSlot.AdSlotStatus.STATUS_105.get_status());
-			slot.setUpdateTime(new Date());
-			adSlotManagerImpl.saveOrUpdate(slot);
-		}	
+		String  str =getRequest().getParameter("deleteIds");
+		adSlotManagerImpl.deleteSlot(str);
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("success",false);
@@ -106,13 +101,8 @@ public class AdSlotAction extends BaseAction {
 	
 	public String useAdSlot() {
 		try {
-		String [] str =getRequest().getParameter("useIds").split(",");
-		for (String slotId : str) {
-			AdSlot slot = adSlotManagerImpl.get(Integer.parseInt(slotId));
-			slot.setStatus(AdSlot.AdSlotStatus.STATUS_101.get_status());
-			slot.setUpdateTime(new Date());
-			adSlotManagerImpl.saveOrUpdate(slot);
-		}	
+		String  str =getRequest().getParameter("useIds");
+		adSlotManagerImpl.useSlot(str);
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("success",false);
@@ -168,6 +158,7 @@ public class AdSlotAction extends BaseAction {
         }
     
     }
+    
     public Date tranDate(String string){
     	Date date = null;
     	if(null != string && "" != string){
@@ -179,6 +170,7 @@ public class AdSlotAction extends BaseAction {
     	}
     	return date;
     }
+    
 	public AdSlot getAdSlot() {
 		return adSlot;
 	}
