@@ -13,7 +13,8 @@
                         <input type="hidden" class="form-control" id="adSlot_id" name="adSlot.id">
                      </div>
                      <div class="form-group">
-                        <input type="hidden" class="form-control" id="adSlot_name" name="adSlot.slotName" value="开机广告位">
+                      	<label for="adSlot_name" class="control-label">广告位名称:</label>
+                        <input type="text" class="form-control" id="adSlot_name" name="adSlot.slotName" >
                      </div>
                      <div class="form-group">
                         <label for="adSlot_navig" class="control-label">导航:</label>
@@ -38,7 +39,7 @@
                     </div>
                      <div class="form-group">
                         <label for="adSlot_remark" class="control-label">备注</label>
-                        <input type="text" class="form-control" id="adSlot_remark" name="adSlot.remark">
+                        <textarea   class="form-control" id="adSlot_remark" name="adSlot.remark"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="adSlot_type" class="control-label" hidden="true"></label>
@@ -106,6 +107,9 @@
 <div class="page-content">
     <div class="page-header">
         <form class="form-inline">
+        	<label class="control-label" for="slot_Name">广告位名称</label>
+            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="slot_Name">
+        
             <label class="control-label" for="attr">导航名称</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="slot_Channel">
                 <option value="">全部</option>
@@ -211,7 +215,7 @@
             ],
             colModel:[
                 {name : 'id', index:'id', width : 100, align:'center',hidden:true},
-                {name : 'slotName', index : 'slot_name', width : 100, align:'center',hidden:true },
+                {name : 'slotName', index : 'slot_name', width : 150, align:'center'},
                 {name : 'navig', index : 'navig', width : 100, align:'center', sortable : false,formatter:attrNavig},
                 {name : 'channelId', index : 'channel_id', width : 100, align:'center', sortable : false},
                 {name : 'width', index : 'width_', width : 100, align:'center', sortable : false},
@@ -348,23 +352,23 @@
         
         function tranStatus(callValue) {
             var result="";
-	            switch (callValue){
-	            case  101:
-	                result=  '待审核';
+            switch (callValue){
+	            case  '待审核':
+	                result=  101;
 	                break;
-	            case  102:
-	                result = '待使用';
+	            case  '待使用':
+	                result = 102;
 	                break;
-	            case  103:
-	                result = '使用中';
+	            case  '使用中':
+	                result = 103;
 	                break;
-	            case  104:
-	                result = '审核失败';
+	            case  '审核失败':
+	                result = 104;
 	                break;
-	            case  105:
-	                result = '删除';
+	            case  '删除':
+	                result = 105;
 	                break;
-	        }
+            }
             return result;
         }
         
@@ -402,6 +406,7 @@
         }
         $("#addSlot").on("click",function () {
        	 $('#adSlot_id').val("");
+         $('#adSlot_name').val("");
        	 $('#adSlot_navig').val("");
        	 $('#adSlot_channelId').val("");
        	 $('#adSlot_width').val("");
@@ -471,7 +476,8 @@
            for (var index in ids){ 
               var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
               if(rowData.status != "使用中"){
-              $("#adSlot_id").val(rowData.id);
+              $("#adSlot_id").val(rowData.id); 
+              $("#adSlot_name").val(rowData.slotName);
               $("#adSlot_channelId").val(rowData.channelId);
               $("#adSlot_width").val(rowData.width);
               $("#adSlot_height").val(rowData.height);

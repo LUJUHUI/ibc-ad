@@ -1,8 +1,11 @@
 package com.wondertek.mobilevideo.gke.ad.core.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.persistence.Transient;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,4 +25,36 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 		super(adSlotDao);
 		this.adSlotDao = adSlotDao;
 	}
+    @Transient
+    public AdSlot save(AdSlot adSlot){
+    	adSlotDao.save(adSlot);
+    	return adSlot;
+    }
+    
+    @Transient
+    public void saveOrUpdate(AdSlot adSlot){
+    	adSlotDao.saveOrUpdate(adSlot);
+    }
+    
+    @Transient
+	public void deleteSlot(String str) {
+		String[] strings = str.split(",");
+		for (String slotId : strings) {
+			AdSlot slot = adSlotDao.get(Integer.parseInt(slotId));
+			slot.setStatus(AdSlot.AdSlotStatus.STATUS_105.get_status());
+			slot.setUpdateTime(new Date());
+			adSlotDao.saveOrUpdate(slot);
+		}		
+	}
+    
+    @Transient
+  	public void useSlot(String str) {
+  		String[] strings = str.split(",");
+  		for (String slotId : strings) {
+			AdSlot slot = adSlotDao.get(Integer.parseInt(slotId));
+			slot.setStatus(AdSlot.AdSlotStatus.STATUS_101.get_status());
+			slot.setUpdateTime(new Date());
+			adSlotDao.saveOrUpdate(slot);
+		}	
+  	}
 }

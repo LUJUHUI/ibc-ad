@@ -38,7 +38,7 @@ public class AdAdMaterailManagerImpl extends  GenericManagerImpl<AdAdMaterial, L
 		for (String mId : materialIds) {
 			AdMaterial adMaterial = adMaterialDao.get(Integer.parseInt(mId));
 			save(new AdAdMaterial(new AdAd(adId), adMaterial, userName, userName));
-			adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_105.get_status());
+			adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_105.getStatus());
 			adMaterialDao.saveOrUpdate(adMaterial);
 		}
 	}

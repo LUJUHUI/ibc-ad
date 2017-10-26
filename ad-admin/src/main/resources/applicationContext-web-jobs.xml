@@ -10,25 +10,23 @@
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
-		 	<!-- 
-		 		<ref bean="refreshCacheTrigger" />
-		  	-->
+		 		<ref bean="changeAdAdStatusTrigger" />
 			</list>
 		</property>
 	</bean>
 
 	
-	<!--<bean id="refreshCacheDetail"-->
-		<!--class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
-	 	<!--<property name="concurrent" value="false" />-->
-		<!--<property name="targetObject" ref="refreshCacheTask" />-->
-		<!--<property name="targetMethod" value="excute" />-->
-	<!--</bean>-->
-	<!---->
-	<!--<bean id="refreshCacheTrigger"-->
-		<!--class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">-->
-		<!--<property name="jobDetail" ref="refreshCacheDetail" />-->
-		<!--<property name="cronExpression" value="0 0 0/6 * * ?" />-->
-	<!--</bean>	-->
+	 <bean id="changeAdAdStatusDetail" 
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	 	<property name="concurrent" value="false" />
+		<property name="targetObject" ref="changeAdAdStatusJob" />
+		<property name="targetMethod" value="excute" />
+	 </bean> 
+	 
+	 <bean id="changeAdAdStatusTrigger" 
+		 class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> 
+		 <property name="jobDetail" ref="changeAdAdStatusDetail" /> 
+		 <property name="cronExpression" value="0 0/1 * * * ?" /> 
+	 </bean>	 
 	
 </beans>

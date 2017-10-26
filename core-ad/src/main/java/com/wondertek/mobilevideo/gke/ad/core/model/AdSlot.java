@@ -1,5 +1,6 @@
 package com.wondertek.mobilevideo.gke.ad.core.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ad_slot")//广告位
-public class AdSlot {
+public class AdSlot implements Serializable {
 	
 
 	    public enum AdSlotStatus {

@@ -65,8 +65,8 @@ public class AdAdAction extends BaseAction{
 		PageList pageList = new PageList();
 		try {
             List<Integer> status=new ArrayList<Integer>();
-            status.add(AdMaterial.AdMaterialStatus.STATUS_104.get_status());
-            status.add(AdMaterial.AdMaterialStatus.STATUS_105.get_status());
+            status.add(AdMaterial.AdMaterialStatus.STATUS_104.getStatus());
+            status.add(AdMaterial.AdMaterialStatus.STATUS_105.getStatus());
 //            Integer[] status = {,};
             params.put("status_in", status);
 			pageList = adMaterialMangerImpl.getPageList(params, getPageNo(), getPageSize(), getSort(), getOrder());

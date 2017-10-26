@@ -13,21 +13,9 @@
                         <input type="hidden" class="form-control" id="adSlot_id" name="adSlot.id">
                      </div>
                      <div class="form-group">
-                        <input type="hidden" class="form-control" id="adSlot_name" name="adSlot.slotName" value="开机广告位">
+                      	<label for="adSlot_name" class="control-label">广告位名称:</label>
+                        <input type="text" class="form-control" id="adSlot_name" name="adSlot.slotName" >
                      </div>
-                     <div class="form-group">
-                        <label for="adSlot_navig" class="control-label">导航:</label>
-                        <select class="form-control"  id="adSlot_navig" name="adSlot.navig">
-                            <option value="">请选择</option>
-                            <option value="1">首页</option>
-                            <option value="2">直播</option>
-                            <option value="3">会员</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="adSlot_channelId" class="control-label">导航ID</label>
-                        <input type="text" class="form-control" id="adSlot_channelId" name="adSlot.channelId">
-                    </div>
                        <div class="form-group">
                         <label for="adSlot_width" class="control-label">广告位宽度</label>
                         <input type="text" class="form-control" id="adSlot_width" name="adSlot.width">
@@ -38,7 +26,7 @@
                     </div>
                      <div class="form-group">
                         <label for="adSlot_remark" class="control-label">备注</label>
-                        <input type="text" class="form-control" id="adSlot_remark" name="adSlot.remark">
+                        <textarea  class="form-control" id="adSlot_remark" name="adSlot.remark"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="adSlot_type" class="control-label" hidden="true"></label>
@@ -106,14 +94,9 @@
 <div class="page-content">
     <div class="page-header">
         <form class="form-inline">
-            <label class="control-label" for="attr">导航名称</label>
-            <select class="form-control input-sm" style="margin-left: 5px;" id="slot_Channel">
-                <option value="">全部</option>
-                <option value="1">首页</option>
-                <option value="2">直播</option>
-                <option value="3">会员</option>
-            </select>
-			
+            <label class="control-label" for="slot_Name">广告位名称</label>
+            <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="slot_Name">
+            
 			<label class="control-label" for="attr">状态</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="slot_status">
                 <option value="">全部</option>
@@ -200,8 +183,6 @@
             colNames:[ 
                 '<fmt:message key="ad.slot.id"/>',                      
                 '<fmt:message key="ad.slot.name"/>',
-                '<fmt:message key="ad.slot.navig"/>',
-                '<fmt:message key="ad.slot.channel.id"/>',
                 '<fmt:message key="ad.slot.width"/>',
                 '<fmt:message key="ad.slot.height"/>',
                 '<fmt:message key="ad.slot.status"/>',
@@ -213,9 +194,7 @@
             ],
             colModel:[
                  {name : 'id', index:'id', width : 100, align:'center',hidden:true},
-                 {name : 'slotName', index : 'slot_name', width : 100, align:'center', hidden:true},
-                 {name : 'navig', index : 'navig', width : 100, align:'center', sortable : false,formatter:attrNavig},
-                 {name : 'channelId', index : 'channel_id', width : 100, align:'center', sortable : false},
+                 {name : 'slotName', index : 'slot_name', width : 150, align:'center'},
                  {name : 'width', index : 'width_', width : 100, align:'center', sortable : false},
                  {name : 'height', index : 'height_', width : 150, align:'center', sortable : false},
                  {name : 'status', index : 'status_', width : 120, align:'center', sortable : false,formatter:attrStatus},
@@ -304,60 +283,23 @@
             $('.ui-jqdialog').remove();
         });
 
-        function attrNavig(callValue,options,rowObject){
-            var result="";
-            switch (callValue){
-                case 1:
-                    result='首页';
-                    break;
-                case 2:
-                    result = '直播';
-                    break;
-                case 3:
-                    result = '会员';
-            }
-            return result;
-        }
-
-        function attrStatus(callValue, options, rowObject) {
-            var result="";
-            switch (callValue){
-                case  101:
-                    result=  '待审核';
-                    break;
-                case  102:
-                    result = '待使用';
-                    break;
-                case  103:
-                    result = '使用中';
-                    break;
-                case  104:
-                    result = '审核失败';
-                    break;
-                case  105:
-                    result = '删除';
-                    break;
-            }
-            return result;
-        }
-		
         function tranStatus(callValue) {
             var result="";
             switch (callValue){
-	            case  101:
-	                result=  '待审核';
+	            case  '待审核':
+	                result=  101;
 	                break;
-	            case  102:
-	                result = '待使用';
+	            case  '待使用':
+	                result = 102;
 	                break;
-	            case  103:
-	                result = '使用中';
+	            case  '使用中':
+	                result = 103;
 	                break;
-	            case  104:
-	                result = '审核失败';
+	            case  '审核失败':
+	                result = 104;
 	                break;
-	            case  105:
-	                result = '删除';
+	            case  '删除':
+	                result = 105;
 	                break;
             }
             return result;
@@ -398,6 +340,7 @@
 
          $("#addSlot").on("click",function () {
         	 $('#adSlot_id').val("");
+        	 $('#adSlot_name').val("");
         	 $('#adSlot_navig').val("");
         	 $('#adSlot_channelId').val("");
         	 $('#adSlot_width').val("");
@@ -468,6 +411,7 @@
                var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
                if(rowData.status != "使用中"){
                $("#adSlot_id").val(rowData.id);
+               $('#adSlot_name').val(rowData.slotName);
                $("#adSlot_channelId").val(rowData.channelId);
                $("#adSlot_width").val(rowData.width);
                $("#adSlot_height").val(rowData.height);
