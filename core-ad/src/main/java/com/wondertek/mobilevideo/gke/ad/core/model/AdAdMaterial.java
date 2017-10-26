@@ -11,9 +11,9 @@ public class AdAdMaterial implements Serializable {
 	private Long id;
 	private AdAd adId;
 	private AdMaterial materialId;
-	private Date createTime = new Date();
+	private Date createTime;
 	private String createId;
-	private Date updateTime = new Date();
+	private Date updateTime;
 	private String updateId;
 
 	public AdAdMaterial() {
@@ -25,6 +25,8 @@ public class AdAdMaterial implements Serializable {
 		this.materialId = materialId;
 		this.createId = createId;
 		this.updateId = updateId;
+		this.createTime = new Date();
+		this.updateTime = new Date();
 	}
 
 	@Id

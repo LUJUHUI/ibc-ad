@@ -1,33 +1,16 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Administrator
+  Date: 2017/10/18
+  Time: 10:50
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
-
 <%
-    String id = request.getParameter("id");
-    request.setAttribute("id", id);
+    String status = request.getParameter("status");
+    request.setAttribute("status",status);
 %>
-
-<style>
-    .form-horizontal .control-label {
-        text-align: right;
-        margin-bottom: 0;
-        padding-top: 3px;
-    }
-    .preview-container {
-        margin-left: 30px;
-        background-color: #D0D0D0;
-        box-shadow: 0 0 3px #000;
-        width: auto;
-        height: 430px;
-        display: none;
-    }
-    .preview-container-active {
-        display: block;
-    }
-    .img-class {
-        width: 100%;
-        height: 100%;
-    }
-</style>
 
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
@@ -41,50 +24,54 @@
             <a href=""><fmt:message key="webapp.home"/></a>
         </li>
         <li>
-            <fmt:message key="ad.ad"/>
-        </li>
-        <li class="">
-            <span><fmt:message key="ad.ad.addMaterial"/></span>
+            <fmt:message key="ad.material"/>
         </li>
     </ul>
     <!-- /.breadcrumb -->
-    <div class="nav-search">
-        <button type="button" class="btn btn-danger btn-sm" id="backBtn">
-            <i class="ace-icon fa fa-reply"></i><fmt:message key="button.back"/>
-        </button>
-    </div>
 </div>
 
-<input type="text" hidden value="${id}" id="adId"/>
+<style type="text/css">
+    .ui-jqgrid .ui-jqgrid-bdiv {
+        overflow: auto;
+    }
+    .ui-jqgrid .ui-userdata {
+        border-left: 1px solid #D3D3D3;
+        border-right: 1px solid #D3D3D3;
+        height: 44px;
+        overflow: hidden;
+    }
+    .ui-jqgrid .topnavtable td {
+        font-weight: 400;
+        vertical-align: middle;
+        padding: 0 8px;
+    }
+</style>
+
 <div class="page-content">
     <div class="page-header">
         <form class="form-inline">
             <label class="control-label" for="materialName">素材名称</label>
             <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="materialName">
-            
+
             <label class="control-label" for="type">素材类型</label>
-            <select class="form-control input-sm" style="margin-left: 5px;" id="type">
+            <select class="form-control input-sm" readonly="readonly"  style="margin-left: 5px;" id="type">
                 <option value="">全部</option>
                 <option value="1">图片</option>
                 <option value="2">文字</option>
             </select>
-            
-            <label class="control-label" for="status">素材状态</label>
-            <select class="form-control input-sm" id="status" style="margin-left: 5px;">
-                <option value="">全部</option>
-                <option value="101">待审核</option>
-                <option value="102">审核成功</option>
-                <option value="103">审核失败</option>
-                <option value="104">已删除</option>
-                <option value="105">已使用</option>
-                <c:forEach var="status" items="${pubStatus}">
-                    <option value="${status.key}">${status.value}</option>
-                </c:forEach>
-            </select>
-            
+            <span id="select_status" class="">
+                <label class="control-label" for="status">素材状态</label>
+                <select class="form-control input-sm" readonly="readonly" id="status" style="margin-left: 5px;">
+                    <option value="">全部</option>
+                    <option value="102">审核通过</option>
+                    <option value="103">审核失败</option>
+                    <option value="104">待使用</option>
+                    <option value="105">使用中</option>
+                    <option value="106">已删除</option>
+                </select>
+            </span>
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
-            
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
                 <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
             </button>
@@ -93,47 +80,22 @@
     <!-- /.page-header -->
     <div class="row">
         <div class="col-xs-12">
-            <table id="ad-add-material-grid-table"></table>
-            <div id="ad-add-material-grid-pager"></div>
+            <table id="grid-table"></table>
+            <div id="grid-pager"></div>
         </div>
     </div>
     <!-- /.row -->
-
-
 </div>
-
 
 <script type="text/javascript">
 
     jQuery(function($) {
-
-        $("#backBtn").on("click", function () {
-            $("#main_page > div:last").remove();
-            $("#main_page > div:last").removeClass("main-page-div-display");
-            $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
-        })
-        
-        
-        $.get("<c:url value='/json/adad_getAdSlot.do'/>",function (result) {
-            var soltStr = '';
-            $(result.root).each(function (index,items) {
-                soltStr+= '<option value="'+items.id+'">'+items.slotName+'</option>';
-            });
-            $("#add_soltId").append(soltStr);
-
-        });
-
-        $.get("<c:url value='/json/adad_getAdMaterial.do'/>",function (result) {
-            var soltStr = '';
-            $(result.root).each(function (index,items) {
-                soltStr+= '<option value="'+items.id+'">'+items.materialName+'</option>';
-            });
-            $("#add_material").append(soltStr);
-
-        });
-        //$('.chosen-select').chosen({allow_single_deselect:true});
-        var grid_selector = "#ad-add-material-grid-table";
-        var pager_selector = "#ad-add-material-grid-pager";
+        var status = "${status}";
+        if(status == 101){
+            $("#select_status").addClass("hidden");
+        }
+        var grid_selector = "#grid-table";
+        var pager_selector = "#grid-pager";
 
         var parent_column = $(grid_selector).closest('[class*="col-"]');
         //resize to fit page size
@@ -158,36 +120,27 @@
             "alwaysShowCalendars": true,
             "startDate": moment().subtract('days', 30),
             "endDate": moment().subtract('days', 0),
-            "opens": "right",
+            "opens": "left",
             "drops": "down"
         }, function(start, end, label) {//时间改变后执行该方法
             //alert(label);
         });
-//        $('#add_startTime').daterangepicker({
-//            startDate: moment().subtract('days', 0),
-//            endDate: moment().subtract('days', 0),
-//            timePicker: true,
-//            timePickerIncrement : 5, // 时间的增量，单位为分钟
-//            timePicker24Hour : true, // 是否使用12小时制来显示时间
-//            locale: {
-//                format: 'YYYY-MM-DD HH:mm'
-//            }
-//        }, function(start, end, label) {//时间改变后执行该方法
-//            //console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-//        });
-        var startTime = $('#createTime').val().replace(/\s/g, "").split("至");
-        var startDate = startTime[0];
-        var endDate = startTime[1];
+
+        var dateRange = $('#createTime').val().replace(/\s/g, "").split("至");
+        var startDate = dateRange[0];
+        var endDate = dateRange[1];
 
         jQuery(grid_selector).jqGrid({
             datatype: "json",
             mtype: "post",
-            url: "<c:url value='/json/adad_getAdMaterial.do'/>",
+            url: "<c:url value='/json/adMaterial_getAdMaterials.do'/>",
             postData: {
-                status:$("#status").val(),
-                adName:$("#adName").val(),
-                startTime: startDate,
-                endTime: endDate+" 23:59:59"
+                materialName: $("#materialName").val(),
+                type: $("#type").val(),
+                status: status == 0 ? $("#status").val():status,
+                status_not:status == 0 ? 101:'',
+                beginDate: startDate +" 00:00:00",
+                endDate: endDate+ " 23:59:59"
             },
             height: 560,
             colNames:[
@@ -202,9 +155,9 @@
                 '<fmt:message key="ad.material.updatePreson"/>'
             ],
             colModel:[
-                {name:'id',index:'id', width : 80,align:'center', sortable : true},
+                {name:'id',index:'id', width : 80,align:'center', sortable : true,hidden:true},
                 {name: 'materialName',index: 'materialName', width : 300, align:'center', sortable : true},
-                {name : 'type', index : 'type', width : 270, align:'center', sortable : true},
+                {name : 'type', index : 'type', width : 270, align:'center', sortable : true,formatter:typeFmt},
                 {name : 'clickHref', index : 'clickHref', width : 280, align:'center', sortable : true},
                 {name : 'status', index : 'status', width : 108, align:'center', sortable : false,formatter:statusFmt},
                 {name : 'createTime', index : 'createTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
@@ -227,18 +180,13 @@
                 root : 'rows',
                 repeatitems : true
             },
-            caption: '<fmt:message key="ad.ad.list" />',
-            <cas:havePerm url="/bestvContent_loadDetailPage.do">
-            ondblClickRow : function (rowid, iRow, iCol, e) {
-                openMainPage('<c:url value="/pages/adAd/adAddMaterial.jsp"/>', {"id": rowid}, function () {
-                });
-            },
-            </cas:havePerm>
+            caption: "<fmt:message key="ad.verify.material.title" />",
             toolbar: [true,'top'],
             loadComplete : function(data) {
                 var table = this;
                 setTimeout(function(){
                     styleCheckbox(table);
+
                     updateActionIcons(table);
                     updatePagerIcons(table);
                     enableTooltips(table);
@@ -247,10 +195,17 @@
 
         });
 
-        $("#t_ad-add-material-grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
-            '<td><button type="button" id="addadMaterial" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus"></i>添加关联</button></td>' +
-            '<td></td>' +
-            '</tr></table>');
+        if(status == 101){
+            $("#t_grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
+                '<td><button type="button" id="adm_create" class="btn btn-xs btn-success"><i class="ace-icon fa fa-paper-plane-o"></i>审核通过</button></td>' +
+                '<td>|</td>' +
+                '<td><button type="button" id="adm_update" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-wrench"></i>审核驳回</button></td>' +
+                '<td></td>' +
+                '</tr></table>');
+        }else{
+            $("#t_grid-table").addClass("hidden");
+        }
+        
 
         $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 
@@ -331,65 +286,48 @@
             }
             return result;
         }
+        
+        function typeFmt(cellvalue, options, rowObject) {
+            var result="";
+            switch (cellvalue){
+                case 1:
+                    result='图片';
+                    break;
+                case 2:
+                    result = '文字';
+                    break;
+               
+            }
+            return result;
+        }
 
         $("#search").on("click", function () {
 
-            if($('#startTime').val() == ""){
+            if($('#createTime').val() == ""){
                 startDate = "";
                 endDate = "";
             } else{
-                dateRange = $('#startTime').val().replace(/\s/g, "").split("至");
+                dateRange = $('#createTime').val().replace(/\s/g, "").split("至");
                 startDate = dateRange[0];
                 endDate = dateRange[1];
             }
 
-            $("#ad-add-material-grid-table").jqGrid('setGridParam', {
-                url : "<c:url value='/json/adad_getAdMaterial.do'/>",
+            $("#grid-table").jqGrid('setGridParam', {
+                url : "<c:url value='/json/adMaterial_getAdMaterials.do'/>",
                 postData : {
-                    status:$("#status").val(),
-                    adName:$("#adName").val(),
-                    startTime: startDate,
-                    endTime: endDate+" 23:59:59"
+                    materialName: $("#materialName").val(),
+                    type: $("#type").val(),
+                    status:status == 0 ? $("#status").val():status,
+                    status_not:status == 0 ? 101:'',
+                    beginDate: startDate +" 00:00:00",
+                    endDate: endDate+ " 23:59:59"
                 },
                 page : 1,
                 datatype: "json",
                 mtype : "post"
             }).trigger("reloadGrid"); //重新载入
         })
-        $("#addadMaterial").on("click",function () {
-            var row = $("#ad-add-material-grid-table").jqGrid('getGridParam', 'selarrrow');
-            if (row.length == 0){
-                bootbox.alert("请选择要操作的记录！");
-                return;
-            }
-            var materailIds = [];
-            $.each(row,function (index,items) {
-                var rowData = $("#ad-add-material-grid-table").jqGrid('getRowData',items);
-                materailIds.push(rowData.id);
-            });
-            alert(materailIds.join(","));
-            $.ajax({
-                url:"<c:url value='/json/adad_addAdMaterial.do'/>",
-                type:"POST",
-                data:{adId:$("#adId").val(),materailIds:materailIds.join(",")},
-                success:function (response) {
-                    if(response.success) {
-                        bootbox.alert("操作成功！");
-                        return;
-                    }else{
-                        bootbox.alert("操作失败！");
-                        return;
-                    }
-                },error:function () {
-                    bootbox.alert("连接服务器超时！");
-                    return;
-                }
-            })
-            
-        })
-        function formatDate(str) {
-            return str.substr(0, 10) + " " + str.substr(10, str.length)+":00";
-        }
 
     });
 </script>
+

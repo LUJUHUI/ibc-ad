@@ -32,9 +32,9 @@ public class AdAd implements Serializable {
 	private Date endTime;		//广告结束时间
 	private int status;			//状态 101:草稿，102：待投放，103：投放中，104：投放完成，105：删除
 	private String remark;		//备注
-	private Date createTime = new Date();	//创建时间
+	private Date createTime;	//创建时间
 	private String createId;	//创建人
-	private Date updateTime = new Date();	//更新时间
+	private Date updateTime;	//更新时间
 	private String updateId;	//更新人
 
 	public AdAd() {

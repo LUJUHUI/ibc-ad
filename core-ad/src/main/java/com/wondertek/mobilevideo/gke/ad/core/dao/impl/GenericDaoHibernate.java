@@ -439,6 +439,26 @@ public class GenericDaoHibernate<T, PK extends Serializable> implements GenericD
 						whereString.append(" and " + paramName + " = ?");
 						params.add(paramValue);
 					}
+				}else if (paramValue instanceof ArrayList){
+					if (paramName.endsWith("_in")) {
+						List<Object> list = ((ArrayList) paramValue);
+						whereString.append(" and "+paramName.replaceAll("_in", "") + " in (");
+						for (Object o : list) {
+							whereString.append("?,");
+							params.add(o);
+						}
+						whereString.deleteCharAt(whereString.length() - 1);
+						whereString.append(" )");
+					} else if (paramName.endsWith("_notIn")) {
+						List<Object> list = ((ArrayList) paramValue);
+						whereString.append(" and "+paramName.replaceAll("_notIn", "") + " not in (");
+						for (Object o : list) {
+							whereString.append("?,");
+							params.add(o);
+						}
+						whereString.deleteCharAt(whereString.length() - 1);
+						whereString.append(" )");
+					}
 				}else {
 					whereString.append(" and " + paramName + " = ?");
 					params.add(paramValue);
