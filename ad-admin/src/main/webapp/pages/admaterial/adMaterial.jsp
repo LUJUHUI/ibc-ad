@@ -258,8 +258,8 @@
                 materialName: $("#materialName").val(),
                 type: $("#type").val(),
                 status: $("#status").val(),
-                beginDate: startDate +" 00:00:00",
-                endDate: endDate+" 23:59:59"
+                beginDate: startDate + " 00:00:00",
+                endDate: endDate + " 23:59:59"
             },
             height: 560,
             colNames:[
@@ -299,7 +299,7 @@
                 root : 'rows',
                 repeatitems : true
             },
-
+            caption: '<fmt:message key="ad.ad.list" />',
             toolbar: [true,'top'],
             loadComplete : function(data) {
                 var table = this;
