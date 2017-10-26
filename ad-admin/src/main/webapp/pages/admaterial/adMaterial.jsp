@@ -340,6 +340,14 @@
             }
         )
 
+        function styleCheckbox(table) {
+
+        }
+
+        function updateActionIcons(table) {
+
+        }
+
         function updatePagerIcons(table) {
             var replacement =
                 {
