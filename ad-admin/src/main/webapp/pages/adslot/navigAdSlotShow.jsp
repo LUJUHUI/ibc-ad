@@ -25,11 +25,7 @@
                             <option value="3">会员</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="adSlot_channelId" class="control-label">导航ID</label>
-                        <input type="text" class="form-control" id="adSlot_channelId" name="adSlot.channelId">
-                    </div>
-                       <div class="form-group">
+                     <div class="form-group">
                         <label for="adSlot_width" class="control-label">广告位宽度</label>
                         <input type="text" class="form-control" id="adSlot_width" name="adSlot.width">
                     </div>
@@ -173,8 +169,8 @@
             "showDropdowns":true,
             "showCustomRangeLabel":false,
             "alwaysShowCalendars": true,
-            "startDate": moment().subtract('days', 29),
-            "endDate": moment().subtract('days', -1),
+            "startDate": moment().subtract('days', 30),
+            "endDate": moment().subtract('days', 0),
             "opens": "left",
             "drops": "down"
         }, function(start, end, label) {//时间改变后执行该方法
@@ -194,15 +190,14 @@
           	       navig: $('#slot_Channel').val(),
           	       status: $('#slot_status').val(),
             	   type:3,
-            	   beginDate: startDate,
-                   endDate: endDate
+            	   startTime: startDate + " 00:00:00",
+                   endTime: endDate + " 23:59:59"
             },
             height: 560,
             colNames:[ 
                 '<fmt:message key="ad.slot.id"/>',                      
                 '<fmt:message key="ad.slot.name"/>',
                 '<fmt:message key="ad.slot.navig"/>',
-                '<fmt:message key="ad.slot.channel.id"/>',
                 '<fmt:message key="ad.slot.width"/>',
                 '<fmt:message key="ad.slot.height"/>',
                 '<fmt:message key="ad.slot.status"/>',
@@ -216,7 +211,6 @@
                 {name : 'id', index:'id', width : 100, align:'center',hidden:true},
                 {name : 'slotName', index : 'slot_name', width : 150, align:'center'},
                 {name : 'navig', index : 'navig', width : 100, align:'center', sortable : false,formatter:attrNavig},
-                {name : 'channelId', index : 'channel_id', width : 100, align:'center', sortable : false},
                 {name : 'width', index : 'width_', width : 100, align:'center', sortable : false},
                 {name : 'height', index : 'height_', width : 150, align:'center', sortable : false},
                 {name : 'status', index : 'status_', width : 120, align:'center', sortable : false,formatter:attrStatus},
@@ -408,7 +402,6 @@
        	 $('#adSlot_id').val("");
        	 $("#adSlot_name").val("");
        	 $('#adSlot_navig').val("");
-       	 $('#adSlot_channelId').val("");
        	 $('#adSlot_width').val("");
        	 $('#adSlot_height').val("");
        	 $('#adSlot_remark').val("");
@@ -422,10 +415,6 @@
         	if($("#adSlot_navig").val() == ""){
                   $("#adSlot_navig").tips({side:2,msg:'请选择导航 ',time:3});
                   return false;
-            }
-        	if($("#adSlot_channelId").val() == ""){
-                $("#adSlot_channelId").tips({side:2,msg:'导航ID必填 ',time:3});
-                return false;
             }
             if($("#adSlot_width").val() == ""){
                 $("#adSlot_width").tips({side:2,msg:'宽度必填 ',time:3});
@@ -478,7 +467,6 @@
                 if(rowData.status != "使用中"){
                 $("#adSlot_id").val(rowData.id); 
                 $("#adSlot_name").val(rowData.slotName);
-                $("#adSlot_channelId").val(rowData.channelId);
                 $("#adSlot_width").val(rowData.width);
                 $("#adSlot_height").val(rowData.height);
                 $("#adSlot_remark").val(rowData.remark);

@@ -29,7 +29,7 @@ public class AdSlot implements Serializable {
 	            return _status;
 	        }
 	    }
-		private static final long serialVersionUID = 467620661858607767L;
+	    private static final long serialVersionUID = 467620661858607767L;
 		
 		private int id;                          //广告位Id
 		private String slotName;				 //广告位名称 

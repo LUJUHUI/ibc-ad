@@ -156,8 +156,8 @@
             "showDropdowns":true,
             "showCustomRangeLabel":false,
             "alwaysShowCalendars": true,
-            "startDate": moment().subtract('days', 29),
-            "endDate": moment().subtract('days', -1),
+            "startDate": moment().subtract('days', 30),
+            "endDate": moment().subtract('days', 0),
             "opens": "left",
             "drops": "down"
         }, function(start, end, label) {//时间改变后执行该方法
@@ -176,8 +176,8 @@
             	   navig: $('#slot_Channel').val(),
             	   status: $('#slot_status').val(),
             	   type:1,
-                   beginDate: startDate,
-                   endDate: endDate
+            	   startTime: startDate + " 00:00:00",
+                   endTime: endDate + " 23:59:59"
             },
             height: 560,
             colNames:[ 
@@ -194,7 +194,7 @@
             ],
             colModel:[
                  {name : 'id', index:'id', width : 100, align:'center',hidden:true},
-                 {name : 'slotName', index : 'slot_name', width : 150, align:'center'},
+                 {name : 'slotName', index : 'slot_name', width : 200, align:'center'},
                  {name : 'width', index : 'width_', width : 100, align:'center', sortable : false},
                  {name : 'height', index : 'height_', width : 150, align:'center', sortable : false},
                  {name : 'status', index : 'status_', width : 120, align:'center', sortable : false,formatter:attrStatus},
@@ -202,7 +202,7 @@
                  {name : 'createPeople', index : 'create_people', width : 150, align:'center', sortable : false},
                  {name : 'updateTime', index : 'update_time', width : 200, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
                  {name : 'updatePeople', index : 'update_people', width : 150, align:'center', sortable : false},
-                 {name : 'remark', index : 'remark_', width : 200, align:'center', sortable : false},
+                 {name : 'remark', index : 'remark_', width : 250, align:'center', sortable : false},
             ],
             shrinkToFit : false,
             hidegrid : false,
@@ -282,7 +282,28 @@
             $.jgrid.gridDestroy(grid_selector);
             $('.ui-jqdialog').remove();
         });
-
+        function attrStatus(callValue, options, rowObject) {
+            var result="";
+	            switch (callValue){
+	            case  101:
+	                result=  '待审核';
+	                break;
+	            case  102:
+	                result = '待使用';
+	                break;
+	            case  103:
+	                result = '使用中';
+	                break;
+	            case  104:
+	                result = '审核失败';
+	                break;
+	            case  105:
+	                result = '删除';
+	                break;
+	        }
+            return result;
+        }
+		
         function tranStatus(callValue) {
             var result="";
             switch (callValue){
@@ -307,7 +328,6 @@
         
         $("#reset").on("click", function () {
         	$('#slot_Name').val("");
-      	    $('#slot_Channel').val("");
       	    $('#slot_status').val("");
             search();
         })
@@ -326,7 +346,6 @@
                 url : "<c:url value='/json/adSlot_listAdSlots.do'/>",
                 postData : {
                 	slotName: $('#slot_Name').val(),
-              	    navig: $('#slot_Channel').val(),
               	    status: $('#slot_status').val(),
               	    type:1,
                     beginDate: startDate,
@@ -341,8 +360,6 @@
          $("#addSlot").on("click",function () {
         	 $('#adSlot_id').val("");
         	 $('#adSlot_name').val("");
-        	 $('#adSlot_navig').val("");
-        	 $('#adSlot_channelId').val("");
         	 $('#adSlot_width').val("");
         	 $('#adSlot_height').val("");
         	 $('#adSlot_remark').val("");
@@ -353,14 +370,6 @@
         });
 		//保存广告位
         $("#save_update_adSlot").on("click",function () {
-        	if($("#adSlot_navig").val() == ""){
-                  $("#adSlot_navig").tips({side:2,msg:'请选择导航 ',time:3});
-                  return false;
-            }
-        	if($("#adSlot_channelId").val() == ""){
-                $("#adSlot_channelId").tips({side:2,msg:'导航ID必填 ',time:3});
-                return false;
-            }
             if($("#adSlot_width").val() == ""){
                 $("#adSlot_width").tips({side:2,msg:'宽度必填 ',time:3});
                 return false;
@@ -412,25 +421,13 @@
                if(rowData.status != "使用中"){
                $("#adSlot_id").val(rowData.id);
                $('#adSlot_name').val(rowData.slotName);
-               $("#adSlot_channelId").val(rowData.channelId);
                $("#adSlot_width").val(rowData.width);
                $("#adSlot_height").val(rowData.height);
                $("#adSlot_remark").val(rowData.remark);
                $("#adSlot_status").val(tranStatus(rowData.status));
                $("#adSlot_createTime").val(rowData.createTime);
                $("#adSlot_createPeople").val(rowData.createPeople);
-               switch (rowData.navig){
-               case "首页":
-            	   $("#adSlot_navig option[value='1']").attr("selected","selected")
-                   break;
-               case "直播":
-            	   $("#adSlot_navig option[value='2']").attr("selected","selected")
-                   break;
-               case "会员":
-            	   $("#adSlot_navig option[value='3']").attr("selected","selected") 
-            	   break;
-               }
-               	   $("#adSlotModel").modal();
+               $("#adSlotModel").modal();
                }else{
             	   bootbox.alert("该广告位正在使用，不能修改！");  	
                }

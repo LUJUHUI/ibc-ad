@@ -174,8 +174,8 @@
             "showDropdowns":true,
             "showCustomRangeLabel":false,
             "alwaysShowCalendars": true,
-            "startDate": moment().subtract('days', 29),
-            "endDate": moment().subtract('days', -1),
+            "startDate": moment().subtract('days', 30),
+            "endDate": moment().subtract('days', 0),
             "opens": "left",
             "drops": "down"
         }, function(start, end, label) {//时间改变后执行该方法
@@ -195,8 +195,8 @@
           	       navig: $('#slot_Channel').val(),
           	       status: $('#slot_status').val(),
             	   type:2,
-            	   beginDate: startDate,
-                   endDate: endDate
+            	   startTime: startDate + " 00:00:00",
+                   endTime: endDate + " 23:59:59"
             },
             height: 560,
             colNames:[ 
