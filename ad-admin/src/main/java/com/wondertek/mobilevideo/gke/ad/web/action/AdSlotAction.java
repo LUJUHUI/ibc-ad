@@ -36,7 +36,7 @@ public class AdSlotAction extends BaseAction {
 		getParams();
 		PageList pageList = new PageList();
 		try {
-			pageList =  adSlotManagerImpl.getPageList(params,getPageNo(),getPageSize(),getSort(),getOrder());
+			pageList =  adSlotManagerImpl.getPageList(params,getPageNo(),getPageSize(),getOrder(),getSort());
 		}catch (Exception e){
 			e.printStackTrace();
 			resultMap.put("success",false);
@@ -52,7 +52,7 @@ public class AdSlotAction extends BaseAction {
 		getParams();
 		PageList pageList = new PageList();
 		try {
-			pageList =  adLogManagerImpl.getPageList(params,getPageNo(),getPageSize(),getSort(),getOrder());
+			pageList =  adLogManagerImpl.getPageList(params,getPageNo(),getPageSize(),getOrder(),getSort());
 		}catch (Exception e){
 			e.printStackTrace();
 			resultMap.put("success",false);
