@@ -33,8 +33,10 @@ public class AdMaterialAction extends BaseAction {
     //     增加
     public String addAdMaterial() {
         try {
-            adMaterial.setCreatePerson(getUsername());
-            adMaterial.setCreateTime(new Date());
+            adMaterial.setCreatePerson(getUsername()); //创建者
+            adMaterial.setUpdatePerson(getUsername());//修改者
+            adMaterial.setCreateTime(new Date());//创建时间
+            adMaterial.setUpdateTime(new Date());//修改时间
             adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_101.getStatus());
             adMaterialMangerImpl.save(adMaterial);
             resultMap.put("success",true);
@@ -65,6 +67,10 @@ public class AdMaterialAction extends BaseAction {
             String[] ids = getRequest().getParameter("materialIds").split(",");
             for (String adMaterialId: ids) {
                 AdMaterial material = adMaterialMangerImpl.get(Integer.parseInt(adMaterialId));
+
+                /*删除之后保存修改者的时间与ID*/
+                material.setUpdatePerson(getUsername());
+                material.setUpdateTime(new Date());
                 material.setStatus(AdMaterial.AdMaterialStatus.STATUS_106.getStatus());
                 adMaterialMangerImpl.saveOrUpdate(material);
             }

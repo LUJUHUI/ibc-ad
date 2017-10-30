@@ -21,7 +21,7 @@ import java.util.Map;
 
 @Service
 public class AdAdMaterailManagerImpl extends  GenericManagerImpl<AdAdMaterial, Long> implements AdAdMaterialManager {
-    
+
 	@Autowired
 	private AdAdMaterialDao adAdMaterialDao;
 	@Autowired

@@ -276,7 +276,7 @@
             colModel:[
                 {name:'id',index:'id', width : 80,align:'center', sortable : true,hidden:true},
                 {name: 'materialName',index: 'materialName', width : 300, align:'center', sortable : true},
-                {name : 'type', index : 'type', width : 270, align:'center', sortable : true},
+                {name : 'type', index : 'type', width : 270, align:'center', sortable : true,formatter:typeFmt},
                 {name : 'clickHref', index : 'clickHref', width : 280, align:'center', sortable : true},
                 {name : 'status', index : 'status', width : 108, align:'center', sortable : false,formatter:statusFmt},
                 {name : 'createTime', index : 'createTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
@@ -372,6 +372,19 @@
             $.jgrid.gridDestroy(grid_selector);
             $('.ui-jqdialog').remove();
         });
+
+        function typeFmt(cellvalue, options, rowObject){
+            var result="";
+            switch (cellvalue){
+                case 1:
+                    result='图片';
+                    break;
+                case 2:
+                    result = '文字';
+                    break;
+            }
+            return result;
+        }
 
         function statusFmt(cellvalue, options, rowObject){
             var result="";
@@ -510,7 +523,7 @@
                 success: function (data) {
                     $("#updateAdMaterialModel").modal('hide')
                     $("#search").click();
-                    alert("修改成功!");
+                    /*alert("修改成功!");*/
                 }, error: function () {
                     alert("修改失败，无法连接服务器!");
                 }
