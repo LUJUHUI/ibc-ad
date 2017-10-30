@@ -217,17 +217,14 @@
 
         function attrOperType(callValue) {
             var result="";
-	            switch (callValue){
-	            case  301:
-	                result=  '新增';
-	                break;
-	            case  302:
-	                result = '修改';
-	                break;
-	            case  303:
-	                result = '删除';
-	                break;
-	        }
+            switch (callValue){
+                case 301:
+                    result='播控通过';
+                    break;
+                case 302:
+                    result = '播控驳回';
+                    break;
+            }
             return result;
         }
 		
