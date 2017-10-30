@@ -1,6 +1,7 @@
 package com.wondertek.mobilevideo.gke.ad.core.model;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,20 +14,23 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ad_log")//广告位
-public class AdLog {
-			public enum AdLogOperType {
-	        TYPE_101(301), TYPE_102(302),TYPE_103(303);
-	        
-	        private final int _type;
+public class AdLog implements Serializable{
+		public enum adLogOperType{
+			/**
+			 * 301:播控通过，302：播控驳回
+			 */
+			OPER_TYPE_301(301), OPER_TYPE_302(302);
 	
-	        private AdLogOperType(int _type) {
-	            this._type = _type;
-	        }
+			private Integer operType;
 	
-	        public int get_type() {
-	            return _type;
-	        }
-	    }
+			private adLogOperType(Integer operType) {
+				this.operType = operType;
+			}
+	
+			public Integer getOperType() {
+				return operType;
+			}
+		}
 		private static final long serialVersionUID = 467620661858607767L;
 		
 		private Integer id;                          //日志Id
