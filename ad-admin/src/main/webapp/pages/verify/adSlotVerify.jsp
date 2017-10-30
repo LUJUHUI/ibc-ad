@@ -202,16 +202,16 @@
             }
 
         });
-
-        $("#t_grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
-        		 '<td><button type="button" id="addSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-plus"></i>增加</button></td>' +
-                 '<td>|</td>' +
-                 '<td><button type="button" id="updateSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-edit"></i>修改</button></td>' +
-                 '<td>|</td>' +
-                 '<td><button type="button" id="deleteSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-remove""></i>删除</button></td>' +
-                 '<td>|</td>' +
-                 '<td><button type="button" id="useSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-check""></i>启用</button></td>' +
-                 '</tr></table>');
+        if(status == 101){
+            $("#t_grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
+                '<td><button type="button" id="verify_via" class="btn btn-xs btn-success"><i class="ace-icon fa fa-paper-plane-o"></i>审核通过</button></td>' +
+                '<td>|</td>' +
+                '<td><button type="button" id="verify_refuse" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-wrench"></i>审核驳回</button></td>' +
+                '<td></td>' +
+                '</table>');
+        }else{
+            $("#t_grid-table").addClass("hidden");
+        }
 
         $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 
@@ -295,7 +295,7 @@
                     result = '<span class="green">使用中</span>';
                     break;
                 case 104:
-                    result = '<span class="red">审核失败</span>';
+                    result = '<span class="red">审核驳回</span>';
                     break;
                 case 105:
                     result = '<span class="red">删除</span>';
@@ -359,164 +359,55 @@
                 mtype : "post"
             }).trigger("reloadGrid"); //重新载入
         }
-        $("#addSlot").on("click",function () {
-       	 $('#adSlot_id').val("");
-       	 $('#adSlot_navig').val("");
-       	 $('#adSlot_channelId').val("");
-       	 $('#adSlot_width').val("");
-       	 $('#adSlot_height').val("");
-       	 $('#adSlot_remark').val("");
-       	 $('#adSlot_status').val("");
-       	 $('#adSlot_createTime').val("");
-       	 $('#adSlot_createPeople').val("");
-       	 $("#adSlotModel").modal();
-       });
+        function verify(ids,type) {
+            $.ajax({
+                url: "<c:url value='/json/adSlot_verify.do'/>",
+                data:{ids:ids.join(","),type:type},
+                type:"post",
+                success:function (resp) {
+                    if(resp.success == true) {
+                        if(resp.code == 101){
+                            bootbox.alert("操作成功！");
+                            $("#search").click();
+                        }else if (resp.code = 102){
+                            bootbox.alert("操作失败，节目中有未处于”待审核“状态节目！");
+                        }
+                    }else{
+                        bootbox.alert("系统发生异常，操作失败！");
+                    }
 
-       $("#save_update_adSlot").on("click",function () {
-       	if($("#adSlot_navig").val() == ""){
-                 $("#adSlot_navig").tips({side:2,msg:'请选择导航 ',time:3});
-                 return false;
-           }
-       	if($("#adSlot_channelId").val() == ""){
-               $("#adSlot_channelId").tips({side:2,msg:'导航ID必填 ',time:3});
-               return false;
-           }
-           if($("#adSlot_width").val() == ""){
-               $("#adSlot_width").tips({side:2,msg:'宽度必填 ',time:3});
-               return false;
-           }
-           if($("#adSlot_height").val() == ""){
-               $("#adSlot_height").tips({side:2,msg:'高度必填 ',time:3});
-               return false;
-           }
-           if($("#adSlot_id").val() == ""){
-          	   $.ajax({
-                     url:"<c:url value='/json/adSlot_addAdSlot.do'/>",
-                     data:$("#ad_SlotForm").serialize(),
-                     type:"post",
-                     success:function(data){
-                         $("#adSlotModel").modal('hide');
-                         $("#search").click();
-                     },error:function(){
-                         alert("保存失败");
-                     }
-                 });
-           }else{
-          	   $.ajax({
-                     url:"<c:url value='/json/adSlot_updateAdSlot.do'/>",
-                     data:$("#ad_SlotForm").serialize(),
-                     type:"post",
-                     success:function(data){
-                         $("#adSlotModel").modal('hide');
-                         $("#search").click();
-                     },error:function(){
-                         alert("修改失败");
-                     }
-                 });
-           }
-        
-       })
-        
-        $("#updateSlot").on("click",function () {
-      	   var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
-             if (ids.length == 0){
-                 bootbox.alert("请选择要操作的记录！");
-                 return;
-             }
-             if (ids.length > 1){
-                 bootbox.alert("只能选择一条记录！");
-                 return;
-             } 
-          for (var index in ids){
-              var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-              $("#adSlot_id").val(rowData.id);
-              $("#adSlot_channelId").val(rowData.channelId);
-              $("#adSlot_width").val(rowData.width);
-              $("#adSlot_height").val(rowData.height);
-              $("#adSlot_remark").val(rowData.remark);
-              $("#adSlot_status").val(tranStatus(rowData.status));
-              $("#adSlot_createTime").val(rowData.createTime);
-              $("#adSlot_createPeople").val(rowData.createPeople);
-              switch (rowData.navig){
-              case "首页":
-           	   $("#adSlot_navig option[value='1']").attr("selected","selected")
-                  break;
-              case "直播":
-           	   $("#adSlot_navig option[value='2']").attr("selected","selected")
-                  break;
-              case "会员":
-           	   $("#adSlot_navig option[value='3']").attr("selected","selected") 
-           	   break;
-              }
-              
-          }
-           $("#adSlotModel").modal();
-       });
+                },error:function () {
 
-       $("#deleteSlot").on("click",deleteSlot);
-       function deleteSlot(){
-           var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
-           if (ids.length == 0){
-               bootbox.alert("请选择要操作的记录！");
-               return;
-           }
-           var codes = [];
-           for (var index in ids){
-               var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-               codes.push(rowData.id); 
-           }
-           if (codes.length < 1){
-               bootbox.alert("没有选择有效记录！");
-               return;
-           }
-           var codeStr = '';
-           for (var index in codes){
-               codeStr =codeStr + codes[index] + ',';
-           }
-           $.ajax({
-               url:"<c:url value='/json/adSlot_deleteAdSlot.do'/>",
-               data:{"deleteIds": codeStr.substring(0, codeStr.length-1)},
-               type:"post",
-               success:function(data){
-               	bootbox.alert("操作成功！");
-                   $("#search").click();
-               },error:function(){
-                   alert("修改失败");
-               }
-           });
-       }
-       //启用广告位
-       $("#useSlot").on("click",useSlot);
-       function useSlot(){
-           var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
-           if (ids.length == 0){
-               bootbox.alert("请选择要操作的记录！");
-               return;
-           }
-           var codes = [];
-           for (var index in ids){
-               var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-               codes.push(rowData.id); 
-           }
-           if (codes.length < 1){
-               bootbox.alert("没有选择有效记录！");
-               return;
-           }
-           var codeStr = '';
-           for (var index in codes){
-               codeStr =codeStr + codes[index] + ',';
-           }
-           $.ajax({
-               url:"<c:url value='/json/adSlot_useAdSlot.do'/>",
-               data:{"useIds": codeStr.substring(0, codeStr.length-1)},
-               type:"post",
-               success:function(data){
-               	bootbox.alert("操作成功！");
-                   $("#search").click();
-               },error:function(){
-                   alert("修改失败");
-               }
-           });
-       }
+                }
+            });
+        }
+        //审核通过
+        $("#verify_via").on("click",function () {
+            var rows = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
+            if (rows.length == 0){
+                bootbox.alert("请选择要操作的记录！");
+                return;
+            }
+            var ids = [];
+            $.each(rows,function (index, items) {
+                var rowdDta = $("#grid-table").jqGrid('getRowData', rows[index])
+                ids.push(rowdDta.id);
+            })
+            verify(ids,0);
+        })
+        //审核驳回
+        $("#verify_refuse").on("click",function () {
+            var rows = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
+            if (rows.length == 0){
+                bootbox.alert("请选择要操作的记录！");
+                return;
+            }
+            var ids = [];
+            $.each(rows,function (index, items) {
+                var rowdDta = $("#grid-table").jqGrid('getRowData', rows[index])
+                ids.push(rowdDta.id);
+            })
+            verify(ids,1);
+        })
     });
 </script>

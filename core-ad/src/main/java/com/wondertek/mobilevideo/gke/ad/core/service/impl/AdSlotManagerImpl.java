@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import com.wondertek.mobilevideo.gke.ad.core.dao.AdLogDao;
+import com.wondertek.mobilevideo.gke.ad.core.model.AdLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,9 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
     @Autowired
 	private AdSlotDao adSlotDao;
     @Autowired
+	private AdLogDao adLogDao;
+
+	@Autowired
 	public AdSlotManagerImpl(AdSlotDao adSlotDao) {
 		super(adSlotDao);
 		this.adSlotDao = adSlotDao;
@@ -59,4 +64,31 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 			adSlotDao.saveOrUpdate(slot);
 		}	
   	}
+
+  	@Transactional
+	public void verify(String ids, int type, String userName) throws RuntimeException {
+		String[] id_ = ids.split(",");
+		for (String id : id_) {
+			AdSlot adSlot = adSlotDao.get(new Integer(id));
+			if(adSlot.getStatus() == AdSlot.AdSlotStatus.STATUS_101.get_status()){
+				AdLog adLog = new AdLog();
+				if (0 == type) {
+					adSlot.setStatus(AdSlot.AdSlotStatus.STATUS_102.get_status());
+					adLog.setOperType(AdLog.adLogOperType.OPER_TYPE_301.getOperType());
+				}else{
+					adSlot.setStatus(AdSlot.AdSlotStatus.STATUS_104.get_status());
+					adLog.setOperType(AdLog.adLogOperType.OPER_TYPE_302.getOperType());
+				}
+				adSlot.setUpdatePeople(userName);
+				adSlot.setUpdateTime(new Date());
+				adSlotDao.saveOrUpdate(adSlot);
+				adLog.setOperName(userName);
+				adLog.setOperResult("成功");
+				adLog.setCreateTime(new Date());
+				adLogDao.save(adLog);
+			}else {
+				throw new RuntimeException();
+			}
+		}
+	}
 }
