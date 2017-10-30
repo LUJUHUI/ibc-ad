@@ -47,9 +47,8 @@
             <label class="control-label" for="attr">操作类型</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="operType">
                 <option value="">全部</option>
-                <option value=301>新增</option>
-                <option value=302>修改</option>
-                <option value=303>删除</option>
+                <option value=301>通过</option>
+                <option value=302>驳回</option>
             </select>
 			
 			<label class="control-label" for="attr">审核结果</label>
@@ -188,7 +187,13 @@
                 viewicon : 'ace-icon fa fa-search-plus grey',
             }
         )
-  
+  		function styleCheckbox(table) {
+            
+        }
+
+        function updateActionIcons(table) {
+            
+        }
         function updatePagerIcons(table) {
             var replacement =
                 {
