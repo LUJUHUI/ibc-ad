@@ -8,4 +8,5 @@ public class MainAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	
 }

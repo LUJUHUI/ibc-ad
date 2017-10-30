@@ -266,22 +266,22 @@
             var result="";
             switch (cellvalue){
                 case 101:
-                    result='待审核';
+                    result='<span class="green">待审核</span>';
                     break;
                 case 102:
-                    result = '审核通过';
+                    result = '<span class="green">审核通过</span>';
                     break;
                 case 103:
-                    result = '审核失败';
+                    result = '<span class="red">审核驳回</span>';
                     break;
                 case 104:
-                    result = '待使用';
+                    result = '<span class="orange">待使用</span>';
                     break;
                 case 105:
-                    result = '使用中';
+                    result = '<span class="green">使用中</span>';
                     break;
                 case 106:
-                    result = '已删除';
+                    result = '<span class="red">已删除</span>';
                     break;
             }
             return result;

@@ -490,17 +490,30 @@
                     codes.push(rowData.id);
                 }
             }
-            for (var index in ids){
-                var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-
-                $("#update_id").val(rowData.id);
-                $("#update_adMaterialName").val(rowData.materialName);
-                $("#update_type").val(rowData.type);
-                $("#update_clickHref").val(rowData.clickHref);
-                $("#update_status").val(rowData.status);
-                $("#update_createTime").val(rowData.createTime);
-                $("#update_createPerson").val(rowData.createPerson);
-            }
+            var rowData = $("#grid-table").jqGrid('getRowData', ids[0]);
+            //ajax,
+            $.ajax({
+                url: "<c:url value='/json/adMaterial_l.do'/>",
+                data:{id:rowData.id},
+                type: "post",
+                success: function (data) {
+                    console.log(date);
+//                    data.root.id
+//                    $("#updateAdMaterialModel").modal('hide')
+//                    $("#search").click();
+                    /*alert("修改成功!");*/
+                }, error: function () {
+                    alert("修改失败，无法连接服务器!");
+                }
+            });
+            //get()
+            $("#update_id").val(rowData.id);
+            $("#update_adMaterialName").val(rowData.materialName);
+            $("#update_type").val(rowData.type);
+            $("#update_clickHref").val(rowData.clickHref);
+            $("#update_status").val(rowData.status);
+            $("#update_createTime").val(rowData.createTime);
+            $("#update_createPerson").val(rowData.createPerson);
             $("#updateAdMaterialModel").modal();
         };
         $("#save_updateAdMaterial").on("click",function() {

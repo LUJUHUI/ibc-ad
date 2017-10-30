@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Transient;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class AdAdMaterailManagerImpl extends  GenericManagerImpl<AdAdMaterial, L
 		this.adAdMaterialDao = adAdMaterialDao;
 	}
 
-	@Transient
+	@Transactional
 	public void save(Long adId, String[] materialIds,String userName) {
 		for (String mId : materialIds) {
 			AdMaterial adMaterial = adMaterialDao.get(Integer.parseInt(mId));

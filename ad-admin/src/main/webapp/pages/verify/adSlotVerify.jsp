@@ -1,5 +1,9 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
+<%
+    String status = request.getParameter("status");
+    request.setAttribute("status",status);
+%>
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
         try {
@@ -41,6 +45,13 @@
 <div class="page-content">
     <div class="page-header">
         <form class="form-inline">
+            <label class="control-label" for="slot_type">广告类型</label>
+            <select class="form-control input-sm" style="margin-left: 5px;" id="slot_type">
+                <option value="">全部</option>
+                <option value="1">开机广告位</option>
+                <option value="2">导航广告位</option>
+                <option value="3">频道广告位</option>
+            </select>
             <label class="control-label" for="slot_Channel">导航名称</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="slot_Channel">
                 <option value="">全部</option>
@@ -48,16 +59,16 @@
                 <option value="2">直播</option>
                 <option value="3">会员</option>
             </select>
-			
-			<label class="control-label" for="slot_status">状态</label>
-            <select class="form-control input-sm" style="margin-left: 5px;" id="slot_status">
-                <option value="">全部</option>
-                <option value="101">待审核</option>
-                <option value="102">待使用</option>
-                <option value="103">使用中</option>
-                <option value="104">审核失败</option>
-                <option value="105">删除</option>
-            </select>
+			<span id="slot_status">
+                <label class="control-label" for="status">状态</label>
+                <select class="form-control input-sm" style="margin-left: 5px;" id="status">
+                    <option value="">全部</option>
+                    <option value="102">待使用</option>
+                    <option value="103">使用中</option>
+                    <option value="104">审核驳回</option>
+                    <option value="105">删除</option>
+                </select>
+            </span>
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
 			<button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
@@ -81,6 +92,10 @@
 <script type="text/javascript">
 
     jQuery(function($) {
+        var status = "${status}";
+        if(status == 101){
+            $("#slot_status").addClass("hidden");
+        }
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
 
@@ -122,12 +137,13 @@
             mtype: "post",
             url: "<c:url value='/json/adSlot_listAdSlots.do'/>",
             postData: {
-            	   slotName: $('#slot_Name').val(),
-          	       navig: $('#slot_Channel').val(),
-          	       status: $('#slot_status').val(),
-            	   type:2,
-            	   beginDate: startDate,
-                   endDate: endDate
+                slotName: $('#slot_Name').val(),
+                navig: $('#slot_Channel').val(),
+                type:$("#slot_type").val(),
+                status: status == 0 ? $("#status").val():status,
+                status_not:status == 0 ? 101:'',
+                beginDate: startDate +" 00:00:00",
+                endDate: endDate+ " 23:59:59"
             },
             height: 560,
             colNames:[ 
@@ -151,12 +167,12 @@
                 {name : 'channelId', index : 'channel_id', width : 100, align:'center', sortable : false},
                 {name : 'width', index : 'width_', width : 100, align:'center', sortable : false},
                 {name : 'height', index : 'height_', width : 150, align:'center', sortable : false},
-                {name : 'status', index : 'status_', width : 120, align:'center', sortable : false,formatter:attrStatus},
-                {name : 'createTime', index : 'create_time', width : 150, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'createPeople', index : 'create_people', width : 100, align:'center', sortable : false},
-                {name : 'updateTime', index : 'update_time', width : 150, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'updatePeople', index : 'update_people', width : 100, align:'center', sortable : false},
-                {name : 'remark', index : 'remark_', width : 150, align:'center', sortable : false},
+                {name : 'status', index : 'status_', width : 150, align:'center', sortable : false,formatter:attrStatus},
+                {name : 'createTime', index : 'create_time', width : 220, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'createPeople', index : 'create_people', width : 150, align:'center', sortable : false},
+                {name : 'updateTime', index : 'update_time', width : 220, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'updatePeople', index : 'update_people', width : 150, align:'center', sortable : false},
+                {name : 'remark', index : 'remark_', width : 270, align:'center', sortable : false},
             ],
             shrinkToFit : false,
             hidegrid : false,
@@ -179,7 +195,6 @@
                 var table = this;
                 setTimeout(function(){
                     styleCheckbox(table);
-
                     updateActionIcons(table);
                     updatePagerIcons(table);
                     enableTooltips(table);
@@ -218,6 +233,14 @@
             }
         )
 
+        function styleCheckbox(table) {
+
+        }
+
+        function updateActionIcons(table) {
+
+        }
+        
         function updatePagerIcons(table) {
             var replacement =
                 {
@@ -262,20 +285,20 @@
         function attrStatus(callValue, options, rowObject) {
             var result="";
             switch (callValue){
-                case '101':
-                    result='待审核';
+                case 101:
+                    result='<span class="green">待审核</span>';
                     break;
-                case '102':
-                    result = '待使用';
+                case 102:
+                    result = '<span class="orange">待使用</span>';
                     break;
-                case '103':
-                    result = '使用中';
+                case 103:
+                    result = '<span class="green">使用中</span>';
                     break;
-                case '104':
-                    result = '审核失败';
+                case 104:
+                    result = '<span class="red">审核失败</span>';
                     break;
-                case '105':
-                    result = '删除';
+                case 105:
+                    result = '<span class="red">删除</span>';
                     break;
             }
             return result;
@@ -323,12 +346,13 @@
             $("#grid-table").jqGrid('setGridParam', {
                 url : "<c:url value='/json/adSlot_listAdSlots.do'/>",
                 postData : {
-                		 slotName: $('#slot_Name').val(),
-           	       		 navig: $('#slot_Channel').val(),
-           	       		 status: $('#slot_status').val(),
-              	   		 type:2,
-              	  		 beginDate: startDate,
-                         endDate: endDate
+                    slotName: $('#slot_Name').val(),
+                    navig: $('#slot_Channel').val(),
+                    type:$("#slot_type").val(),
+                    status: status == 0 ? $("#status").val():status,
+                    status_not:status == 0 ? 101:'',
+                    beginDate: startDate +" 00:00:00",
+                    endDate: endDate+ " 23:59:59"
                 },
                 page : 1,
                 datatype: "json",

@@ -101,6 +101,13 @@ public class AdMaterialAction extends BaseAction {
         return SUCCESS;
     }
 
+    public String getById() {
+        String id = getRequest().getParameter("id");
+        AdMaterial material = adMaterialMangerImpl.get(Integer.parseInt(id));
+        resultMap.put("root", material);
+        return  SUCCESS;
+    }
+
     private void getParams() {
         String materialId = getRequest().getParameter("materialId");
         if (StringUtils.isNotBlank(materialId)) {

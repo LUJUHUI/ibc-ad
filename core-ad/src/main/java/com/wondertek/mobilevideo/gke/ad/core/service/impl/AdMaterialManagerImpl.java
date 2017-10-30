@@ -30,16 +30,21 @@ public class AdMaterialManagerImpl extends GenericManagerImpl<AdMaterial,Integer
         for (String id : id_) {
             AdMaterial material = adMaterialDao.get(new Integer(id));
             if(material.getStatus() == AdMaterial.AdMaterialStatus.STATUS_101.getStatus()){
+                AdLog adLog = new AdLog();
                 if (0 == type) {
                     material.setStatus(AdMaterial.AdMaterialStatus.STATUS_102.getStatus());
+                    adLog.setOperType(AdLog.adLogOperType.OPER_TYPE_301.getOperType());
                 }else{
                     material.setStatus(AdMaterial.AdMaterialStatus.STATUS_103.getStatus());
+                    adLog.setOperType(AdLog.adLogOperType.OPER_TYPE_302.getOperType());
                 }
                 material.setUpdatePerson(userName);
                 material.setUpdateTime(new Date());
                 adMaterialDao.saveOrUpdate(material);
-                AdLog adLog = new AdLog();
-                
+                adLog.setOperName(userName);
+                adLog.setOperResult("成功");
+                adLog.setCreateTime(new Date());
+                adLogDao.save(adLog);
             }else {
                 throw new RuntimeException();
             }
