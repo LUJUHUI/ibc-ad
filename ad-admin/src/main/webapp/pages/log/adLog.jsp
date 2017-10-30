@@ -47,9 +47,8 @@
             <label class="control-label" for="attr">操作类型</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="operType">
                 <option value="">全部</option>
-                <option value=301>新增</option>
-                <option value=302>修改</option>
-                <option value=303>删除</option>
+                <option value=301>通过</option>
+                <option value=302>驳回</option>
             </select>
 			
 			<label class="control-label" for="attr">审核结果</label>
@@ -134,11 +133,11 @@
                 '<fmt:message key="ad.log.createTime"/>',
             ],
             colModel:[
-                {name : 'id', index:'id', width : 250, align:'center',sortable : false },
-                {name : 'operType', index : 'oper_type', width : 350, align:'center', sortable : false,formatter:attrOperType}, 
-                {name : 'operResult', index : 'oper_result', width : 350, align:'center', sortable : false},
-                {name : 'operName', index : 'oper_name', width : 350, align:'center', sortable : false},
-                {name : 'createTime', index : 'create_time', width : 350, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'id', index:'id', width : 300, align:'center',sortable : true },
+                {name : 'operType', index : 'operType', width : 300, align:'center', sortable : true,formatter:attrOperType}, 
+                {name : 'operResult', index : 'operResult', width : 300, align:'center', sortable : true},
+                {name : 'operName', index : 'operName', width : 350, align:'center', sortable : true},
+                {name : 'createTime', index : 'createTime', width : 350, align:'center', sortable : true,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
             ],
             shrinkToFit : false,
             hidegrid : false,
@@ -188,7 +187,13 @@
                 viewicon : 'ace-icon fa fa-search-plus grey',
             }
         )
-  
+  		function styleCheckbox(table) {
+            
+        }
+
+        function updateActionIcons(table) {
+            
+        }
         function updatePagerIcons(table) {
             var replacement =
                 {

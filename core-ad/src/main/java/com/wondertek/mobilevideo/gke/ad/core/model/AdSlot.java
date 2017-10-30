@@ -36,8 +36,8 @@ public class AdSlot implements Serializable {
 		private Integer navig;				     //导航   1.首页   2.直播   3.会员
 		private Integer channelId;				 //导航频道ID
 		private Integer type;					 //广告位类型 1.1：开机广告位  	2：频道广告位，漂浮形式存在 3：导航广告位，弹窗形式存在
-		private Integer width;					 //广告位宽度
-		private Integer height;					 //广告位高度
+		private String width;					 //广告位宽度
+		private String height;					 //广告位高度
 		private Integer status;					 //广告位状态  101 待审核、102 待使用、103使用中、104 审核失败、105 删除 
 		private String remark;					 //备注
 		private Date createTime;				 //创建时间
@@ -83,17 +83,17 @@ public class AdSlot implements Serializable {
 			this.type = type;
 		}
 		@Column(name = "width_")
-		public Integer getWidth() {
+		public String getWidth() {
 			return width;
 		}
-		public void setWidth(Integer width) {
+		public void setWidth(String width) {
 			this.width = width;
 		}
 		@Column(name = "height_")
-		public Integer getHeight() {
+		public String getHeight() {
 			return height;
 		}
-		public void setHeight(Integer height) {
+		public void setHeight(String height) {
 			this.height = height;
 		}
 		@Column(name = "status_")

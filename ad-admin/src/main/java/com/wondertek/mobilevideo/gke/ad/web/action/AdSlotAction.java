@@ -36,7 +36,7 @@ public class AdSlotAction extends BaseAction {
 		getParams();
 		PageList pageList = new PageList();
 		try {
-			pageList =  adSlotManagerImpl.getPageList(params,getPageNo(),getPageSize(),getSort(),getOrder());
+			pageList =  adSlotManagerImpl.getPageList(params,getPageNo(),getPageSize(),getOrder(),getSort());
 		}catch (Exception e){
 			e.printStackTrace();
 			resultMap.put("success",false);
@@ -52,7 +52,7 @@ public class AdSlotAction extends BaseAction {
 		getParams();
 		PageList pageList = new PageList();
 		try {
-			pageList =  adLogManagerImpl.getPageList(params,getPageNo(),getPageSize(),getSort(),getOrder());
+			pageList =  adLogManagerImpl.getPageList(params,getPageNo(),getPageSize(),getOrder(),getSort());
 		}catch (Exception e){
 			e.printStackTrace();
 			resultMap.put("success",false);
@@ -68,6 +68,8 @@ public class AdSlotAction extends BaseAction {
 			adSlot.setStatus(AdSlot.AdSlotStatus.STATUS_101.get_status());
 			adSlot.setCreateTime(new Date());
 			adSlot.setCreatePeople(getUsername());
+			adSlot.setUpdatePeople(getUsername());
+			adSlot.setUpdateTime(new Date());
 			adSlotManagerImpl.save(adSlot);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,7 +94,7 @@ public class AdSlotAction extends BaseAction {
 	public String deleteAdSlot() {
 		try {
 		String  str =getRequest().getParameter("deleteIds");
-		adSlotManagerImpl.deleteSlot(str);
+		adSlotManagerImpl.deleteSlot(str,getUsername());
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("success",false);
@@ -103,7 +105,7 @@ public class AdSlotAction extends BaseAction {
 	public String useAdSlot() {
 		try {
 		String  str =getRequest().getParameter("useIds");
-		adSlotManagerImpl.useSlot(str);
+		adSlotManagerImpl.useSlot(str,getUsername());
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("success",false);

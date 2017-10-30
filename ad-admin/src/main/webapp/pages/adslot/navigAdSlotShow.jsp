@@ -17,7 +17,7 @@
                         <input type="text" class="form-control" id="adSlot_name" name="adSlot.slotName" >
                      </div>
                      <div class="form-group">
-                        <label for="adSlot_navig" class="control-label">导航:</label>
+                        <label for="adSlot_navig" class="control-label">导航名称:</label>
                         <select class="form-control"  id="adSlot_navig" name="adSlot.navig">
                             <option value="">请选择</option>
                             <option value="1">首页</option>
@@ -209,16 +209,16 @@
             ],
             colModel:[
                 {name : 'id', index:'id', width : 100, align:'center',hidden:true},
-                {name : 'slotName', index : 'slot_name', width : 150, align:'center'},
-                {name : 'navig', index : 'navig', width : 100, align:'center', sortable : false,formatter:attrNavig},
-                {name : 'width', index : 'width_', width : 100, align:'center', sortable : false},
-                {name : 'height', index : 'height_', width : 150, align:'center', sortable : false},
-                {name : 'status', index : 'status_', width : 120, align:'center', sortable : false,formatter:attrStatus},
-                {name : 'createTime', index : 'create_time', width : 200, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'createPeople', index : 'create_people', width : 150, align:'center', sortable : false},
-                {name : 'updateTime', index : 'update_time', width : 200, align:'center', sortable : false,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'updatePeople', index : 'update_people', width : 150, align:'center', sortable : false},
-                {name : 'remark', index : 'remark_', width : 200, align:'center', sortable : false},
+                {name : 'slotName', index : 'slotName', width : 150, align:'center',sortable : true,},
+                {name : 'navig', index : 'navig', width : 100, align:'center', sortable : true,formatter:attrNavig},
+                {name : 'width', index : 'width', width : 100, align:'center', sortable : true},
+                {name : 'height', index : 'height', width : 150, align:'center', sortable : true},
+                {name : 'status', index : 'status', width : 120, align:'center', sortable : true,formatter:attrStatus},
+                {name : 'createTime', index : 'createTime', width : 200, align:'center', sortable : true,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'createPeople', index : 'createPeople', width : 150, align:'center', sortable : true},
+                {name : 'updateTime', index : 'updateTime', width : 200, align:'center', sortable : true,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'updatePeople', index : 'updatePeople', width : 150, align:'center', sortable : true},
+                {name : 'remark', index : 'remark', width : 200, align:'center', sortable : true},
             ],
             shrinkToFit : false,
             hidegrid : false,
@@ -429,6 +429,19 @@
                 $("#adSlot_height").tips({side:2,msg:'高度必填 ',time:3});
                 return false;
             }
+            var reg = new RegExp("^[0-9]*$");
+        	var widthStart = $("#adSlot_width").val().substring(0,$("#adSlot_width").val().length-2);
+        	var widthEnd = $("#adSlot_width").val().substring($("#adSlot_width").val().length-2,$("#adSlot_width").val().length);
+        	var heightStart = $("#adSlot_height").val().substring(0,$("#adSlot_height").val().length-2);
+        	var heightEnd = $("#adSlot_height").val().substring($("#adSlot_height").val().length-2,$("#adSlot_height").val().length);
+            if(!reg.test(widthStart) | !(widthEnd == 'px')){
+                $("#adSlot_width").tips({side:2,msg:'宽度输入不合格 ',time:3});
+                return false;
+            }
+            if(!reg.test(heightStart) | !(heightEnd == 'px')){
+                $("#adSlot_height").tips({side:2,msg:'高度输入不合格 ',time:3});
+                return false;
+            }
             if($("#adSlot_id").val() == ""){
            	   $.ajax({
                       url:"<c:url value='/json/adSlot_addAdSlot.do'/>",
@@ -520,7 +533,8 @@
                 codeStr =codeStr + codes[index] + ',';
             }
             if(codes.length > 0 && del == true){
-            if(confirm("确定删除广告位")){
+            bootbox.confirm("确定删除？",function(re){
+            if(re) {
             $.ajax({
                 url:"<c:url value='/json/adSlot_deleteAdSlot.do'/>",
                 data:{"deleteIds": codeStr.substring(0, codeStr.length-1)},
@@ -533,6 +547,7 @@
                 }
             });
             }
+            })
             }
         }
         //启用广告位
@@ -559,7 +574,8 @@
                 codeStr =codeStr + codes[index] + ',';
             }
             if(codes.length > 0 && use == true){
-            if(confirm("确定启用广告位")){
+            bootbox.confirm("确定启用？",function(re){
+            if(re) {
             $.ajax({
                 url:"<c:url value='/json/adSlot_useAdSlot.do'/>",
                 data:{"useIds": codeStr.substring(0, codeStr.length-1)},
@@ -572,6 +588,7 @@
                 }
             });
             }
+            })
             }
         }
     });

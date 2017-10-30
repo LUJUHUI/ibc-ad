@@ -37,23 +37,25 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
     }
     
     @Transactional
-	public void deleteSlot(String str) {
+	public void deleteSlot(String str,String updatePeople) {
 		String[] strings = str.split(",");
 		for (String slotId : strings) {
 			AdSlot slot = adSlotDao.get(Integer.parseInt(slotId));
 			slot.setStatus(AdSlot.AdSlotStatus.STATUS_105.get_status());
 			slot.setUpdateTime(new Date());
+			slot.setUpdatePeople(updatePeople);
 			adSlotDao.saveOrUpdate(slot);
 		}		
 	}
     
     @Transactional
-  	public void useSlot(String str) {
+  	public void useSlot(String str,String updatePeople) {
   		String[] strings = str.split(",");
   		for (String slotId : strings) {
 			AdSlot slot = adSlotDao.get(Integer.parseInt(slotId));
 			slot.setStatus(AdSlot.AdSlotStatus.STATUS_101.get_status());
 			slot.setUpdateTime(new Date());
+			slot.setUpdatePeople(updatePeople);
 			adSlotDao.saveOrUpdate(slot);
 		}	
   	}
