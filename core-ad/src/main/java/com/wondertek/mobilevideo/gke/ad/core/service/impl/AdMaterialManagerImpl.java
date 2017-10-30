@@ -41,6 +41,7 @@ public class AdMaterialManagerImpl extends GenericManagerImpl<AdMaterial,Integer
                 material.setUpdatePerson(userName);
                 material.setUpdateTime(new Date());
                 adMaterialDao.saveOrUpdate(material);
+                adLog.setLogType(AdLog.adLogType.AD_LOG_TYPE_401.getLogType());
                 adLog.setOperName(userName);
                 adLog.setOperResult("成功");
                 adLog.setCreateTime(new Date());

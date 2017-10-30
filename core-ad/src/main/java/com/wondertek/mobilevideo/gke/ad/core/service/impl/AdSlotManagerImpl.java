@@ -83,6 +83,7 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 				adSlot.setUpdateTime(new Date());
 				adSlotDao.saveOrUpdate(adSlot);
 				adLog.setOperName(userName);
+				adLog.setLogType(AdLog.adLogType.AD_LOG_TYPE.getLogType());
 				adLog.setOperResult("成功");
 				adLog.setCreateTime(new Date());
 				adLogDao.save(adLog);
