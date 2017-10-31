@@ -103,16 +103,16 @@
                 <option value="101">待审核</option>
                 <option value="102">待使用</option>
                 <option value="103">使用中</option>
-                <option value="104">审核失败</option>
-                <option value="105">删除</option>
+                <option value="104">审核驳回</option>
+                <option value="105">已删除</option>
             </select>
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
-			<button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
-                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
-            </button>
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
                 <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
+            </button>
+            <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
+                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
             </button>
         </form>
     </div>
@@ -197,7 +197,7 @@
                  {name : 'slotName', index : 'slotName', width : 200, align:'center',sortable :true },
                  {name : 'width', index : 'width', width : 100, align:'center', sortable : true},
                  {name : 'height', index : 'height', width : 150, align:'center', sortable : true},
-                 {name : 'status', index : 'status', width : 120, align:'center', sortable : true,formatter:attrStatus},
+                 {name : 'status', index : 'status', width : 120, align:'center', sortable : true,formatter:attrStatus,unformat:unAttrStatus},
                  {name : 'createTime', index : 'createTime', width : 200, align:'center', sortable : true,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
                  {name : 'createPeople', index : 'createPeople', width : 150, align:'center', sortable : true},
                  {name : 'updateTime', index : 'updateTime', width : 200, align:'center', sortable : true,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
@@ -294,28 +294,33 @@
             $.jgrid.gridDestroy(grid_selector);
             $('.ui-jqdialog').remove();
         });
+        
         function attrStatus(callValue) {
             var result="";
 	            switch (callValue){
 	            case  101:
-	                result=  '待审核';
+	                result=  '<span class="green">待审核</span>';
 	                break;
 	            case  102:
-	                result = '待使用';
+	                result = '<span class="orange">待使用</span>';
 	                break;
 	            case  103:
-	                result = '使用中';
+	                result = '<span class="green">使用中</span>';
 	                break;
 	            case  104:
-	                result = '审核失败';
+	                result = '<span class="red">审核驳回</span>';
 	                break;
 	            case  105:
-	                result = '删除';
+	                result = '<span class="red">已删除</span>';
 	                break;
 	        }
             return result;
         }
-		
+        
+        function unAttrStatus(callValue) {
+            return callValue;
+        }
+        
         function tranStatus(callValue) {
             var result="";
             switch (callValue){
@@ -328,10 +333,10 @@
 	            case  '使用中':
 	                result = 103;
 	                break;
-	            case  '审核失败':
+	            case  '审核驳回':
 	                result = 104;
 	                break;
-	            case  '删除':
+	            case  '已删除':
 	                result = 105;
 	                break;
             }
@@ -393,15 +398,13 @@
             }
             var reg = new RegExp("^[0-9]*$");
         	var widthStart = $("#adSlot_width").val().substring(0,$("#adSlot_width").val().length-2);
-        	var widthEnd = $("#adSlot_width").val().substring($("#adSlot_width").val().length-2,$("#adSlot_width").val().length);
         	var heightStart = $("#adSlot_height").val().substring(0,$("#adSlot_height").val().length-2);
-        	var heightEnd = $("#adSlot_height").val().substring($("#adSlot_height").val().length-2,$("#adSlot_height").val().length);
-            if(!reg.test(widthStart) | !(widthEnd == 'px')){
-                $("#adSlot_width").tips({side:2,msg:'宽度输入不合格 ',time:3});
+            if(!reg.test(widthStart)){
+                $("#adSlot_width").tips({side:2,msg:'宽度应为数字 ',time:3});
                 return false;
             }
-            if(!reg.test(heightStart) | !(heightEnd == 'px')){
-                $("#adSlot_height").tips({side:2,msg:'高度输入不合格 ',time:3});
+            if(!reg.test(heightStart)){
+                $("#adSlot_height").tips({side:2,msg:'高度应为数字 ',time:3});
                 return false;
             }
             if($("#adSlot_id").val() == ""){
@@ -472,10 +475,10 @@
             var del = true;
             for (var index in ids){
                 var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                if(rowData.status == "待审核" || rowData.status == "审核失败"){
+                if(rowData.status == "待审核" || rowData.status == "审核驳回"){
                     codes.push(rowData.id); 
                 }else{
-                    bootbox.alert("该记录中有，非审核失败或待审核状态！");	   
+                    bootbox.alert("该记录中有，非审核驳回或待审核状态！");	   
                     del = false;
                 }
             }
@@ -513,7 +516,7 @@
             var use = true;
             for (var index in ids){
                 var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                if(rowData.status == "删除"){
+                if(rowData.status == "已删除"){
                 codes.push(rowData.id);
                 }else{
                 bootbox.alert("记录中有非删除状态，不能启用！");

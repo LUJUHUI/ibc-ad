@@ -34,7 +34,7 @@ public class AdSlot implements Serializable {
 		private int id;                          //广告位Id
 		private String slotName;				 //广告位名称 
 		private Integer navig;				     //导航   1.首页   2.直播   3.会员
-		private Integer channelId;				 //导航频道ID
+		private String channelId;				 //导航频道ID
 		private Integer type;					 //广告位类型 1.1：开机广告位  	2：频道广告位，漂浮形式存在 3：导航广告位，弹窗形式存在
 		private String width;					 //广告位宽度
 		private String height;					 //广告位高度
@@ -69,10 +69,10 @@ public class AdSlot implements Serializable {
 			this.navig = navig;
 		}
 		@Column(name = "channel_id")
-		public Integer getChannelId() {
+		public String getChannelId() {
 			return channelId;
 		}
-		public void setChannelId(Integer channelId) {
+		public void setChannelId(String channelId) {
 			this.channelId = channelId;
 		}
 		@Column(name = "type_")
