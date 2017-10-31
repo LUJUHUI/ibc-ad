@@ -178,6 +178,12 @@ public class AdSlotAction extends BaseAction {
         if (StringUtils.isNotBlank(operType)){
             params.put("operType", Integer.parseInt(operType));
         }
+        
+        String logType = getRequest().getParameter("logType");
+        if (StringUtils.isNotBlank(logType)){
+            params.put("logType", Integer.parseInt(logType));
+        }
+        
 		String status_notIn = getRequest().getParameter("status_not");
 		if (StringUtils.isNotBlank(status_notIn)) {
 			List<Integer> list = new ArrayList<Integer>();

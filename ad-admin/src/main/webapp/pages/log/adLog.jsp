@@ -51,6 +51,13 @@
                 <option value=302>驳回</option>
             </select>
 			
+			<label class="control-label" for="attr">日志类型</label>
+            <select class="form-control input-sm" style="margin-left: 5px;" id="logType">
+                <option value="">全部</option>
+                <option value=401>广告素材</option>
+                <option value=402>广告位</option>
+            </select>
+            
 			<label class="control-label" for="attr">审核结果</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="operResult">
                 <option value="">全部</option>
@@ -59,11 +66,11 @@
             </select>
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
-			<button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
-                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
-            </button>
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
                 <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
+            </button>
+			<button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
+                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
             </button>
         </form>
     </div>
@@ -226,10 +233,10 @@
             var result="";
             switch (callValue){
                 case 301:
-                    result='播控通过';
+                    result =  '<span class="green">审核通过</span>';
                     break;
                 case 302:
-                    result = '播控驳回';
+                    result = '<span class="red">审核驳回</span>';
                     break;
             }
             return result;
@@ -250,7 +257,8 @@
         $("#reset").on("click", function () {
         	$("#logId").val(""),
         	$("#operType").val(""),
-        	$("#operResult").val(""),
+        	$("#operResult").val(""), 
+        	$("#logType").val(""),
             search();
         })
         $("#search").on("click",search);
@@ -270,6 +278,7 @@
                 	logId: $("#logId").val(),
                 	operType: $("#operType").val(),
                 	operResult: $("#operResult").val(),
+                	logType: $("#logType").val(),
                 	startDate: startDate + " 00:00:00",
               	    endDate: endDate + " 23:59:59"
                 },
