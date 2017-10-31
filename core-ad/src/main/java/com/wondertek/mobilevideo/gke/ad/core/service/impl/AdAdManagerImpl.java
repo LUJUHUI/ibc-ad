@@ -8,10 +8,13 @@ import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterial;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdAdManager;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.support.nativejdbc.JBossNativeJdbcExtractor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AdAdManagerImpl extends  GenericManagerImpl<AdAd, Long> implements AdAdManager {
@@ -34,6 +37,8 @@ public class AdAdManagerImpl extends  GenericManagerImpl<AdAd, Long> implements 
         Date date = new Date();
         object.setCreateTime(date);
         object.setUpdateTime(date);
+        
+		
         object = adAdDao.save(object);
         if (StringUtils.isNotBlank(materialId)) {
             AdAdMaterial adAdMaterial = new AdAdMaterial();

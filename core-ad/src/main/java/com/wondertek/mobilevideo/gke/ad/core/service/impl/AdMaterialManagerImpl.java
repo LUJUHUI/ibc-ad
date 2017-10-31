@@ -39,7 +39,7 @@ public class AdMaterialManagerImpl extends GenericManagerImpl<AdMaterial,Integer
 
                 /*按照类型进行判断是否播控通过*/
                 if (0 == type) {
-                    material.setStatus(AdMaterial.AdMaterialStatus.STATUS_102.getStatus());
+                    material.setStatus(AdMaterial.AdMaterialStatus.STATUS_104.getStatus());
                     adLog.setOperType(AdLog.adLogOperType.OPER_TYPE_301.getOperType());
                 }else{
                     material.setStatus(AdMaterial.AdMaterialStatus.STATUS_103.getStatus());

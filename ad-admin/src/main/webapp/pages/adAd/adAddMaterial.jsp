@@ -182,12 +182,13 @@
         jQuery(grid_selector).jqGrid({
             datatype: "json",
             mtype: "post",
-            url: "<c:url value='/json/adad_getAdMaterial.do'/>",
+            url: "<c:url value='/json/adad_getAdMaterialByPage.do'/>",
             postData: {
                 status:$("#status").val(),
                 adName:$("#adName").val(),
-                startTime: startDate,
-                endTime: endDate+" 23:59:59"
+                adId:$("#adId").val(),
+                createTime: startDate +" 00:00:00",
+                createTime_end: endDate+" 23:59:59"
             },
             height: 560,
             colNames:[
@@ -344,12 +345,13 @@
             }
 
             $("#ad-add-material-grid-table").jqGrid('setGridParam', {
-                url : "<c:url value='/json/adad_getAdMaterial.do'/>",
+                url : "<c:url value='/json/adad_getAdMaterialByPage.do'/>",
                 postData : {
+                    adId:$("#adId").val(),
                     status:$("#status").val(),
                     adName:$("#adName").val(),
-                    startTime: startDate,
-                    endTime: endDate+" 23:59:59"
+                    createTime: startDate +" 00:00:00",
+                    createTime_end: endDate+" 23:59:59"
                 },
                 page : 1,
                 datatype: "json",
@@ -367,7 +369,6 @@
                 var rowData = $("#ad-add-material-grid-table").jqGrid('getRowData',items);
                 materailIds.push(rowData.id);
             });
-            alert(materailIds.join(","));
             $.ajax({
                 url:"<c:url value='/json/adad_addAdMaterial.do'/>",
                 type:"POST",
@@ -375,6 +376,7 @@
                 success:function (response) {
                     if(response.success) {
                         bootbox.alert("操作成功！");
+                        $("#search").click();
                         return;
                     }else{
                         bootbox.alert("操作失败！");
