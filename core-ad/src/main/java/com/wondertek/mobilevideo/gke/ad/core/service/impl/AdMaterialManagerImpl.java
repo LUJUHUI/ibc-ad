@@ -32,7 +32,7 @@ public class AdMaterialManagerImpl extends GenericManagerImpl<AdMaterial,Integer
             if(material.getStatus() == AdMaterial.AdMaterialStatus.STATUS_101.getStatus()){
                 AdLog adLog = new AdLog();
                 if (0 == type) {
-                    material.setStatus(AdMaterial.AdMaterialStatus.STATUS_102.getStatus());
+                    material.setStatus(AdMaterial.AdMaterialStatus.STATUS_104.getStatus());
                     adLog.setOperType(AdLog.adLogOperType.OPER_TYPE_301.getOperType());
                 }else{
                     material.setStatus(AdMaterial.AdMaterialStatus.STATUS_103.getStatus());

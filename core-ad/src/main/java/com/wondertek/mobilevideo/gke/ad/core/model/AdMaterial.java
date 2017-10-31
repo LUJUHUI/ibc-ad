@@ -9,7 +9,8 @@ import java.util.Date;
 public class AdMaterial implements Serializable {
     public enum AdMaterialStatus {
         /*状态  101:待审核;102:审核成功;103:审核失败;104:待使用;105:使用中;106：已删除*/
-        STATUS_101(101), STATUS_102(102),STATUS_103(103), STATUS_104(104), STATUS_105(105),STATUS_106(106);
+        STATUS_101(101), //STATUS_102(102),没有审核成功状态，审核通过之后就是待使用
+        STATUS_103(103), STATUS_104(104), STATUS_105(105),STATUS_106(106);
 
         private final int status;
 

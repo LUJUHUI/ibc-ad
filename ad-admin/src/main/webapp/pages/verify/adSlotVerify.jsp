@@ -147,7 +147,8 @@
             },
             height: 560,
             colNames:[ 
-                '<fmt:message key="ad.slot.id"/>',                      
+                '<fmt:message key="ad.slot.id"/>',
+                '<fmt:message key="ad.slot.type"/>',
                 '<fmt:message key="ad.slot.name"/>',
                 '<fmt:message key="ad.slot.navig"/>',
                 '<fmt:message key="ad.slot.channel.id"/>',
@@ -162,7 +163,8 @@
             ],
             colModel:[
                 {name : 'id', index:'id', width : 100, align:'center',hidden:true},
-                {name : 'slotName', index : 'slot_name', width : 100, align:'center',hidden:true },
+                {name : 'type', index : 'type', width : 100, align:'center',hidden:false,formatter:fmtType },
+                {name : 'slotName', index : 'slot_name', width : 100, align:'center',hidden:false },
                 {name : 'navig', index : 'navig', width : 100, align:'center', sortable : false,formatter:attrNavig},
                 {name : 'channelId', index : 'channel_id', width : 100, align:'center', sortable : false},
                 {name : 'width', index : 'width_', width : 100, align:'center', sortable : false},
@@ -289,7 +291,7 @@
                     result='<span class="green">待审核</span>';
                     break;
                 case 102:
-                    result = '<span class="orange">待使用</span>';
+                    result = '<span class="orange">待投放</span>';
                     break;
                 case 103:
                     result = '<span class="green">使用中</span>';
@@ -321,6 +323,22 @@
                     break;
                 case '删除':
                     result = '105';
+                    break;
+            }
+            return result;
+        }
+        
+        function fmtType(claaValue) {
+            var result="";
+            switch (claaValue){
+                case 1:
+                    result='开机广告位';
+                    break;
+                case 2:
+                    result = '频道广告位';
+                    break;
+                case 3:
+                    result = '导航广告位';
                     break;
             }
             return result;
