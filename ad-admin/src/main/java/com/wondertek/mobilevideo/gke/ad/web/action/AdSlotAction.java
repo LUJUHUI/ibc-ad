@@ -116,17 +116,15 @@ public class AdSlotAction extends BaseAction {
 	public String verify() {
 		resultMap.put("success", true);
 		try {
-			String slotId = getRequest().getParameter("id");
+			String slotId = getRequest().getParameter("ids");
 			String verifyType = getRequest().getParameter("type");//0:通过，1：驳回
-			AdSlot adSlot = adSlotManagerImpl.get(Integer.parseInt(slotId));
-			if ("0".equals(verifyType)) {
-				adSlot.setStatus(AdSlot.AdSlotStatus.STATUS_102.get_status());
-			}else{
-				adSlot.setStatus(AdSlot.AdSlotStatus.STATUS_103.get_status());
+			try {
+				adSlotManagerImpl.verify(slotId, Integer.parseInt(verifyType),getUsername());
+				resultMap.put("code", 101);
+			} catch (RuntimeException e2) {
+				e2.printStackTrace();
+				resultMap.put("code", 102);
 			}
-			adSlot.setUpdatePeople(getUsername());
-			adSlot.setUpdateTime(new Date());
-			adSlotManagerImpl.saveOrUpdate(adSlot);
 		} catch (Exception e) {
 			resultMap.put("success", false);
 			e.printStackTrace();
@@ -180,7 +178,12 @@ public class AdSlotAction extends BaseAction {
         if (StringUtils.isNotBlank(operType)){
             params.put("operType", Integer.parseInt(operType));
         }
-    
+		String status_notIn = getRequest().getParameter("status_not");
+		if (StringUtils.isNotBlank(status_notIn)) {
+			List<Integer> list = new ArrayList<Integer>();
+			list.add(new Integer(status_notIn));
+			params.put("status_notIn",list);
+		}
     }
     
 	public AdSlot getAdSlot() {

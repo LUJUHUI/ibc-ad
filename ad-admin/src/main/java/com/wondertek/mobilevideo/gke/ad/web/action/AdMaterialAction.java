@@ -67,7 +67,6 @@ public class AdMaterialAction extends BaseAction {
             String[] ids = getRequest().getParameter("materialIds").split(",");
             for (String adMaterialId: ids) {
                 AdMaterial material = adMaterialMangerImpl.get(Integer.parseInt(adMaterialId));
-
                 /*删除之后保存修改者的时间与ID*/
                 material.setUpdatePerson(getUsername());
                 material.setUpdateTime(new Date());

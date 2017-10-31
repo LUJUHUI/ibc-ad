@@ -481,40 +481,33 @@
                 return;
             }
             var codes = [];
+            var del = true;
             for (var index in ids){
                 var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                if(rowData.status == 104){
-                    bootbox.alert("没有选择有效记录！");
-                    return;
-                }else{
+                if(rowData.status == "待审核" || rowData.status == "待使用" || rowData.status == "已删除"){
                     codes.push(rowData.id);
+                }else{
+                    bootbox.alert("请选择,待使用、待审核或已删除状态的素材，进行修改操作！");
+                    del = false;
                 }
             }
-            var rowData = $("#grid-table").jqGrid('getRowData', ids[0]);
-            //ajax,
-            $.ajax({
-                url: "<c:url value='/json/adMaterial_l.do'/>",
-                data:{id:rowData.id},
-                type: "post",
-                success: function (data) {
-                    console.log(date);
-//                    data.root.id
-//                    $("#updateAdMaterialModel").modal('hide')
-//                    $("#search").click();
-                    /*alert("修改成功!");*/
-                }, error: function () {
-                    alert("修改失败，无法连接服务器!");
-                }
-            });
-            //get()
-            $("#update_id").val(rowData.id);
-            $("#update_adMaterialName").val(rowData.materialName);
-            $("#update_type").val(rowData.type);
-            $("#update_clickHref").val(rowData.clickHref);
-            $("#update_status").val(rowData.status);
-            $("#update_createTime").val(rowData.createTime);
-            $("#update_createPerson").val(rowData.createPerson);
-            $("#updateAdMaterialModel").modal();
+            if(del == true) {
+                $("#update_id").val(rowData.id);
+                $("#update_adMaterialName").val(rowData.materialName);
+                $("#update_clickHref").val(rowData.clickHref);
+                $("#update_status").val(rowData.status);
+                $("#update_createTime").val(rowData.createTime);
+                $("#update_createPerson").val(rowData.createPerson);
+                $("#updateAdMaterialModel").modal();
+            }
+            switch (rowData.type){
+                case "图片":
+                    $("#update_type option[value='1']").attr("selected","selected")
+                    break;
+                case "文字":
+                    $("#update_type option[value='2']").attr("selected","selected")
+                    break;
+            }
         };
         $("#save_updateAdMaterial").on("click",function() {
             if ($("#update_adMaterialName").val() == "") {
@@ -529,18 +522,19 @@
                 $("#update_clickHref").tips({side: 2, msg: '此项必填 ', time: 3});
                 return false;
             }
-            $.ajax({
-                url: "<c:url value='/json/adMaterial_updateAdMaterial.do'/>",
-                data: $("#update_materialForm").serialize(),
-                type: "post",
-                success: function (data) {
-                    $("#updateAdMaterialModel").modal('hide')
-                    $("#search").click();
-                    /*alert("修改成功!");*/
-                }, error: function () {
-                    alert("修改失败，无法连接服务器!");
-                }
-            });
+                $.ajax({
+                    url: "<c:url value='/json/adMaterial_updateAdMaterial.do'/>",
+                    data: $("#update_materialForm").serialize(),
+                    type: "post",
+                    success: function (data) {
+                        $("#updateAdMaterialModel").modal('hide')
+                        $("#search").click();
+                        /*alert("修改成功!");*/
+                    }, error: function () {
+                        alert("修改失败，无法连接服务器!");
+                    }
+                });
+
         })
         /* -------修改素材(end)------------*/
 
@@ -553,20 +547,26 @@
                 return;
             }
             var codes = [];
+            var del = true;
             for (var index in ids){
                 var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                codes.push(rowData.id);
+                if(rowData.status == "待审核" || rowData.status == "审核失败"){
+                    codes.push(rowData.id);
+                }else{
+                    bootbox.alert("请选择非审核失败或待审核状态的素材，进行删除操作！");
+                    del = false;
+                }
             }
-            if (codes.length < 1){
+          /*  if (codes.length < 1){
                 bootbox.alert("没有选择有效记录！");
                 return;
-            }
+            }*/
             var codeStr = '';
             for (var index in codes){
                 codeStr =codeStr + codes[index] + ',';
             }
             $.post('<c:url value="/json/adMaterial_delateAdMaterial.do"/>', {"materialIds": codeStr.substring(0, codeStr.length-1)}, function (result) {
-                bootbox.alert("操作成功！");
+                /*bootbox.alert("操作成功！");*/
                 $("#search").trigger('click');
             });
         }

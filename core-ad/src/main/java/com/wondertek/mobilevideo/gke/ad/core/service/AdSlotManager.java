@@ -8,5 +8,5 @@ public interface AdSlotManager  extends GenericManager<AdSlot, Integer>{
      public void saveOrUpdate(AdSlot adSlot);
      public void deleteSlot(String str,String updatePeople);
      public void useSlot(String str,String updatePeople);
- 
+     public void verify(String ids, int type,String userName)throws RuntimeException;
 }

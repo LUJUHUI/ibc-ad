@@ -126,18 +126,20 @@
             },
             height: 560,
             colNames:[ 
-                '<fmt:message key="ad.log.id"/>',                      
+                '<fmt:message key="ad.log.id"/>',
+                '<fmt:message key="ad.log.type"/>',
                 '<fmt:message key="ad.log.operType"/>',
                 '<fmt:message key="ad.log.operResult"/>',
                 '<fmt:message key="ad.log.creater"/>',
                 '<fmt:message key="ad.log.createTime"/>',
             ],
             colModel:[
-                {name : 'id', index:'id', width : 300, align:'center',sortable : true },
-                {name : 'operType', index : 'operType', width : 300, align:'center', sortable : true,formatter:attrOperType}, 
+                {name : 'id', index:'id', width : 100, align:'center',sortable : true },
+                {name : 'logType', index : 'logType', width : 200, align:'center', sortable : true,formatter:fmtLogType},
+                {name : 'operType', index : 'operType', width : 200, align:'center', sortable : true,formatter:attrOperType}, 
                 {name : 'operResult', index : 'operResult', width : 300, align:'center', sortable : true},
-                {name : 'operName', index : 'operName', width : 350, align:'center', sortable : true},
-                {name : 'createTime', index : 'createTime', width : 350, align:'center', sortable : true,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
+                {name : 'operName', index : 'operName', width : 300, align:'center', sortable : true},
+                {name : 'createTime', index : 'createTime', width : 250, align:'center', sortable : true,formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
             ],
             shrinkToFit : false,
             hidegrid : false,
@@ -228,6 +230,18 @@
                     break;
                 case 302:
                     result = '播控驳回';
+                    break;
+            }
+            return result;
+        }
+        function fmtLogType(callValue) {
+            var result="";
+            switch (callValue){
+                case 401:
+                    result='广告素材';
+                    break;
+                case 402:
+                    result = '广告位';
                     break;
             }
             return result;
