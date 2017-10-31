@@ -8,9 +8,12 @@ import java.util.Date;
 @Table(name = "ad_material")
 public class AdMaterial implements Serializable {
     public enum AdMaterialStatus {
-        /*状态  101:待审核;102:审核成功;103:审核失败;104:待使用;105:使用中;106：已删除*/
-        STATUS_101(101), //STATUS_102(102),没有审核成功状态，审核通过之后就是待使用
-        STATUS_103(103), STATUS_104(104), STATUS_105(105),STATUS_106(106);
+        /*状态  101:待审核;103:审核失败;104:待使用;105:使用中;106：已删除*/
+        STATUS_101(101),
+        STATUS_103(103),
+        STATUS_104(104),
+        STATUS_105(105),
+        STATUS_106(106);
 
         private final int status;
 
@@ -27,7 +30,7 @@ public class AdMaterial implements Serializable {
     private String materialName; //广告素材名
     private int type;    //素材类型  1:图片;2:文字
     private String clickHref;  // 链接地址
-    private int status;  // 状态  101:待审核;102:审核成功;103:审核失败;104:待使用;105:使用中;106：已删除
+    private int status;  // 状态  101:待审核;103:审核失败;104:待使用;105:使用中;106：已删除
     private Date createTime ;  //创建时间
     private String createPerson;       //创建者ID
     private Date updateTime;   //修改时间
@@ -75,7 +78,7 @@ public class AdMaterial implements Serializable {
     public void setClickHref(String clickHref) {
         this.clickHref = clickHref;
     }
-    // 状态  get/set 101:待审核;102:审核成功;103:审核失败;104:待使用;105:使用中;106：已删除
+    // 状态  get/set 101:待审核;103:审核失败;104:待使用;105:使用中;106：已删除
     @Column(name = "status_")
     public int getStatus() {
         return status;
