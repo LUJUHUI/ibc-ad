@@ -16,7 +16,6 @@ public class AdMaterial implements Serializable {
         STATUS_106(106);
 
         private final int status;
-
         private AdMaterialStatus(int status) {
             this.status = status;
         }

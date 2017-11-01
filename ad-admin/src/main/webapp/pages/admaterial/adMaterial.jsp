@@ -197,14 +197,14 @@
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
 
-            <%--重置--%>
-            <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
-                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
-            </button>
-
             <%--查询--%>
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
                 <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
+            </button>
+
+            <%--重置--%>
+            <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
+                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
             </button>
         </form>
     </div>
@@ -414,6 +414,7 @@
             return result;
         }
 
+        /*实现状态功能的比对*/
         function unFmtStatus(callValue) {
             return callValue;
         }
@@ -480,7 +481,7 @@
                 success:function(data){
                     $("#addAdMaterialModel").modal('hide')
                     $("#search").click();
-                    alert("添加成功!");
+                   /* alert("添加成功!");*/
                 },error:function(){
                     alert("添加失败，无法连接服务器!");
                 }
@@ -525,6 +526,7 @@
                     break;
             }
         };
+
         $("#save_updateAdMaterial").on("click",function() {
             if ($("#update_adMaterialName").val() == "") {
                 $("#update_adMaterialName").tips({side: 2, msg: '此项必填 ', time: 3});

@@ -6,7 +6,14 @@ import com.wondertek.mobilevideo.gke.ad.core.service.AdMaterialManger;
 import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.*;
 
 public class AdMaterialAction extends BaseAction {
@@ -106,6 +113,59 @@ public class AdMaterialAction extends BaseAction {
         resultMap.put("root", material);
         return  SUCCESS;
     }
+
+    /*上传图片start*/
+    @RequestMapping(value = "/uploadHeadImg", produces = "text/plain;charset=UTF-8")
+    @ResponseBody
+    public String uploadHeadImg(@RequestParam(value = "img", required = false) MultipartFile file,
+                                @RequestParam(value = "xCoordinate", required = false) Integer xCoordinate,
+                                @RequestParam(value = "yCoordinate", required = false) Integer yCoordinate,
+                                @RequestParam(value = "width", required = false) Integer width,
+                                @RequestParam(value = "imgName", required = false) String imgName,
+                                @RequestParam(value = "height", required = false) Integer height,
+                                HttpServletRequest request, ModelMap model) {
+        String result = "";
+        EmpMessageRes msg = new EmpMessageRes();
+        /*获得工程下面upload资源包路径，当然这个包是已经存在的了*/
+        String path = request.getSession().getServletContext().getRealPath("upload/trainer_picture");
+        /*上传的图片的名称*/
+        String fileName = file.getOriginalFilename();
+        String newfileName = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
+        /*下面是upload路径盘符的转化*/
+        StringBuffer importPath = new StringBuffer();
+        String temp[] = path.split("\\\\");
+
+        for (int i = 0; i < temp.length; i++) {
+            importPath.append(temp[i]);
+            importPath.append("/");
+        }
+
+        importPath.append(newfileName);
+        /*看是否存在upload包，没有则会新建一个upload包，作为资源上传的路径*/
+        File targetFile = new File(path, newfileName);
+        if (!targetFile.exists()) {
+            targetFile.mkdirs();
+        }
+        /*文件上传*/
+        try {
+            file.transferTo(targetFile);
+            msg.setResult("true");
+            msg.setResultDesc("头像上传成功");
+            msg.setImgUrl(newfileName);
+            result = msg.getImgUrl();
+        } catch (Exception e) {
+            msg.setResult("false");
+            msg.setResultDesc("头像上传失败");
+            e.printStackTrace();
+        }
+        if (imgName != null) {
+            File later = new File(path, imgName);
+            if (later != null)
+                later.delete();
+        }
+        return result;
+    }
+    /*上传图片end*/
 
     private void getParams() {
         String materialId = getRequest().getParameter("materialId");
