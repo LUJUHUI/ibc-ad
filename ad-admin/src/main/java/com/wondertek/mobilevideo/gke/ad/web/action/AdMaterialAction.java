@@ -114,7 +114,7 @@ public class AdMaterialAction extends BaseAction {
         return  SUCCESS;
     }
 
-    /*上传图片start*/
+   /* *//*上传图片start*//*
     @RequestMapping(value = "/uploadHeadImg", produces = "text/plain;charset=UTF-8")
     @ResponseBody
     public String uploadHeadImg(@RequestParam(value = "img", required = false) MultipartFile file,
@@ -126,12 +126,12 @@ public class AdMaterialAction extends BaseAction {
                                 HttpServletRequest request, ModelMap model) {
         String result = "";
         EmpMessageRes msg = new EmpMessageRes();
-        /*获得工程下面upload资源包路径，当然这个包是已经存在的了*/
+        *//*获得工程下面upload资源包路径，当然这个包是已经存在的了*//*
         String path = request.getSession().getServletContext().getRealPath("upload/trainer_picture");
-        /*上传的图片的名称*/
+        *//*上传的图片的名称*//*
         String fileName = file.getOriginalFilename();
         String newfileName = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
-        /*下面是upload路径盘符的转化*/
+        *//*下面是upload路径盘符的转化*//*
         StringBuffer importPath = new StringBuffer();
         String temp[] = path.split("\\\\");
 
@@ -141,12 +141,12 @@ public class AdMaterialAction extends BaseAction {
         }
 
         importPath.append(newfileName);
-        /*看是否存在upload包，没有则会新建一个upload包，作为资源上传的路径*/
+        *//*看是否存在upload包，没有则会新建一个upload包，作为资源上传的路径*//*
         File targetFile = new File(path, newfileName);
         if (!targetFile.exists()) {
             targetFile.mkdirs();
         }
-        /*文件上传*/
+        *//*文件上传*//*
         try {
             file.transferTo(targetFile);
             msg.setResult("true");
@@ -165,7 +165,7 @@ public class AdMaterialAction extends BaseAction {
         }
         return result;
     }
-    /*上传图片end*/
+    *//*上传图片end*/
 
     private void getParams() {
         String materialId = getRequest().getParameter("materialId");
