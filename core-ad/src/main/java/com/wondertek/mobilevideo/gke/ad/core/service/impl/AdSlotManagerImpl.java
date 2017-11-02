@@ -2,6 +2,7 @@ package com.wondertek.mobilevideo.gke.ad.core.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,14 +10,30 @@ import javax.transaction.Transactional;
 
 import com.wondertek.mobilevideo.gke.ad.core.dao.AdLogDao;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdLog;
+
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wondertek.mobilevideo.gke.ad.core.dao.AdSlotDao;
 import com.wondertek.mobilevideo.gke.ad.core.dao.impl.GenericDaoHibernate;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdSlot;
+import com.wondertek.mobilevideo.gke.ad.core.model.AdSoltLive;
+import com.wondertek.mobilevideo.gke.ad.core.model.AdSoltPage;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdSlotManager;
 import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
+import com.wondertek.mobilevideo.gke.ad.core.utils.XmlUtil;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
  
 @Service
 public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> implements AdSlotManager {
@@ -24,7 +41,12 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 	private AdSlotDao adSlotDao;
     @Autowired
 	private AdLogDao adLogDao;
-
+    
+	private final static Log log = LogFactory.getLog(AdSlotManagerImpl.class);
+    
+    private String HMOE_PAGE_CAHNNELID = "http://m.cctv4g.com/cntv/resource/cltv2/channel.jsp?nodeId=844";
+    private String lIVE_CAHNNELID = "http://m.cctv4g.com/cntv/resource/cltv2/liveClassify.jsp";
+    
 	@Autowired
 	public AdSlotManagerImpl(AdSlotDao adSlotDao) {
 		super(adSlotDao);
@@ -92,4 +114,88 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 			}
 		}
 	}
+  	//调用channelId接口，获取channelId
+	public List<AdSoltPage>  getHomePageChannelId() {
+		String responsexml = httpClientPost(HMOE_PAGE_CAHNNELID);
+		JSONObject	jsonObj_school = new JSONObject().fromObject(responsexml);//解析JSON字符串
+		List<AdSoltPage> list = new ArrayList<AdSoltPage>();
+		if(jsonObj_school.get("resultCode").equals("0000")){
+			JSONArray jsonObject = jsonObj_school.getJSONArray("fixChannel");
+			if(null != jsonObject){
+			  for (int i = 0; i < jsonObject.size(); i++) {
+				  AdSoltPage adSoltPage = new AdSoltPage();
+				  adSoltPage.setNodeId(jsonObject.getJSONObject(i).get("nodeId").toString());
+				  adSoltPage.setName(jsonObject.getJSONObject(i).get("name").toString());
+				  adSoltPage.setType(jsonObject.getJSONObject(i).get("type").toString());
+				  adSoltPage.setTheme(jsonObject.getJSONObject(i).get("theme").toString());
+				  adSoltPage.setRequestURL(jsonObject.getJSONObject(i).get("requestURL").toString());
+				  adSoltPage.setImageURL(jsonObject.getJSONObject(i).get("imageURL").toString());
+				  list.add(adSoltPage);
+			  }
+			}
+			JSONArray jsonCommon = jsonObj_school.getJSONArray("commonChannel");
+			if(null != jsonCommon){
+			  for (int i = 0; i < jsonCommon.size(); i++) {
+				  AdSoltPage adSoltPage = new AdSoltPage();
+				  adSoltPage.setNodeId(jsonCommon.getJSONObject(i).get("nodeId").toString());
+				  adSoltPage.setName(jsonCommon.getJSONObject(i).get("name").toString());
+				  adSoltPage.setType(jsonCommon.getJSONObject(i).get("type").toString());
+				  adSoltPage.setTheme(jsonCommon.getJSONObject(i).get("theme").toString());
+				  adSoltPage.setRequestURL(jsonCommon.getJSONObject(i).get("requestURL").toString());
+				  adSoltPage.setImageURL(jsonCommon.getJSONObject(i).get("imageURL").toString());
+				  list.add(adSoltPage);
+			  }
+			}
+			
+			JSONArray jsonOther = jsonObj_school.getJSONArray("otherChannel");
+				if(null != jsonOther){
+				  for (int i = 0; i < jsonOther.size(); i++) {
+					  AdSoltPage adSoltPage = new AdSoltPage();
+					  adSoltPage.setNodeId(jsonOther.getJSONObject(i).get("nodeId").toString());
+					  adSoltPage.setName(jsonOther.getJSONObject(i).get("name").toString());
+					  adSoltPage.setType(jsonOther.getJSONObject(i).get("type").toString());
+					  adSoltPage.setTheme(jsonOther.getJSONObject(i).get("theme").toString());
+					  adSoltPage.setRequestURL(jsonOther.getJSONObject(i).get("requestURL").toString());
+					  adSoltPage.setImageURL(jsonOther.getJSONObject(i).get("imageURL").toString());
+					  list.add(adSoltPage);
+				  }
+				}
+		}
+		return list;
+	}
+	//获取直播的频道ID
+	public List<AdSoltLive>   getLiveChannelId( ) {
+		List<AdSoltLive> list = new ArrayList<AdSoltLive>();
+		String responsexml = httpClientPost(lIVE_CAHNNELID);
+		JSONObject	jsonObj_school = new JSONObject().fromObject(responsexml);//解析JSON字符串
+		if(jsonObj_school.get("resultCode").equals("0000")){
+		JSONArray jsonObject = jsonObj_school.getJSONArray("classifyList");
+		  for (int i = 0; i < jsonObject.size(); i++) {
+			  AdSoltLive adSoltLive = new AdSoltLive();
+			  adSoltLive.setName((String) jsonObject.getJSONObject(i).get("name").toString());
+			  adSoltLive.setClassType(jsonObject.getJSONObject(i).get("classType").toString());
+			  adSoltLive.setRequestURL(jsonObject.getJSONObject(i).get("requestURL").toString());
+			  list.add(adSoltLive);
+		  }
+	   }
+		return list;
+			 
+	}
+					
+	public static String httpClientPost(String url) {
+		HttpClient httpClient = new HttpClient();
+		PostMethod postMethod = new PostMethod(url);
+		String response="";
+		try {
+			postMethod.releaseConnection();
+			httpClient.executeMethod(postMethod);
+			response= postMethod.getResponseBodyAsString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			postMethod.releaseConnection();
+		}
+		 return response;
+	}
+	 
 }
