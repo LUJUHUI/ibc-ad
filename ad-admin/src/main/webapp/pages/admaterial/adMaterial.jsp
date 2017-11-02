@@ -185,7 +185,6 @@
             <select class="form-control input-sm"  id="status" style="margin-left: 5px;">
                 <option value="">全部</option>
                 <option value="101">待审核</option>
-                <option value="102">审核通过</option>
                 <option value="103">审核失败</option>
                 <option value="104">待使用</option>
                 <option value="105">使用中</option>
@@ -197,8 +196,15 @@
 
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
+
+            <%--查询--%>
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
                 <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
+            </button>
+
+            <%--重置--%>
+            <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
+                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
             </button>
         </form>
     </div>
@@ -278,7 +284,7 @@
                 {name: 'materialName',index: 'materialName', width : 300, align:'center', sortable : true},
                 {name : 'type', index : 'type', width : 270, align:'center', sortable : true,formatter:typeFmt},
                 {name : 'clickHref', index : 'clickHref', width : 280, align:'center', sortable : true},
-                {name : 'status', index : 'status', width : 108, align:'center', sortable : false,formatter:statusFmt},
+                {name : 'status', index : 'status', width : 108, align:'center', sortable : false,formatter:statusFmt,unformat:unFmtStatus},
                 {name : 'createTime', index : 'createTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
                 {name : 'createPerson', index : 'createPerson', width : 100, align:'center', sortable : true},
                 {name : 'updateTime', index : 'updateTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
@@ -390,26 +396,37 @@
             var result="";
             switch (cellvalue){
                 case 101:
-                    result='待审核';
-                    break;
-                case 102:
-                    result = '审核通过';
+                    result='<span class="green">待审核</span>';
                     break;
                 case 103:
-                    result = '审核失败';
+                    result = '<span class="red">审核驳回</span>';
                     break;
                 case 104:
-                    result = '待使用';
+                    result = '<span class="orange">待使用</span>';
                     break;
                 case 105:
-                    result = '使用中';
+                    result = '<span class="green">使用中</span>';
                     break;
                 case 106:
-                    result = '已删除';
+                    result = '<span class="red">已删除</span>';
                     break;
             }
             return result;
         }
+
+        /*实现状态功能的比对*/
+        function unFmtStatus(callValue) {
+            return callValue;
+        }
+
+        /*实现重置按钮的功能*/
+        $("#reset").on("click", function () {
+            $('#materialName').val("");
+            $('#type').val("");
+            $('#createTime').val("");
+            $('#status').val("");
+            search();
+        })
 
         $("#search").on("click", function () {
 
@@ -464,7 +481,7 @@
                 success:function(data){
                     $("#addAdMaterialModel").modal('hide')
                     $("#search").click();
-                    alert("添加成功!");
+                   /* alert("添加成功!");*/
                 },error:function(){
                     alert("添加失败，无法连接服务器!");
                 }
@@ -487,7 +504,7 @@
                 if(rowData.status == "待审核" || rowData.status == "待使用" || rowData.status == "已删除"){
                     codes.push(rowData.id);
                 }else{
-                    bootbox.alert("请选择,待使用、待审核或已删除状态的素材，进行修改操作！");
+                    bootbox.alert("请选择:待使用、待审核或已删除状态的素材，进行修改操作！");
                     del = false;
                 }
             }
@@ -509,6 +526,7 @@
                     break;
             }
         };
+
         $("#save_updateAdMaterial").on("click",function() {
             if ($("#update_adMaterialName").val() == "") {
                 $("#update_adMaterialName").tips({side: 2, msg: '此项必填 ', time: 3});
@@ -553,7 +571,7 @@
                 if(rowData.status == "待审核" || rowData.status == "审核失败"){
                     codes.push(rowData.id);
                 }else{
-                    bootbox.alert("请选择非审核失败或待审核状态的素材，进行删除操作！");
+                    bootbox.alert("请选择:审核失败或待审核状态的素材，进行删除操作！");
                     del = false;
                 }
             }
@@ -565,7 +583,8 @@
             for (var index in codes){
                 codeStr =codeStr + codes[index] + ',';
             }
-            $.post('<c:url value="/json/adMaterial_delateAdMaterial.do"/>', {"materialIds": codeStr.substring(0, codeStr.length-1)}, function (result) {
+            $.post('<c:url value="/json/adMaterial_delateAdMaterial.do"/>',
+                {"materialIds": codeStr.substring(0, codeStr.length-1)}, function (result) {
                 /*bootbox.alert("操作成功！");*/
                 $("#search").trigger('click');
             });
