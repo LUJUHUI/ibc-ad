@@ -20,16 +20,18 @@
                         <label for="adSlot_navig" class="control-label">导航名称:</label>
                         <select class="form-control"  id="adSlot_navig" name="adSlot.navig">
                             <option value="">请选择</option>
-                            <option value="1">首页</option>
-                            <option value="2">直播</option>
+                            <option value="1"  >首页</option>
+                            <option value="2"  >直播</option>
                             <option value="3">会员</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="adSlot_channelId" class="control-label">频道ID</label>
-                        <input type="text" class="form-control" id="adSlot_channelId" name="adSlot.channelId">
+                         <label for="adSlot_channelId" class="control-label">频道ID</label>
+                         <select class="form-control"  id="adSlot_channelId" name="adSlot.channelId">
+                            <option value="">请选择</option> 
+                         </select>
                     </div>
-                       <div class="form-group">
+                    <div class="form-group">
                         <label for="adSlot_width" class="control-label">广告位宽度</label>
                         <input type="text" class="form-control" id="adSlot_width" name="adSlot.width">
                     </div>
@@ -37,7 +39,7 @@
                         <label for="adSlot_height" class="control-label">广告位高度</label>
                         <input type="text" class="form-control" id="adSlot_height" name="adSlot.height">
                     </div>
-                     <div class="form-group">
+                    <div class="form-group">
                         <label for="adSlot_remark" class="control-label">备注</label>
                         <textarea   class="form-control" id="adSlot_remark" name="adSlot.remark"></textarea>
                     </div>
@@ -605,5 +607,40 @@
            })
            }
        }
-    });
+     
+       $("#adSlot_navig").on("change",function(){
+    	   $("#adSlot_channelId").empty();
+    	   if( $("#adSlot_navig").val() == "1"){
+    		   $.ajax({
+                   url:"<c:url value='/json/adSlot_getHomePageChannelId.do'/>",
+                   data:{},
+                   type:"post",
+                   success:function(data){
+                   if(null != data.HomePageChannel && data.HomePageChannel.length>0){
+                	   var listData = data.HomePageChannel;
+                		 for(var i in listData){
+                			 $("#adSlot_channelId").append("<option value='"+listData[i].name+"'>"+listData[i].name+"</option>");
+                		 }
+                	}
+                   },error:function(){
+                   }
+               });
+    	   }else if($("#adSlot_navig").val() == "2"){
+    		   $.ajax({
+                   url:"<c:url value='/json/adSlot_getLiveChannelId.do'/>",
+                   data:{},
+                   type:"post",
+                   success:function(data){
+               	   if(null != data.LiveChannel && data.LiveChannel.length>0){
+                   	   var listData = data.LiveChannel;
+                   		 for(var i in listData){
+                   			 $("#adSlot_channelId").append("<option value='"+listData[i].name+"'>"+listData[i].name+"</option>");
+                   		 }
+                   	}
+                   },error:function(){
+                   }
+               });
+    	   }
+       })
+    })
 </script>

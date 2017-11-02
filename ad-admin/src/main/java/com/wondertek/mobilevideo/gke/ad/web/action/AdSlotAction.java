@@ -15,6 +15,8 @@ import com.opensymphony.xwork2.Preparable;
 import com.wondertek.mobilevideo.core.util.DateUtil;
 import com.wondertek.mobilevideo.core.util.StringUtil;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdSlot;
+import com.wondertek.mobilevideo.gke.ad.core.model.AdSoltLive;
+import com.wondertek.mobilevideo.gke.ad.core.model.AdSoltPage;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdLogManager;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdSlotManager;
 import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
@@ -131,7 +133,29 @@ public class AdSlotAction extends BaseAction {
 		}
 		return SUCCESS;
 	}
+	//获取首页的频道ID
+	public String getHomePageChannelId() {
+		try {
+			List<AdSoltPage> pageList  = adSlotManagerImpl.getHomePageChannelId();
+			resultMap.put("HomePageChannel", pageList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("success",false);
+		}
+		return SUCCESS;
+	}
 	
+	//获取首页的频道ID
+	public String getLiveChannelId() {
+		try {
+			List<AdSoltLive> liveList = adSlotManagerImpl.getLiveChannelId();
+			resultMap.put("LiveChannel", liveList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("success",false);
+		}
+		return SUCCESS;
+	}
 	/*********搜索需要参数**********/
     public void  getParams(){
         String slotName = getRequest().getParameter("slotName");
