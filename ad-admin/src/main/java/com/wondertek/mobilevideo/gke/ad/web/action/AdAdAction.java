@@ -82,20 +82,23 @@ public class AdAdAction extends BaseAction{
 		PageList pageList = new PageList();
 		try {
 			getParams();
-			//获取已经关联的素材
-//			params.put("adId.id",Long.valueOf(getRequest().getParameter("adId")));
-//			List<AdAdMaterial> adAdMaterials = adAdMaterialManagerImpl.find(params);
-//			List<Integer> adMaterList=new ArrayList<Integer>();
-//			for (AdAdMaterial adAdMaterial : adAdMaterials) {
-//				adMaterList.add(adAdMaterial.getMaterialId().getId());
-//			}
-//			params.remove("adId.id");
+			String adId = getRequest().getParameter("adId");
+			if (StringUtils.isNotBlank(adId)) {
+				//获取已经关联的素材
+				params.put("adId.id",Long.valueOf(getRequest().getParameter("adId")));
+				List<AdAdMaterial> adAdMaterials = adAdMaterialManagerImpl.find(params);
+				params.remove("adId.id");
+				List<Integer> adMaterList=new ArrayList<Integer>();
+				for (AdAdMaterial adAdMaterial : adAdMaterials) {
+					adMaterList.add(adAdMaterial.getMaterialId().getId());
+				}
+				params.put("id_notIn", adMaterList);
+			}
+
 			List<Integer> statusList=new ArrayList<Integer>();
 			statusList.add(AdMaterial.AdMaterialStatus.STATUS_104.getStatus());
 			statusList.add(AdMaterial.AdMaterialStatus.STATUS_105.getStatus());
-//            Integer[] status = {,};
             params.put("status_in", statusList);
-//			params.put("id_notIn", adMaterList);
 			pageList = adMaterialMangerImpl.getPageList(params, getPageNo(), getPageSize(), getSort(), getOrder());
 		} catch (Exception e) {
 			e.printStackTrace();
