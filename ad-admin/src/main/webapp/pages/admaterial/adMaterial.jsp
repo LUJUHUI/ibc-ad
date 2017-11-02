@@ -27,12 +27,12 @@
                     <div class="form-group">
                         <label for="add_type" class="control-label">素材类型 :</label>
                         <select class="form-control input-sm" style="margin-left: 5px;" id="add_type" name="adMaterial.type">
-                            <option value="1">图片</option>
+                            <option value="1" selected="selected">图片</option>
                             <option value="2">文字</option>
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         <label for="add_clickHref" class="control-label">链接地址:</label>
                         <input type="text" class="form-control" id="add_clickHref" name="adMaterial.clickHref">
                     </div>
@@ -590,6 +590,18 @@
             });
         }
         /* -------删除素材(end)----------*/
+        //$("#xxx").addClass("hidden");
+        //$("#xxx").removeClass("hidden");
+        $("#add_type").on("change",function () {
+            alert($("#add_type").val());
+            var val = $("#add_type").val();
+            if(val == 1){
+
+            }else{
+
+            }
+
+        })
     });
 </script>
 
