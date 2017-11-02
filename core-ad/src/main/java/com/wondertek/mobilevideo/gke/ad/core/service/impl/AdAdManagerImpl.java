@@ -2,6 +2,7 @@ package com.wondertek.mobilevideo.gke.ad.core.service.impl;
 
 import com.wondertek.mobilevideo.gke.ad.core.dao.AdAdDao;
 import com.wondertek.mobilevideo.gke.ad.core.dao.AdAdMaterialDao;
+import com.wondertek.mobilevideo.gke.ad.core.dao.AdMaterialDao;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdAd;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdAdMaterial;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterial;
@@ -23,6 +24,8 @@ public class AdAdManagerImpl extends  GenericManagerImpl<AdAd, Long> implements 
 	private AdAdDao adAdDao;
 	@Autowired
 	private AdAdMaterialDao adAdMaterialDao;
+	@Autowired
+	private AdMaterialDao adMaterialDao;
 	
 	
 	@Autowired
@@ -38,18 +41,30 @@ public class AdAdManagerImpl extends  GenericManagerImpl<AdAd, Long> implements 
         object.setCreateTime(date);
         object.setUpdateTime(date);
         
-		
         object = adAdDao.save(object);
-        if (StringUtils.isNotBlank(materialId)) {
-            AdAdMaterial adAdMaterial = new AdAdMaterial();
-            adAdMaterial.setAdId(object);
-            adAdMaterial.setMaterialId(new AdMaterial(Integer.parseInt(materialId)));
-            adAdMaterial.setCreateId(object.getCreateId());
-            adAdMaterial.setUpdateId(object.getUpdateId());
-            adAdMaterial.setCreateTime(date);
-            adAdMaterial.setUpdateTime(date);
-            adAdMaterialDao.save(adAdMaterial);
-        }
+		String[] materialIds = materialId.split(",");
+		for (String id : materialIds) {
+
+			AdMaterial adMaterial = adMaterialDao.get(Integer.parseInt(id));
+			
+			AdAdMaterial adAdMaterial = new AdAdMaterial();
+			adAdMaterial.setAdId(object);
+			adAdMaterial.setMaterialId(adMaterial);
+			adAdMaterial.setCreateId(object.getCreateId());
+			adAdMaterial.setUpdateId(object.getUpdateId());
+			adAdMaterial.setCreateTime(date);
+			adAdMaterial.setUpdateTime(date);
+			adAdMaterialDao.save(adAdMaterial);
+			
+			if (adMaterial.getStatus() != AdMaterial.AdMaterialStatus.STATUS_105.getStatus()) {
+				//修改素材状态为使用中
+				adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_105.getStatus());
+				adMaterial.setUpdateTime(date);
+				adMaterial.setUpdatePerson(object.getCreateId());
+				adMaterialDao.saveOrUpdate(adMaterial);
+			}
+			
+		}
 		return object;
 	}
 

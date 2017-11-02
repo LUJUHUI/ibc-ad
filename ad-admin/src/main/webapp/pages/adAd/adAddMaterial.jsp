@@ -131,7 +131,6 @@
             $("#add_material").append(soltStr);
 
         });
-        //$('.chosen-select').chosen({allow_single_deselect:true});
         var grid_selector = "#ad-add-material-grid-table";
         var pager_selector = "#ad-add-material-grid-pager";
 
@@ -307,27 +306,37 @@
             $.jgrid.gridDestroy(grid_selector);
             $('.ui-jqdialog').remove();
         });
-
+        
+        function typeFmt(cellvalue, options, rowObject){
+            var result="";
+            switch (cellvalue){
+                case 1:
+                    result='图片';
+                    break;
+                case 2:
+                    result = '文字';
+                    break;
+            }
+            return result;
+        }
+        
         function statusFmt(cellvalue, options, rowObject){
             var result="";
             switch (cellvalue){
                 case 101:
-                    result='待审核';
-                    break;
-                case 102:
-                    result = '审核通过';
+                    result='<span class="green">待审核</span>';
                     break;
                 case 103:
-                    result = '审核失败';
+                    result = '<span class="red">审核失败</span>';
                     break;
                 case 104:
-                    result = '待使用';
+                    result = '<span class="orange">待使用</span>';
                     break;
                 case 105:
-                    result = '使用中';
+                    result = '<span class="green">使用中</span>';
                     break;
                 case 106:
-                    result = '已删除';
+                    result = '<span class="red">已删除</span>';
                     break;
             }
             return result;

@@ -83,19 +83,19 @@ public class AdAdAction extends BaseAction{
 		try {
 			getParams();
 			//获取已经关联的素材
-			params.put("adId.id",Long.valueOf(getRequest().getParameter("adId")));
-			List<AdAdMaterial> adAdMaterials = adAdMaterialManagerImpl.find(params);
-			List<Integer> adMaterList=new ArrayList<Integer>();
-			for (AdAdMaterial adAdMaterial : adAdMaterials) {
-				adMaterList.add(adAdMaterial.getMaterialId().getId());
-			}
-			params.remove("adId.id");
+//			params.put("adId.id",Long.valueOf(getRequest().getParameter("adId")));
+//			List<AdAdMaterial> adAdMaterials = adAdMaterialManagerImpl.find(params);
+//			List<Integer> adMaterList=new ArrayList<Integer>();
+//			for (AdAdMaterial adAdMaterial : adAdMaterials) {
+//				adMaterList.add(adAdMaterial.getMaterialId().getId());
+//			}
+//			params.remove("adId.id");
 			List<Integer> statusList=new ArrayList<Integer>();
 			statusList.add(AdMaterial.AdMaterialStatus.STATUS_104.getStatus());
 			statusList.add(AdMaterial.AdMaterialStatus.STATUS_105.getStatus());
 //            Integer[] status = {,};
             params.put("status_in", statusList);
-			params.put("id_notIn", adMaterList);
+//			params.put("id_notIn", adMaterList);
 			pageList = adMaterialMangerImpl.getPageList(params, getPageNo(), getPageSize(), getSort(), getOrder());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -200,6 +200,14 @@ public class AdAdAction extends BaseAction{
 		String createTimeEnd = getRequest().getParameter("createTime_end");
 		if (StringUtils.isNotBlank(createTimeEnd)) {
 			params.put("createTime_endTime", DateUtil.parseDate(DateUtil.DATE_TIME_PATTERN,createTimeEnd));
+		}
+		String materialName = getRequest().getParameter("materialName");
+		if (StringUtils.isNotBlank(materialName)) {
+			params.put("materialName",materialName);
+		}
+		String type = getRequest().getParameter("type");
+		if (StringUtils.isNotBlank(type)) {
+			params.put("type",Integer.parseInt(type));
 		}
 	}
 

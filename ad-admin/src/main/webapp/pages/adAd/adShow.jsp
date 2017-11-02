@@ -1,52 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
 
-<div class="modal fade bs-example-modal-sm" tabindex="-1" id="addAdModel" role="dialog" aria-labelledby="myLargeModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="gridSystemModalLabel">添加广告</h4>
-            </div>
-            <div class="modal-body">
-                <form id="add_adadForm">
-                    <div class="form-group">
-                        <label for="add_adName" class="control-label">广告名称:</label>
-                        <input type="text" class="form-control" id="add_adName" name="adAd.adName">
-                    </div>
-                    <div class="form-group">
-                        <label for="add_startTime"  class="control-label">投放时间 :</label>
-                        <input type="text" class="form-control" readonly="readonly" id="add_startTime">
-                        <input type="hidden" class="form-control" id="add_st" name="adAd.startTime" value="">
-                        <input type="hidden" class="form-control" id="add_et" name="adAd.endTime" value="">
-                    </div>
-                    <div class="form-group">
-                        <label for="add_soltId" class="control-label">投放位置 :</label>
-                        <select class="form-control input-sm" style="margin-left: 5px;" id="add_soltId" name="adAd.soltId">
-                            <option value="" selected="selected">请选择广告位</option>
-                           
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="add_material" class="control-label">使用素材 :</label>
-                        <select class="form-control input-sm" style="margin-left: 5px;" id="add_material" name="materialId">
-                            <option value="" selected="selected">请选择素材</option>
-                           
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="add_remark" class="control-label">备注 :</label>
-                        <textarea id="add_remark" class="form-control" name="adAd.remark"></textarea>
-                    </div>
-                </form>
-                <div class="modal-footer">
-                    <button type="button" id="close_adad" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" id="save_adad" class="btn btn-primary">保存</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-</div>
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
         try {
@@ -85,7 +39,7 @@
 <div class="page-content">
     <div class="page-header">
         <form class="form-inline">
-
+            
             <label class="control-label" for="status">状态</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="status">
                 <option value="">全部</option>
@@ -95,10 +49,10 @@
                 <option value="104">投放完成</option>
                 <option value="104">已删除</option>
             </select>
-
+            
             <label class="control-label" for="adName">广告名称</label>
             <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="adName">
-
+            
             <label class="control-label" for="startTime">广告开始时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="startTime"/>
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
@@ -121,24 +75,20 @@
 <script type="text/javascript">
 
     jQuery(function($) {
-       $.get("<c:url value='/json/adad_getAdSlot.do'/>",function (result) {
-           console.log(result)
-           var soltStr = '';
-           $(result.root).each(function (index,items) {
-               soltStr+= '<option value="'+items.id+'">'+items.slotName+'</option>';
-           });
-           console.log(soltStr);
-           $("#add_soltId").append(soltStr);
-          
-       });
+        $.get("<c:url value='/json/adad_getAdSlot.do'/>",function (result) {
+            var soltStr = '';
+            $(result.root).each(function (index,items) {
+                soltStr+= '<option value="'+items.id+'">'+items.slotName+'</option>';
+            });
+            $("#add_soltId").append(soltStr);
+
+        });
 
         $.get("<c:url value='/json/adad_getAdMaterial.do'/>",function (result) {
-            console.log(result)
             var soltStr = '';
             $(result.root).each(function (index,items) {
                 soltStr+= '<option value="'+items.id+'">'+items.materialName+'</option>';
             });
-            console.log(soltStr);
             $("#add_material").append(soltStr);
 
         });
@@ -288,15 +238,15 @@
             }
         )
 
-        
+
         function styleCheckbox(table) {
-            
+
         }
 
         function updateActionIcons(table) {
-            
+
         }
-        
+
         function updatePagerIcons(table) {
             var replacement =
                 {
@@ -324,23 +274,22 @@
         });
 
         function statusFmt(cellvalue, options, rowObject){
-            console.log(cellvalue)
             var result="";
             switch (cellvalue){
                 case 101:
-                    result='草稿';
+                    result='<span class="green">草稿</span>';
                     break;
                 case 102:
-                    result = '待投放';
+                    result = '<span class="orange">待投放</span>';
                     break;
                 case 103:
-                    result = '投放中';
+                    result = '<span class="orange">投放中</span>';
                     break;
                 case 104:
-                    result = '投放完成';
+                    result = '<span class="green">投放完成</span>';
                     break;
                 case 105:
-                    result = '已删除';
+                    result = '<span class="red">已删除</span>';
                     break;
             }
             return result;
@@ -371,13 +320,13 @@
             }).trigger("reloadGrid"); //重新载入
         })
         $("#add").on("click",function () {
-            $("#addAdModel").modal();
-            <%--openMainPage('<c:url value="/pages/adAd/adAddMaterial.jsp"/>', {"id": "addAd"}, function () {--%>
-            <%--});--%>
+            //$("#addAdModel").modal();
+            openMainPage('<c:url value="/pages/adAd/addAd.jsp"/>', {}, function () {
+            });
         });
 
         $("#save_adad").on("click",function () {
-            
+
             var adName = $("#add_adName").val();
             if(adName == null || adName == ''){
                 $("#add_adName").tips({side:2,msg:'此项必填 ',time:3});
@@ -390,6 +339,12 @@
             var st = $('#add_startTime').val().replace(/\s/g, "").split("至");
             $("#add_st").val(formatDate(st[0]));
             $("#add_et").val(formatDate(st[1]));
+            var sTime =  new Date($("#add_st").val().replace("-", "/").replace("-", "/"));
+            var eTime =  new Date($("#add_et").val().replace("-", "/").replace("-", "/"));
+            if(sTime > eTime){
+                bootbox.alert("投放开始时间必须小于结束时间！");
+                return false;
+            }
             $.ajax({
                 url:"<c:url value='/json/adad_save.do'/>",
                 data:$("#add_adadForm").serialize(),
@@ -398,16 +353,16 @@
                     $("#addAdModel").modal('hide')
                     $("#search").click();
                 },error:function(){
-                    alert("保存失败，无法连接服务器");
+                    bootbox.alert("保存失败，无法连接服务器！");
                 }
             });
 
         })
-        
+
         $("#addAdModel").on("hidden.bs.modal",function () {
             $("#add_adadForm")[0].reset();
         })
-        
+
         $("#addAdMaterial").on("click",function () {
             var row = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
             if (row.length == 0){
@@ -435,7 +390,7 @@
             }
             var materailIds = [];
             $.each(row,function (index,items) {
-               
+
                 var rowdDta = $("#grid-table").jqGrid('getRowData', row[index])
                 if(rowdDta.status == '投放中'){
                     bootbox.alert('"'+rowdDta.adName+'"处于投放中，不能删除！');
@@ -445,7 +400,6 @@
                 }
             });
             $.post("<c:url value='/json/adad_deleteAd.do'/>",{id:materailIds.join(",")},function (response) {
-                console.log(response);
                 if(response.success == true && response.code == 101){
                     bootbox.alert('操作成功！');
                     $("#search").click();
@@ -459,10 +413,10 @@
                 }
             })
         });
-        
+
         function formatDate(str) {
             return str.substr(0, 10) + " " + str.substr(10, str.length)+":00";
         }
-       
+
     });
 </script>
