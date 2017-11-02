@@ -399,7 +399,7 @@
                     result='<span class="green">待审核</span>';
                     break;
                 case 103:
-                    result = '<span class="red">审核失败</span>';
+                    result = '<span class="red">审核驳回</span>';
                     break;
                 case 104:
                     result = '<span class="orange">待使用</span>';
