@@ -5,7 +5,6 @@ import com.opensymphony.xwork2.util.logging.LoggerFactory;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterial;
-import com.wondertek.mobilevideo.gke.ad.web.WebConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +37,8 @@ public class PicUploadController {
         String filename = file.getOriginalFilename();
         String fileNamesuffix = filename.substring(filename.lastIndexOf("."), filename.length()).toLowerCase();
 
-        String uploadFilePath = WebConstants.APP_BASE_PATH;
+         /*??????????*/
+        String uploadFilePath = AdMaterial.getAdmaterialUploadPictureSrc("adMaterial.upload.picture.src");
 
         long time = System.currentTimeMillis();
         String newFileNm = String.valueOf(time) + fileNamesuffix;
@@ -85,7 +85,8 @@ public class PicUploadController {
                         uploadImage(file.getInputStream(), uploadFilePath, newFileNm, bfImage.getWidth(),
                                 bfImage.getHeight());
                     }
-                    //prvPath = AdMaterial.getParameter("upc.imgs.url") + newFileNm;
+                    /*???????????*/
+                    prvPath = AdMaterial.getAdmaterialUploadPictureClickHref("upc.imgs.url") + newFileNm;
                 } else {
                     prvPath = "errorImg";
                 }

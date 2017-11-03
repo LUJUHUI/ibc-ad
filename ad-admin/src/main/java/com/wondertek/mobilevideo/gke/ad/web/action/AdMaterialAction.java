@@ -6,14 +6,6 @@ import com.wondertek.mobilevideo.gke.ad.core.service.AdMaterialManger;
 import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.util.*;
 
 public class AdMaterialAction extends BaseAction {
@@ -39,7 +31,7 @@ public class AdMaterialAction extends BaseAction {
         return SUCCESS;
     }
 
-    //     增加
+    //     创建
     public String addAdMaterial() {
         try {
             adMaterial.setCreatePerson(getUsername()); //创建者
