@@ -10,6 +10,7 @@
             <list>
                 <value>classpath:cas.properties</value>
                 <value>classpath:jdbc.properties</value>
+                <value>classpath:redis.properties</value>
             </list>
         </property>
     </bean>
