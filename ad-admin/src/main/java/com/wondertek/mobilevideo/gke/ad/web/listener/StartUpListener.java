@@ -29,7 +29,7 @@ public class StartUpListener implements ServletContextListener{
 		//初始化项目路径
 		WebConstants.APP_BASE_PATH = context.getRealPath("/");
 
-		WebConstants.config = new Configuration("/config.properties");
+		//WebConstants.config = new Configuration("/config.properties");
 		//WebConstants.MOBILE_PLAT_NOTICE_PUBLISH_SERVICE_URL = WebConstants.config.getProperty("mobile.plat.notice.publish.service");
 
 
