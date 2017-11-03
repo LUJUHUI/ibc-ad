@@ -22,6 +22,7 @@
       classpath*:/applicationContext-ad-service.xml
       classpath:/applicationContext-web-jobs.xml 
       classpath*:/applicationContext-cas.xml
+      classpath:/spring-redis.xml
     </param-value>
   </context-param>
 

@@ -148,18 +148,7 @@
 			<artifactId>commons-discovery</artifactId>
 			<version>0.2</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/wsdl4j/wsdl4j -->
-		<dependency>
-			<groupId>wsdl4j</groupId>
-			<artifactId>wsdl4j</artifactId>
-			<version>1.6.2</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/axis/axis -->
-		<dependency>
-			<groupId>axis</groupId>
-			<artifactId>axis</artifactId>
-			<version>1.4</version>
-		</dependency>
+		
 		<dependency>
 			<groupId>org.jasig.cas</groupId>
 			<artifactId>cas-client-core</artifactId>
@@ -206,6 +195,8 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+
 	</dependencies>
 	<build>
 		<finalName>ad-admin</finalName>
