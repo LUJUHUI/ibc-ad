@@ -206,18 +206,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
-		<dependency>
-            <groupId>com.wondertek.mobilevideo.core</groupId>
-            <artifactId>core-cache</artifactId>
-            <version>2.0.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.codehaus.jackson</groupId>
-                    <artifactId>jackson-jaxrs</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 	</dependencies>
 	<build>
 		<finalName>ad-admin</finalName>
