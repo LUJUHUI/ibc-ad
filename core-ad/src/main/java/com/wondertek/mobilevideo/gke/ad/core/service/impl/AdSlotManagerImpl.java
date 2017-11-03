@@ -121,7 +121,7 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 		List<AdSoltPage> list = new ArrayList<AdSoltPage>();
 		if(jsonObj_school.get("resultCode").equals("0000")){
 			JSONArray jsonObject = jsonObj_school.getJSONArray("fixChannel");
-			if(null != jsonObject){
+			if(null != jsonObject && jsonObject.size()>0){
 			  for (int i = 0; i < jsonObject.size(); i++) {
 				  AdSoltPage adSoltPage = new AdSoltPage();
 				  adSoltPage.setNodeId(jsonObject.getJSONObject(i).get("nodeId").toString());
@@ -134,7 +134,7 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 			  }
 			}
 			JSONArray jsonCommon = jsonObj_school.getJSONArray("commonChannel");
-			if(null != jsonCommon){
+			if(null != jsonCommon && jsonCommon.size()>0){
 			  for (int i = 0; i < jsonCommon.size(); i++) {
 				  AdSoltPage adSoltPage = new AdSoltPage();
 				  adSoltPage.setNodeId(jsonCommon.getJSONObject(i).get("nodeId").toString());
@@ -148,7 +148,7 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 			}
 			
 			JSONArray jsonOther = jsonObj_school.getJSONArray("otherChannel");
-				if(null != jsonOther){
+				if(null != jsonOther && jsonOther.size()>0){
 				  for (int i = 0; i < jsonOther.size(); i++) {
 					  AdSoltPage adSoltPage = new AdSoltPage();
 					  adSoltPage.setNodeId(jsonOther.getJSONObject(i).get("nodeId").toString());
@@ -169,14 +169,16 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 		String responsexml = httpClientPost(lIVE_CAHNNELID);
 		JSONObject	jsonObj_school = new JSONObject().fromObject(responsexml);//解析JSON字符串
 		if(jsonObj_school.get("resultCode").equals("0000")){
-		JSONArray jsonObject = jsonObj_school.getJSONArray("classifyList");
-		  for (int i = 0; i < jsonObject.size(); i++) {
-			  AdSoltLive adSoltLive = new AdSoltLive();
-			  adSoltLive.setName((String) jsonObject.getJSONObject(i).get("name").toString());
-			  adSoltLive.setClassType(jsonObject.getJSONObject(i).get("classType").toString());
-			  adSoltLive.setRequestURL(jsonObject.getJSONObject(i).get("requestURL").toString());
-			  list.add(adSoltLive);
-		  }
+			JSONArray jsonObject = jsonObj_school.getJSONArray("classifyList");
+			if(null != jsonObject && jsonObject.size()>0){
+				for (int i = 0; i < jsonObject.size(); i++) {
+					AdSoltLive adSoltLive = new AdSoltLive();
+					adSoltLive.setName((String) jsonObject.getJSONObject(i).get("name").toString());
+					adSoltLive.setClassType(jsonObject.getJSONObject(i).get("classType").toString());
+					adSoltLive.setRequestURL(jsonObject.getJSONObject(i).get("requestURL").toString());
+					list.add(adSoltLive);
+				}
+			}
 	   }
 		return list;
 			 
