@@ -9,11 +9,13 @@
 <%@ include file="/common/taglibs.jsp" %>
 
 <%--新建素材模块--%>
-<div class="modal fade bs-example-modal-sm" tabindex="-1" id="addAdMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
+<div class="modal fade bs-example-modal-sm" tabindex="-1" id="addAdMaterialModel" role="dialog"
+     aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title" id="addAdMaterial">新建素材</h4>
             </div>
             <div class="modal-body">
@@ -26,20 +28,22 @@
 
                     <div class="form-group">
                         <label for="add_type" class="control-label">素材类型 :</label>
-                        <select class="form-control input-sm" style="margin-left: 5px;" id="add_type" name="adMaterial.type">
-                            <option value="1" selected="selected">图片</option>
-                            <option value="2">文字</option>
+                        <select class="form-control input-sm" style="margin-left: 5px;" id="add_type"
+                                name="adMaterial.type" autocomplete="off">
+                        <option value="1" selected="selected">图片</option>
+                        <option value="2">文字</option>
                         </select>
                     </div>
 
-                    <div class="form-group hidden">
+                    <div class="form-group <%--hidden--%>">
                         <label for="add_clickHref" class="control-label">链接地址:</label>
                         <input type="text" class="form-control" id="add_clickHref" name="adMaterial.clickHref">
                     </div>
 
                 </form>
                 <div class="modal-footer">
-                    <button type="button" id="close_addAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" id="close_addAdMaterial" class="btn btn-default" data-dismiss="modal">取消
+                    </button>
                     <button type="button" id="save_addAdMaterial" class="btn btn-primary">保存</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -48,11 +52,13 @@
 </div>
 
 <%--修改素材模块--%>
-<div class="modal fade bs-example-modal-sm" tabindex="-1" id="updateAdMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
+<div class="modal fade bs-example-modal-sm" tabindex="-1" id="updateAdMaterialModel" role="dialog"
+     aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title" id="updateMaterial">修改素材</h4>
             </div>
             <div class="modal-body">
@@ -65,12 +71,14 @@
 
                     <div class="form-group">
                         <label for="update_adMaterialName" class="control-label">素材名称:</label>
-                        <input type="text" class="form-control" id="update_adMaterialName" name="adMaterial.materialName">
+                        <input type="text" class="form-control" id="update_adMaterialName"
+                               name="adMaterial.materialName">
                     </div>
 
                     <div class="form-group">
                         <label for="update_type" class="control-label">素材类型 :</label>
-                        <select class="form-control input-sm" style="margin-left: 5px;" id="update_type" name="adMaterial.type">
+                        <select class="form-control input-sm" style="margin-left: 5px;" id="update_type"
+                                name="adMaterial.type">
                             <option value="1">图片</option>
                             <option value="2">文字</option>
                         </select>
@@ -83,21 +91,24 @@
 
                     <div class="form-group">
                         <label for="update_status" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="update_status" name="adMaterial.status" value="素材状态">
+                        <input type="hidden" class="form-control" id="update_status" name="adMaterial.status"
+                               value="素材状态">
                     </div>
 
                     <div class="form-group">
                         <label for="update_createTime" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="update_createTime" name="adMaterial.createTime" >
+                        <input type="hidden" class="form-control" id="update_createTime" name="adMaterial.createTime">
                     </div>
                     <div class="form-group">
                         <label for="update_createPerson" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="update_createPerson" name="adMaterial.createPerson">
+                        <input type="hidden" class="form-control" id="update_createPerson"
+                               name="adMaterial.createPerson">
                     </div>
 
                 </form>
                 <div class="modal-footer">
-                    <button type="button" id="close_updateAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" id="close_updateAdMaterial" class="btn btn-default" data-dismiss="modal">取消
+                    </button>
                     <button type="button" id="save_updateAdMaterial" class="btn btn-primary">保存</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -106,18 +117,21 @@
 </div>
 
 <%--删除素材模块--%>
-<div class="modal fade bs-example-modal-sm" tabindex="-1" id="deleteadMaterialModel" role="dialog" aria-labelledby="myLargeModalLabel">
+<div class="modal fade bs-example-modal-sm" tabindex="-1" id="deleteadMaterialModel" role="dialog"
+     aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title" id="deleteMaterial">删除素材</h4>
             </div>
             <div class="modal-body">
                 <form id="delete_material_Form">
                     <div class="form-group">
                         <label for="delete_status" class="control-label">审核状态 :</label>
-                        <select class="form-control input-sm" style="margin-left: 5px;" id="delete_status" name="adMaterial.status">
+                        <select class="form-control input-sm" style="margin-left: 5px;" id="delete_status"
+                                name="adMaterial.status">
                             <option value="101">待审核</option>
                             <option value="103">审核失败</option>
                         </select>
@@ -125,7 +139,8 @@
 
                 </form>
                 <div class="modal-footer">
-                    <button type="button" id="close_deleteAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" id="close_deleteAdMaterial" class="btn btn-default" data-dismiss="modal">取消
+                    </button>
                     <button type="button" id="save_deleteAdMaterial" class="btn btn-primary">保存</button>
                 </div>
             </div><!-- /.modal-content -->
@@ -155,12 +170,14 @@
     .ui-jqgrid .ui-jqgrid-bdiv {
         overflow: auto;
     }
+
     .ui-jqgrid .ui-userdata {
         border-left: 1px solid #D3D3D3;
         border-right: 1px solid #D3D3D3;
         height: 44px;
         overflow: hidden;
     }
+
     .ui-jqgrid .topnavtable td {
         font-weight: 400;
         vertical-align: middle;
@@ -182,7 +199,7 @@
             </select>
 
             <label class="control-label" for="status">素材状态</label>
-            <select class="form-control input-sm"  id="status" style="margin-left: 5px;">
+            <select class="form-control input-sm" id="status" style="margin-left: 5px;">
                 <option value="">全部</option>
                 <option value="101">待审核</option>
                 <option value="103">审核失败</option>
@@ -220,36 +237,36 @@
 
 <script type="text/javascript">
 
-    jQuery(function($) {
+    jQuery(function ($) {
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
 
         var parent_column = $(grid_selector).closest('[class*="col-"]');
         //resize to fit page size
         $(window).on('resize.jqGrid', function () {
-            $(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
+            $(grid_selector).jqGrid('setGridWidth', parent_column.width());
         })
 
         //resize on sidebar collapse/expand
-        $(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
-            if( event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed' ) {
+        $(document).on('settings.ace.jqGrid', function (ev, event_name, collapsed) {
+            if (event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed') {
                 //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
-                setTimeout(function() {
-                    $(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
+                setTimeout(function () {
+                    $(grid_selector).jqGrid('setGridWidth', parent_column.width());
                 }, 20);
             }
         })
 
         $('#createTime').daterangepicker({
             "ableToNull": true,
-            "showDropdowns":true,
-            "showCustomRangeLabel":false,
+            "showDropdowns": true,
+            "showCustomRangeLabel": false,
             "alwaysShowCalendars": true,
             "startDate": moment().subtract('days', 29),
             "endDate": moment().subtract('days', -1),
             "opens": "left",
             "drops": "down"
-        }, function(start, end, label) {//时间改变后执行该方法
+        }, function (start, end, label) {//时间改变后执行该方法
             //alert(label);
         });
 
@@ -268,7 +285,7 @@
                 endDate: endDate + " 23:59:59"
             },
             height: 560,
-            colNames:[
+            colNames: [
                 '<fmt:message key="ad.material.id"/>',
                 '<fmt:message key="ad.material.materialName"/>',
                 '<fmt:message key="ad.material.type"/>',
@@ -279,37 +296,61 @@
                 '<fmt:message key="ad.material.updateTime"/>',
                 '<fmt:message key="ad.material.updatePreson"/>'
             ],
-            colModel:[
-                {name:'id',index:'id', width : 80,align:'center', sortable : true,hidden:true},
-                {name: 'materialName',index: 'materialName', width : 300, align:'center', sortable : true},
-                {name : 'type', index : 'type', width : 270, align:'center', sortable : true,formatter:typeFmt},
-                {name : 'clickHref', index : 'clickHref', width : 280, align:'center', sortable : true},
-                {name : 'status', index : 'status', width : 108, align:'center', sortable : false,formatter:statusFmt,unformat:unFmtStatus},
-                {name : 'createTime', index : 'createTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'createPerson', index : 'createPerson', width : 100, align:'center', sortable : true},
-                {name : 'updateTime', index : 'updateTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
-                {name : 'updatePerson', index : 'updatePerson', width : 100, align:'center', sortable : true},
+            colModel: [
+                {name: 'id', index: 'id', width: 80, align: 'center', sortable: true, hidden: true},
+                {name: 'materialName', index: 'materialName', width: 300, align: 'center', sortable: true},
+                {name: 'type', index: 'type', width: 270, align: 'center', sortable: true, formatter: typeFmt},
+                {name: 'clickHref', index: 'clickHref', width: 280, align: 'center', sortable: true},
+                {
+                    name: 'status',
+                    index: 'status',
+                    width: 108,
+                    align: 'center',
+                    sortable: false,
+                    formatter: statusFmt,
+                    unformat: unFmtStatus
+                },
+                {
+                    name: 'createTime',
+                    index: 'createTime',
+                    width: 200,
+                    align: 'center',
+                    sortable: true,
+                    formatter: "date",
+                    formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s'}
+                },
+                {name: 'createPerson', index: 'createPerson', width: 100, align: 'center', sortable: true},
+                {
+                    name: 'updateTime',
+                    index: 'updateTime',
+                    width: 200,
+                    align: 'center',
+                    sortable: true,
+                    formatter: "date",
+                    formatoptions: {srcformat: 'Y-m-d H:i:s', newformat: 'Y-m-d H:i:s'}
+                },
+                {name: 'updatePerson', index: 'updatePerson', width: 100, align: 'center', sortable: true},
             ],
-            shrinkToFit : false,
-            hidegrid : false,
-            viewrecords : true,
-            rowNum:20,
-            rowList:[10,20,30],
-            pager : pager_selector,
-            altRows : true,
+            shrinkToFit: false,
+            hidegrid: false,
+            viewrecords: true,
+            rowNum: 20,
+            rowList: [10, 20, 30],
+            pager: pager_selector,
+            altRows: true,
             multiselect: true,
             multiboxonly: true,
-            jsonReader : {
-                total : 'pageCount',
-                records : 'records',
-                root : 'rows',
-                repeatitems : true
+            jsonReader: {
+                total: 'pageCount',
+                records: 'records',
+                root: 'rows',
+                repeatitems: true
             },
             caption: '<fmt:message key="ad.ad.list" />',
-            toolbar: [true,'top'],
-            loadComplete : function(data) {
+            toolbar: [true, 'top'],
+            loadComplete: function (data) {
                 var table = this;
-                setTimeout(function(){
+                setTimeout(function () {
                     styleCheckbox(table);
                     updateActionIcons(table);
                     updatePagerIcons(table);
@@ -329,20 +370,20 @@
         $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 
         //navButtons
-        jQuery(grid_selector).jqGrid('navGrid',pager_selector,
+        jQuery(grid_selector).jqGrid('navGrid', pager_selector,
             { 	//navbar options
                 edit: false,
-                editicon : 'ace-icon fa fa-pencil blue',
+                editicon: 'ace-icon fa fa-pencil blue',
                 add: false,
-                addicon : 'ace-icon fa fa-plus-circle purple',
+                addicon: 'ace-icon fa fa-plus-circle purple',
                 del: false,
-                delicon : 'ace-icon fa fa-trash-o red',
+                delicon: 'ace-icon fa fa-trash-o red',
                 search: false,
-                searchicon : 'ace-icon fa fa-search orange',
+                searchicon: 'ace-icon fa fa-search orange',
                 refresh: true,
-                refreshicon : 'ace-icon fa fa-refresh green',
+                refreshicon: 'ace-icon fa fa-refresh green',
                 view: false,
-                viewicon : 'ace-icon fa fa-search-plus grey',
+                viewicon: 'ace-icon fa fa-search-plus grey',
             }
         )
 
@@ -357,33 +398,33 @@
         function updatePagerIcons(table) {
             var replacement =
                 {
-                    'ui-icon-seek-first' : 'ace-icon fa fa-angle-double-left bigger-140',
-                    'ui-icon-seek-prev' : 'ace-icon fa fa-angle-left bigger-140',
-                    'ui-icon-seek-next' : 'ace-icon fa fa-angle-right bigger-140',
-                    'ui-icon-seek-end' : 'ace-icon fa fa-angle-double-right bigger-140'
+                    'ui-icon-seek-first': 'ace-icon fa fa-angle-double-left bigger-140',
+                    'ui-icon-seek-prev': 'ace-icon fa fa-angle-left bigger-140',
+                    'ui-icon-seek-next': 'ace-icon fa fa-angle-right bigger-140',
+                    'ui-icon-seek-end': 'ace-icon fa fa-angle-double-right bigger-140'
                 };
-            $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function(){
+            $('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function () {
                 var icon = $(this);
                 var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-                if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+                if ($class in replacement) icon.attr('class', 'ui-icon ' + replacement[$class]);
             })
         }
 
         function enableTooltips(table) {
-            $('.navtable .ui-pg-button').tooltip({container:'body'});
-            $(table).find('.ui-pg-div').tooltip({container:'body'});
+            $('.navtable .ui-pg-button').tooltip({container: 'body'});
+            $(table).find('.ui-pg-div').tooltip({container: 'body'});
         }
 
-        $(document).one('ajaxloadstart.page', function(e) {
+        $(document).one('ajaxloadstart.page', function (e) {
             $.jgrid.gridDestroy(grid_selector);
             $('.ui-jqdialog').remove();
         });
 
-        function typeFmt(cellvalue, options, rowObject){
-            var result="";
-            switch (cellvalue){
+        function typeFmt(cellvalue, options, rowObject) {
+            var result = "";
+            switch (cellvalue) {
                 case 1:
-                    result='图片';
+                    result = '图片';
                     break;
                 case 2:
                     result = '文字';
@@ -392,11 +433,15 @@
             return result;
         }
 
-        function statusFmt(cellvalue, options, rowObject){
-            var result="";
-            switch (cellvalue){
+        function change() {
+            document.getElementById("sel")[1].selected = true;
+        }
+
+        function statusFmt(cellvalue, options, rowObject) {
+            var result = "";
+            switch (cellvalue) {
                 case 101:
-                    result='<span class="green">待审核</span>';
+                    result = '<span class="green">待审核</span>';
                     break;
                 case 103:
                     result = '<span class="red">审核驳回</span>';
@@ -430,59 +475,62 @@
 
         $("#search").on("click", function () {
 
-            if($('#createTime').val() == ""){
+            if ($('#createTime').val() == "") {
                 startDate = "";
                 endDate = "";
-            } else{
+            } else {
                 dateRange = $('#createTime').val().replace(/\s/g, "").split("至");
                 startDate = dateRange[0];
                 endDate = dateRange[1];
             }
 
             $("#grid-table").jqGrid('setGridParam', {
-                url : "<c:url value='/json/adMaterial_getAdMaterials.do'/>",
-                postData : {
+                url: "<c:url value='/json/adMaterial_getAdMaterials.do'/>",
+                postData: {
                     materialName: $("#materialName").val(),
                     type: $("#type").val(),
                     status: $("#status").val(),
-                    beginDate: startDate +" 00:00:00",
-                    endDate: endDate+" 23:59:59"
+                    beginDate: startDate + " 00:00:00",
+                    endDate: endDate + " 23:59:59"
                 },
-                page : 1,
+                page: 1,
                 datatype: "json",
-                mtype : "post"
+                mtype: "post"
             }).trigger("reloadGrid"); //重新载入
         })
         /* -------新建素材(start)--------------*/
-        $("#adm_create").on("click",function () {
+        $("#adm_create").on("click", function () {
             $("#add_adMaterialName").val("");
             $("#add_type").val("");
             $("#add_clickHref").val("");
-            $("#addAdMaterialModel").modal();/*this id should match above id whlich equaled 'addAdMaterialModel'*/
+            $("#addAdMaterialModel").modal();
+            /*this id should match above id whlich equaled 'addAdMaterialModel'*/
         });
 
-        $("#save_addAdMaterial").on("click",function () {
-            if($("#add_adMaterialName").val() == ""){
-                $("#add_adMaterialName").tips({side:2,msg:'此项必填 ',time:3});
+
+        $("#save_addAdMaterial").on("click", function () {
+            if ($("#add_adMaterialName").val() == "") {
+                $("#add_adMaterialName").tips({side: 2, msg: '此项必填 ', time: 3});
                 return false;
             }
-            if($("#add_type").val() == ""){
-                $("#add_type").tips({side:2,msg:'此项必填 ',time:3});
+            if ($("#add_type").val() == "") {
+                $("#add_type").tips({side: 2, msg: '此项必填 ', time: 3});
                 return false;
             }
-            if($("#add_clickHref").val() == ""){
-                $("#add_type").tips({side:2,msg:'此项必填 ',time:3});
+            if ($("#add_clickHref").val() == "") {
+                $("#add_type").tips({side: 2, msg: '此项必填 ', time: 3});
                 return false;
             }
+
             $.ajax({
-                url:"<c:url value='/json/adMaterial_addAdMaterial.do'/>",
-                data:$("#add_materialForm").serialize(),
-                type:"post",
-                success:function(data){
+                url: "<c:url value='/json/adMaterial_addAdMaterial.do'/>",
+                data: $("#add_materialForm").serialize(),
+                type: "post",
+                success: function (data) {
                     $("#addAdMaterialModel").modal('hide')
                     $("#search").click();
-                   /* alert("添加成功!");*/
-                },error:function(){
+                    /* alert("添加成功!");*/
+                }, error: function () {
                     alert("添加失败，无法连接服务器!");
                 }
             });
@@ -490,25 +538,26 @@
         /* -------新建素材(end)--------------*/
 
         /* -------修改素材(start)------------*/
-        $("#adm_update").on("click",update);
+        $("#adm_update").on("click", update);
+
         function update() {
             var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
-            if (ids.length == 0){
+            if (ids.length == 0) {
                 bootbox.alert("请选择要操作的记录！");
                 return;
             }
             var codes = [];
             var del = true;
-            for (var index in ids){
+            for (var index in ids) {
                 var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                if(rowData.status == "待审核" || rowData.status == "待使用" || rowData.status == "已删除"){
+                if (rowData.status == "待审核" || rowData.status == "待使用" || rowData.status == "已删除") {
                     codes.push(rowData.id);
-                }else{
+                } else {
                     bootbox.alert("请选择:待使用、待审核或已删除状态的素材，进行修改操作！");
                     del = false;
                 }
             }
-            if(del == true) {
+            if (del == true) {
                 $("#update_id").val(rowData.id);
                 $("#update_adMaterialName").val(rowData.materialName);
                 $("#update_clickHref").val(rowData.clickHref);
@@ -517,17 +566,17 @@
                 $("#update_createPerson").val(rowData.createPerson);
                 $("#updateAdMaterialModel").modal();
             }
-            switch (rowData.type){
+            switch (rowData.type) {
                 case "图片":
-                    $("#update_type option[value='1']").attr("selected","selected")
+                    $("#update_type option[value='1']").attr("selected", "selected")
                     break;
                 case "文字":
-                    $("#update_type option[value='2']").attr("selected","selected")
+                    $("#update_type option[value='2']").attr("selected", "selected")
                     break;
             }
         };
 
-        $("#save_updateAdMaterial").on("click",function() {
+        $("#save_updateAdMaterial").on("click", function () {
             if ($("#update_adMaterialName").val() == "") {
                 $("#update_adMaterialName").tips({side: 2, msg: '此项必填 ', time: 3});
                 return false;
@@ -540,68 +589,71 @@
                 $("#update_clickHref").tips({side: 2, msg: '此项必填 ', time: 3});
                 return false;
             }
-                $.ajax({
-                    url: "<c:url value='/json/adMaterial_updateAdMaterial.do'/>",
-                    data: $("#update_materialForm").serialize(),
-                    type: "post",
-                    success: function (data) {
-                        $("#updateAdMaterialModel").modal('hide')
-                        $("#search").click();
-                        /*alert("修改成功!");*/
-                    }, error: function () {
-                        alert("修改失败，无法连接服务器!");
-                    }
-                });
+            $.ajax({
+                url: "<c:url value='/json/adMaterial_updateAdMaterial.do'/>",
+                data: $("#update_materialForm").serialize(),
+                type: "post",
+                success: function (data) {
+                    $("#updateAdMaterialModel").modal('hide')
+                    $("#search").click();
+                    /*alert("修改成功!");*/
+                }, error: function () {
+                    alert("修改失败，无法连接服务器!");
+                }
+            });
 
         })
         /* -------修改素材(end)------------*/
 
         /* -------删除素材(start)----------*/
-        $("#adm_delete").on("click",deleteAdMaterial);
+        $("#adm_delete").on("click", deleteAdMaterial);
+
         function deleteAdMaterial() {
             var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
-            if (ids.length == 0){
+            if (ids.length == 0) {
                 bootbox.alert("请选择要操作的记录！");
                 return;
             }
             var codes = [];
             var del = true;
-            for (var index in ids){
+            for (var index in ids) {
                 var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                if(rowData.status == "待审核" || rowData.status == "审核失败"){
+                if (rowData.status == "待审核" || rowData.status == "审核失败") {
                     codes.push(rowData.id);
-                }else{
+                } else {
                     bootbox.alert("请选择:审核失败或待审核状态的素材，进行删除操作！");
                     del = false;
                 }
             }
-          /*  if (codes.length < 1){
-                bootbox.alert("没有选择有效记录！");
-                return;
-            }*/
+            /*  if (codes.length < 1){
+                  bootbox.alert("没有选择有效记录！");
+                  return;
+              }*/
             var codeStr = '';
-            for (var index in codes){
-                codeStr =codeStr + codes[index] + ',';
+            for (var index in codes) {
+                codeStr = codeStr + codes[index] + ',';
             }
             $.post('<c:url value="/json/adMaterial_delateAdMaterial.do"/>',
-                {"materialIds": codeStr.substring(0, codeStr.length-1)}, function (result) {
-                /*bootbox.alert("操作成功！");*/
-                $("#search").trigger('click');
-            });
+                {"materialIds": codeStr.substring(0, codeStr.length - 1)}, function (result) {
+                    /*bootbox.alert("操作成功！");*/
+                    $("#search").trigger('click');
+                });
         }
+
         /* -------删除素材(end)----------*/
         //$("#xxx").addClass("hidden");
         //$("#xxx").removeClass("hidden");
-        $("#add_type").on("change",function () {
+        $("#add_type").on("change", function () {
             alert($("#add_type").val());
             var val = $("#add_type").val();
-            if(val == 1){
+            if (val == 1) {
 
-            }else{
+            } else {
 
             }
 
         })
     });
 </script>
+
 
