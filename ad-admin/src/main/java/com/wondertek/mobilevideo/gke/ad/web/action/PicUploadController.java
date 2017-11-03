@@ -85,7 +85,7 @@ public class PicUploadController {
                         uploadImage(file.getInputStream(), uploadFilePath, newFileNm, bfImage.getWidth(),
                                 bfImage.getHeight());
                     }
-                    prvPath = AdMaterial.getParameter("upc.imgs.url") + newFileNm;
+                    //prvPath = AdMaterial.getParameter("upc.imgs.url") + newFileNm;
                 } else {
                     prvPath = "errorImg";
                 }
