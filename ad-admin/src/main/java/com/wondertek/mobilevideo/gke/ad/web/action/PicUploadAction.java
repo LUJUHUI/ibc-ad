@@ -5,6 +5,7 @@ import com.opensymphony.xwork2.util.logging.LoggerFactory;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterial;
+import com.wondertek.mobilevideo.gke.ad.web.WebConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +25,8 @@ import java.io.*;
  */
 @Controller
 @RequestMapping("/upc/manage")
-public class PicUploadController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PicUploadController.class);
+public class PicUploadAction {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PicUploadAction.class);
 
     @RequestMapping(value = "/picupload.htm", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
     @ResponseBody
@@ -37,8 +38,8 @@ public class PicUploadController {
         String filename = file.getOriginalFilename();
         String fileNamesuffix = filename.substring(filename.lastIndexOf("."), filename.length()).toLowerCase();
 
-         /*??????????*/
-        String uploadFilePath = AdMaterial.getAdmaterialUploadPictureSrc("adMaterial.upload.picture.src");
+       /*上传路径*/
+        String uploadFilePath =WebConstants.getAdmaterialUploadPictureSrc("admiterial.upload.picture.src");
 
         long time = System.currentTimeMillis();
         String newFileNm = String.valueOf(time) + fileNamesuffix;
@@ -47,13 +48,13 @@ public class PicUploadController {
             allowSuffix = ".txt";
             size = 5120L;
             double txtSize = ((double) file.getSize()) / 1024;
-            if(txtSize > size || txtSize == 0){
+            if (txtSize > size || txtSize == 0) {
                 newFileNm = "errorSize";
             }
             if (allowSuffix.indexOf(fileNamesuffix) == -1) {
                 prvPath = "errorImg";
             }
-            if(txtSize <= size && txtSize > 0 &&allowSuffix.indexOf(fileNamesuffix) != -1){
+            if (txtSize <= size && txtSize > 0 && allowSuffix.indexOf(fileNamesuffix) != -1) {
                 // 获取上传的.txt文件的内容
                 BufferedReader bufferInput = null;
                 StringBuilder str = new StringBuilder();
@@ -85,8 +86,8 @@ public class PicUploadController {
                         uploadImage(file.getInputStream(), uploadFilePath, newFileNm, bfImage.getWidth(),
                                 bfImage.getHeight());
                     }
-                    /*???????????*/
-                    prvPath = AdMaterial.getAdmaterialUploadPictureClickHref("upc.imgs.url") + newFileNm;
+
+                    prvPath = WebConstants.getAdmaterialUploadPictureClickHref("admiterial.upload.picture.clickHref") + newFileNm;
                 } else {
                     prvPath = "errorImg";
                 }
@@ -97,12 +98,11 @@ public class PicUploadController {
                 LOGGER.error("Exception", e);
             }
         }
-        return "{\"url\":\"" + prvPath + "\",\"picName\":\"" + newFileNm + "\"}";
+        return "{\"src\":\"" + prvPath + "\",\"picName\":\"" + newFileNm + "\"}";
     }
 
     // 生成缩略图
-    public static boolean uploadImage(InputStream inputStream, String filePath, String fileName, int width, int height)
-    {
+    public static boolean uploadImage(InputStream inputStream, String filePath, String fileName, int width, int height) {
         int new_w = 318;
         int new_h = 170;
         FileOutputStream out = null;
@@ -113,7 +113,7 @@ public class PicUploadController {
             JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
             encoder.encode(tag);
         } catch (Exception e) {
-            LOGGER.error("Exception:upload pic failed!", e);
+            LOGGER.error("异常:图片上传失败!", e);
         } finally {
             try {
                 out.close();

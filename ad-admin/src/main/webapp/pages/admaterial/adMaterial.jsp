@@ -732,11 +732,10 @@
 
         // 图片修改
         /*update_picture begin*/
-        $("#update_id").on("change", function () {
-                alert($("#update_id").val());
+        $("#update_type").on("change", function () {
 
             /*获取选取的素材类型*/
-            var val = $("#update_id").val();
+            var val = $("#update_type").val();
 
             /*判断选取的素材类型：“1”则显示上传、取消按钮；“”或者2 则隐藏上传、取消按钮*/
             if (val == 1) {

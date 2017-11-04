@@ -31,5 +31,19 @@ public class WebConstants {
 	public static String LSPID = "";
 	
 	public static final String FPT_URL_PREFIX = "ftp://smg001:smg001@221.130.163.21:21/";
-    
+
+
+	/*图片上传*/
+	public static String ADMATERIAL_UPLOAD_PICTURE_SRC="";
+	public static String ADMATERIAL_UPLOAD_PICTURE_CLICK_HREF="";
+
+	public static String getAdmaterialUploadPictureSrc(String s) {
+		return ADMATERIAL_UPLOAD_PICTURE_SRC;
+	}
+
+	public static String getAdmaterialUploadPictureClickHref(String s) {
+		return ADMATERIAL_UPLOAD_PICTURE_CLICK_HREF;
+	}
+
+
 }
