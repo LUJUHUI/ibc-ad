@@ -3,7 +3,11 @@
 
 <%
     String id = request.getParameter("id");
+    String type = request.getParameter("type");
+    String status = request.getParameter("status");
+    request.setAttribute("type",type);
     request.setAttribute("id", id);
+    request.setAttribute("status", status);
 %>
 
 <style>
@@ -58,7 +62,7 @@
 <input type="text" hidden value="${id}" id="adId"/>
 <div class="page-content">
     <div class="page-header">
-        <form class="form-inline">
+        <form class="form-inline" id="add_material_form">
             <label class="control-label" for="materialName">素材名称</label>
             <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="materialName">
             
@@ -85,8 +89,11 @@
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
             
-            <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
+            <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="add_mater_search">
                 <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
+            </button>
+            <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="add_mater_reset">
+                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
             </button>
         </form>
     </div>
@@ -106,31 +113,13 @@
 <script type="text/javascript">
 
     jQuery(function($) {
-
+        var type = "${type}";
         $("#backBtn").on("click", function () {
             $("#main_page > div:last").remove();
             $("#main_page > div:last").removeClass("main-page-div-display");
             $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
         })
         
-        
-        $.get("<c:url value='/json/adad_getAdSlot.do'/>",function (result) {
-            var soltStr = '';
-            $(result.root).each(function (index,items) {
-                soltStr+= '<option value="'+items.id+'">'+items.slotName+'</option>';
-            });
-            $("#add_soltId").append(soltStr);
-
-        });
-
-        $.get("<c:url value='/json/adad_getAdMaterial.do'/>",function (result) {
-            var soltStr = '';
-            $(result.root).each(function (index,items) {
-                soltStr+= '<option value="'+items.id+'">'+items.materialName+'</option>';
-            });
-            $("#add_material").append(soltStr);
-
-        });
         var grid_selector = "#ad-add-material-grid-table";
         var pager_selector = "#ad-add-material-grid-pager";
 
@@ -143,7 +132,6 @@
         //resize on sidebar collapse/expand
         $(document).on('settings.ace.jqGrid' , function(ev, event_name, collapsed) {
             if( event_name === 'sidebar_collapsed' || event_name === 'main_container_fixed' ) {
-                //setTimeout is for webkit only to give time for DOM changes and then redraw!!!
                 setTimeout(function() {
                     $(grid_selector).jqGrid( 'setGridWidth', parent_column.width() );
                 }, 20);
@@ -162,18 +150,6 @@
         }, function(start, end, label) {//时间改变后执行该方法
             //alert(label);
         });
-//        $('#add_startTime').daterangepicker({
-//            startDate: moment().subtract('days', 0),
-//            endDate: moment().subtract('days', 0),
-//            timePicker: true,
-//            timePickerIncrement : 5, // 时间的增量，单位为分钟
-//            timePicker24Hour : true, // 是否使用12小时制来显示时间
-//            locale: {
-//                format: 'YYYY-MM-DD HH:mm'
-//            }
-//        }, function(start, end, label) {//时间改变后执行该方法
-//            //console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-//        });
         var startTime = $('#createTime').val().replace(/\s/g, "").split("至");
         var startDate = startTime[0];
         var endDate = startTime[1];
@@ -183,13 +159,14 @@
             mtype: "post",
             url: "<c:url value='/json/adad_getAdMaterialByPage.do'/>",
             postData: {
+                querytype:type,
                 status:$("#status").val(),
                 adName:$("#adName").val(),
                 adId:$("#adId").val(),
                 createTime: startDate +" 00:00:00",
                 createTime_end: endDate+" 23:59:59"
             },
-            height: 560,
+            height: 520,
             colNames:[
                 '<fmt:message key="ad.material.id"/>',
                 '<fmt:message key="ad.material.materialName"/>',
@@ -215,8 +192,8 @@
             shrinkToFit : false,
             hidegrid : false,
             viewrecords : true,
-            rowNum:20,
-            rowList:[10,20,30],
+            rowNum:15,
+            rowList:[10,15,20,30],
             pager : pager_selector,
             altRows : true,
             multiselect: true,
@@ -247,10 +224,19 @@
 
         });
 
-        $("#t_ad-add-material-grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
-            '<td><button type="button" id="addadMaterial" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus"></i>添加关联</button></td>' +
-            '<td></td>' +
-            '</tr></table>');
+        if(type == "edit"){
+            $("#t_ad-add-material-grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
+                '<td><button type="button" id="removeAdMaterial" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i>取消关联</button></td>' +
+                '<td></td>' +
+                '</tr></table>');
+        }else if(type == "add"){
+            $("#t_ad-add-material-grid-table").append('<table cellspacing="0" cellpadding="0" border="0" style="float:left;table-layout:auto;margin-top:7px" class="topnavtable"><tr>' +
+                '<td><button type="button" id="addadMaterial" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus"></i>添加关联</button></td>' +
+                '<td></td>' +
+                '</tr></table>');
+        }
+            
+       
 
         $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
 
@@ -356,6 +342,7 @@
             $("#ad-add-material-grid-table").jqGrid('setGridParam', {
                 url : "<c:url value='/json/adad_getAdMaterialByPage.do'/>",
                 postData : {
+                    type:type,
                     adId:$("#adId").val(),
                     status:$("#status").val(),
                     adName:$("#adName").val(),
@@ -381,7 +368,7 @@
             $.ajax({
                 url:"<c:url value='/json/adad_addAdMaterial.do'/>",
                 type:"POST",
-                data:{adId:$("#adId").val(),materailIds:materailIds.join(",")},
+                data:{adId:$("#adId").val(),materailIds:materailIds.join(","),operType:0},
                 success:function (response) {
                     if(response.success) {
                         bootbox.alert("操作成功！");
@@ -397,10 +384,51 @@
                 }
             })
             
-        })
+        });
+        
+        $("#removeAdMaterial").on("click", function () {
+            var status="${status}";
+            if(status == 103){
+                bootbox.alert("投放中广告不能修改！");
+                return;
+            }
+            var row = $("#ad-add-material-grid-table").jqGrid('getGridParam', 'selarrrow');
+            if (row.length == 0){
+                bootbox.alert("请选择要操作的记录！");
+                return;
+            }
+            var materailIds = [];
+            $.each(row,function (index,items) {
+                var rowData = $("#ad-add-material-grid-table").jqGrid('getRowData',items);
+                materailIds.push(rowData.id);
+            });
+            $.ajax({
+                url:"<c:url value='/json/adad_addAdMaterial.do'/>",
+                type:"POST",
+                data:{adId:$("#adId").val(),materailIds:materailIds.join(","),operType:1},
+                success:function (response) {
+                    if(response.success) {
+                        bootbox.alert("操作成功！");
+                        $("#search").click();
+                        return;
+                    }else{
+                        bootbox.alert("操作失败！");
+                        return;
+                    }
+                },error:function () {
+                    bootbox.alert("连接服务器超时！");
+                    return;
+                }
+            })
+        });
+       
         function formatDate(str) {
             return str.substr(0, 10) + " " + str.substr(10, str.length)+":00";
         }
+
+        $("#add_mater_reset").on("click", function () {
+            $("#add_material_form")[0].reset();
+        });
 
     });
 </script>

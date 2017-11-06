@@ -28,6 +28,8 @@ public class AdAdMaterailManagerImpl extends  GenericManagerImpl<AdAdMaterial, L
 	private AdAdMaterialDao adAdMaterialDao;
 	@Autowired
 	private AdMaterialDao adMaterialDao;
+	@Autowired
+	private AdAdDao adAdDao;
 	
 	@Autowired
 	public AdAdMaterailManagerImpl(AdAdMaterialDao adAdMaterialDao) {
@@ -36,12 +38,24 @@ public class AdAdMaterailManagerImpl extends  GenericManagerImpl<AdAdMaterial, L
 	}
 
 	@Transactional
-	public void save(Long adId, String[] materialIds,String userName) {
-		for (String mId : materialIds) {
-			AdMaterial adMaterial = adMaterialDao.get(Integer.parseInt(mId));
-			save(new AdAdMaterial(new AdAd(adId), adMaterial, userName, userName));
-			adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_105.getStatus());
-			adMaterialDao.saveOrUpdate(adMaterial);
+	public void save(Long adId, String[] materialIds,String userName,String operType) {
+		AdAd adAd = adAdDao.get(adId);
+		if (operType.equals("0")) {
+			for (String mId : materialIds) {
+				AdMaterial adMaterial = adMaterialDao.get(Integer.parseInt(mId));
+				save(new AdAdMaterial(adAd, adMaterial, userName, userName));
+				adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_105.getStatus());
+				adMaterialDao.saveOrUpdate(adMaterial);
+			}
+		}else{
+			for (String mId : materialIds) {
+				Map<String, Object> conditions = new HashMap<String, Object>();
+				conditions.put("adId.id",adId);
+				conditions.put("materialId.id",Integer.parseInt(mId));
+				adAdMaterialDao.remove(conditions);
+			}
 		}
+		adAd.setStatus(AdAd.AdadStatus.STATUS_102.getAdStatus());
+		adAdDao.saveOrUpdate(adAd);
 	}
 }

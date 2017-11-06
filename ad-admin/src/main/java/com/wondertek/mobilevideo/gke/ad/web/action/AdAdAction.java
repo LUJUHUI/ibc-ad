@@ -13,6 +13,7 @@ import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,7 +93,12 @@ public class AdAdAction extends BaseAction{
 				for (AdAdMaterial adAdMaterial : adAdMaterials) {
 					adMaterList.add(adAdMaterial.getMaterialId().getId());
 				}
-				params.put("id_notIn", adMaterList);
+				String type = getRequest().getParameter("querytype");
+				if (type.equals("edit")) {
+					params.put("id_in", adMaterList);
+				}else{
+					params.put("id_notIn", adMaterList);
+				}
 			}
 
 			List<Integer> statusList=new ArrayList<Integer>();
@@ -148,8 +154,9 @@ public class AdAdAction extends BaseAction{
 		resultMap.put("success",true);
 		try {
 			Long adId = Long.valueOf(getRequest().getParameter("adId"));
+			String operType = getRequest().getParameter("operType");
 			String[] materialIds = getRequest().getParameter("materailIds").split(",");
-			adAdMaterialManagerImpl.save(adId,materialIds,getUsername());
+			adAdMaterialManagerImpl.save(adId,materialIds,getUsername(), operType);
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultMap.put("success",false);
