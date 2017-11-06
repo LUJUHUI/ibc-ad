@@ -619,7 +619,7 @@
                    if(null != data.HomePageChannel && data.HomePageChannel.length>0){
                 	   var listData = data.HomePageChannel;
                 		 for(var i in listData){
-                			 $("#adSlot_channelId").append("<option value='"+listData[i].name+"'>"+listData[i].name+"</option>");
+                			 $("#adSlot_channelId").append("<option value='"+listData[i].nodeId+"'>"+listData[i].name+"</option>");
                 		 }
                 	}
                    },error:function(){
@@ -634,7 +634,7 @@
                	   if(null != data.LiveChannel && data.LiveChannel.length>0){
                    	   var listData = data.LiveChannel;
                    		 for(var i in listData){
-                   			 $("#adSlot_channelId").append("<option value='"+listData[i].name+"'>"+listData[i].name+"</option>");
+                   			 $("#adSlot_channelId").append("<option value='"+listData[i].nodeId+"'>"+listData[i].name+"</option>");
                    		 }
                    	}
                    },error:function(){
