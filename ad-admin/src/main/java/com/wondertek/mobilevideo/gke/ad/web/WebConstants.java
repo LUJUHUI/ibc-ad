@@ -24,10 +24,6 @@ public class WebConstants {
 	public static String CALLBACK_XML_PATH = "";
 	public static String TEMP_PATH = "";
 
-	public static String ADMATERIAL_UPLOAD_PICTURE_SRC="";
-	public static String ADMATERIAL_UPLOAD_PICTURE_CLICK_HREF="";
-
-
 	/**文件上传ftp*/
 	public static FtpServer uploadFtp = null;
 	

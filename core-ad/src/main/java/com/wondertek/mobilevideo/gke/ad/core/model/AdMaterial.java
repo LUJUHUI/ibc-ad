@@ -7,6 +7,19 @@ import java.util.Date;
 @Entity
 @Table(name = "ad_material")
 public class AdMaterial implements Serializable {
+
+    /*图片上传*/
+    public static String ADMATERIAL_UPLOAD_PICTURE_SRC="";
+    public static String ADMATERIAL_UPLOAD_PICTURE_CLICK_HREF="";
+
+    public static String getAdmaterialUploadPictureSrc(String adaterial) {
+        return ADMATERIAL_UPLOAD_PICTURE_SRC;
+    }
+
+    public static String getAdmaterialUploadPictureClickHref(String s) {
+        return ADMATERIAL_UPLOAD_PICTURE_CLICK_HREF;
+    }
+
     public enum AdMaterialStatus {
         /*状态  101:待审核;103:审核失败;104:待使用;105:使用中;106：已删除*/
         STATUS_101(101),

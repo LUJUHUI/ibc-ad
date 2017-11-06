@@ -38,7 +38,7 @@
 
 <div class="page-content">
     <div class="page-header">
-        <form class="form-inline">
+        <form class="form-inline" id="ad_form">
             
             <label class="control-label" for="status">状态</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="status">
@@ -57,6 +57,9 @@
             <input class="form-control input-sm" style="width: 200px;" type="text" id="startTime"/>
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
                 <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
+            </button>
+            <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
+                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
             </button>
         </form>
     </div>
@@ -92,7 +95,6 @@
             $("#add_material").append(soltStr);
 
         });
-        //$('.chosen-select').chosen({allow_single_deselect:true});
         var grid_selector = "#grid-table";
         var pager_selector = "#grid-pager";
 
@@ -150,7 +152,7 @@
                 startTime: startDate + " 00:00:00",
                 endTime: endDate + " 23:59:59"
             },
-            height: 560,
+            height: 520,
             colNames:[
                 '<fmt:message key="ad.ad.id"/>',
                 '<fmt:message key="ad.ad.name"/>',
@@ -166,7 +168,7 @@
             colModel:[
                 {name:'id',index:'id', width : 80,align:'center', sortable : true},
                 {name: 'adName',index: 'adName', width : 200, align:'center', sortable : true},
-                {name : 'status', index : 'status', width : 80, align:'center', sortable : false,formatter:statusFmt},
+                {name : 'status', index : 'status', width : 80, align:'center', sortable : false,formatter:statusFmt,unformat:unAttrStatus},
                 {name : 'remark', index : 'remark', width : 280, align:'center', sortable : true},
                 {name : 'startTime', index : 'startTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
                 {name : 'endTime', index : 'endTime', width : 200, align:'center', sortable : true, formatter:"date", formatoptions: {srcformat:'Y-m-d H:i:s',newformat:'Y-m-d H:i:s'}},
@@ -179,7 +181,7 @@
             hidegrid : false,
             viewrecords : true,
             rowNum:20,
-            rowList:[10,20,30],
+            rowList:[10,15,20,30],
             pager : pager_selector,
             altRows : true,
             multiselect: true,
@@ -214,6 +216,8 @@
             '<td><button type="button" id="add" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus"></i>添加</button></td>' +
             '<td>|</td>' +
             '<td><button type="button" id="addAdMaterial" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus"></i>关联广告素材</button></td>' +
+            '<td>|</td>' +
+            '<td><button type="button" id="editadMaterial" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus"></i>查看已关联素材</button></td>' +
             '<td>|</td>' +
             '<td><button type="button" id="remove" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i>删除</button></td>' +
             '</tr></table>');
@@ -295,6 +299,28 @@
             return result;
         }
 
+        function unAttrStatus(callValue) {
+            var result;
+            switch (callValue){
+                case "草稿":
+                    result=101;
+                    break;
+                case "待投放":
+                    result = 102;
+                    break;
+                case "投放中":
+                    result = 103;
+                    break;
+                case "投放完成":
+                    result = 104;
+                    break;
+                case "已删除":
+                    result = 105;
+                    break;
+            }
+            return result;
+        }
+        
         $("#search").on("click", function () {
 
             if($('#startTime').val() == ""){
@@ -373,12 +399,9 @@
                 bootbox.alert("请最多选择一条记录！");
                 return;
             }
-            var materailIds = [];
-            $.each(row,function (index,items) {
-                materailIds.push(items);
-            })
+            
             var rowData = $("#grid-table").jqGrid('getRowData', row);
-            openMainPage('<c:url value="/pages/adAd/adAddMaterial.jsp"/>', {"id": rowData.id}, function () {
+            openMainPage('<c:url value="/pages/adAd/adAddMaterial.jsp"/>', {"id": rowData.id,type:"add"}, function () {
             });
         });
 
@@ -413,10 +436,30 @@
                 }
             })
         });
+        $("#editadMaterial").on("click", function () {
 
+            var row = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
+            if (row.length == 0){
+                bootbox.alert("请选择要操作的记录！");
+                return;
+            }
+            if(row.length > 1){
+                bootbox.alert("请最多选择一条记录！");
+                return;
+            }
+            
+            var rowDate = $("#grid-table").jqGrid('getRowData', row);
+            //alert(rowDate.status);
+            openMainPage('<c:url value="/pages/adAd/adAddMaterial.jsp"/>', {id:rowDate.id,type:"edit",status:rowDate.status}, function () {
+            });
+        });
         function formatDate(str) {
             return str.substr(0, 10) + " " + str.substr(10, str.length)+":00";
         }
+
+        $("#reset").on("click", function () {
+            $("#ad_form")[0].reset();
+        });
 
     });
 </script>
