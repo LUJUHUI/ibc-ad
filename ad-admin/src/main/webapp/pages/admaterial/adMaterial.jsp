@@ -244,6 +244,11 @@
             <div id="grid-pager"></div>
         </div>
     </div>
+
+    <form action="<c:url value='/json/picUpload_createPicUpload.do'/>" method="post" id="uploadPicForm" enctype="multipart/form-data">
+        <input type="file" id="picUpload" name="picUpload" >
+        <button  type="submit">提交</button>
+    </form>
     <!-- /.row -->
 </div>
 
@@ -510,8 +515,9 @@
                 mtype: "post"
             }).trigger("reloadGrid"); //重新载入
         })
+
+        /*创建素材*/
         $("#adm_create").on("click",function () {
-            //$("#addAdModel").modal();
             openMainPage('<c:url value="/pages/admaterial/addMaterial.jsp"/>', {}, function () {
             });
         });
@@ -670,13 +676,10 @@
             if (val == 1) {
                 $("#upload_picture").show();
                 $("#cancle_uploadPitcure").show();
-                $("#choicePicture").show();
-
                 /*$("#close_addAdMaterial").removeClass("hidden")*/
             } else if (val == "" || val == 2) {
                 $("#upload_picture").hide();
                 $("#cancle_uploadPitcure").hide();
-                $("#choicePicture").hide();
                 /* $("#close_addAdMaterial").addClass("hidden")*/
             }
         })
