@@ -30,9 +30,19 @@
                         <label for="add_type" class="control-label">素材类型 :</label>
                         <select class="form-control input-sm" style="margin-left: 5px;" id="add_type"
                                 name="adMaterial.type" autocomplete="off">
-                        <option value="1" selected="selected">图片</option>
-                        <option value="2">文字</option>
+                            <option value="" selected="selected">--请选择--</option>
+                            <option value="1">图片</option>
+                            <option value="2">文字</option>
                         </select>
+                    </div>
+
+                    <div class="uploadPicture">
+                        <button type="button" id="upload_picture" class="btn btn-primary" data-dismiss="modal"
+                                style="display: none">上传
+                        </button>
+                        <button type="button" id="cancle_uploadPitcure" class="btn btn-default" data-dismiss="modal"
+                                style="display: none">取消
+                        </button>
                     </div>
 
                     <div class="form-group <%--hidden--%>">
@@ -41,10 +51,11 @@
                     </div>
 
                 </form>
+
                 <div class="modal-footer">
+                    <button type="button" id="save_addAdMaterial" class="btn btn-primary">保存</button>
                     <button type="button" id="close_addAdMaterial" class="btn btn-default" data-dismiss="modal">取消
                     </button>
-                    <button type="button" id="save_addAdMaterial" class="btn btn-primary">保存</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -82,6 +93,15 @@
                             <option value="1">图片</option>
                             <option value="2">文字</option>
                         </select>
+                    </div>
+
+                    <div class="updateUploadPicture">
+                        <button type="button" id="update_picture" class="btn btn-primary" data-dismiss="modal"
+                                style="display: none">上传
+                        </button>
+                        <button type="button" id="cancle_updatePitcure" class="btn btn-default" data-dismiss="modal"
+                                style="display: none">取消
+                        </button>
                     </div>
 
                     <div class="form-group">
@@ -507,7 +527,6 @@
             /*this id should match above id whlich equaled 'addAdMaterialModel'*/
         });
 
-
         $("#save_addAdMaterial").on("click", function () {
             if ($("#add_adMaterialName").val() == "") {
                 $("#add_adMaterialName").tips({side: 2, msg: '此项必填 ', time: 3});
@@ -518,10 +537,9 @@
                 return false;
             }
             if ($("#add_clickHref").val() == "") {
-                $("#add_type").tips({side: 2, msg: '此项必填 ', time: 3});
+                $("#add_clickHref").tips({side: 2, msg: '此项必填 ', time: 3});
                 return false;
             }
-
             $.ajax({
                 url: "<c:url value='/json/adMaterial_addAdMaterial.do'/>",
                 data: $("#add_materialForm").serialize(),
@@ -641,18 +659,99 @@
         }
 
         /* -------删除素材(end)----------*/
-        //$("#xxx").addClass("hidden");
-        //$("#xxx").removeClass("hidden");
+
+        // 图片上传
+        /*upload_picture begin*/
         $("#add_type").on("change", function () {
-            alert($("#add_type").val());
+            /*    alert($("#add_type").val());*/
+
+            /*获取选取的素材类型*/
             var val = $("#add_type").val();
+
+            /*判断选取的素材类型：“1”则显示上传、取消按钮；“”或者2 则隐藏上传、取消按钮*/
             if (val == 1) {
+                $("#upload_picture").show();
+                $("#cancle_uploadPitcure").show();
+                /*$("#close_addAdMaterial").removeClass("hidden")*/
 
-            } else {
+                /*begin*/
+                $("#add_type").on("change", pictureUpload);
 
+                function pictureUpload() {
+                    $("#" + msgId).html("");
+                    var fileName = document.getElementById(fileElementId).value;
+                    if (fileName == null || fileName == "") {
+                        if (fileElementId == "idTxtfile") {
+                            document.getElementById(msgId).innerHTML = "请选择要上传的文件！";
+                        } else {
+                            document.getElementById(msgId).innerHTML = "请选择要上传的图片！";
+                        }
+                        return;
+                    }
+                    $.ajaxFileUpload({
+                        url: $n.ilsp.page.getPath() + /*(路径要修改)*/'/upc/manage/picupload.htm?filename=' + fileElementId + '&num=' + new Date().getTime(),
+                        secureuri: false,
+                        fileElementId: fileElementId,
+                        dataType: 'txt',
+                        success: function (data, status) {
+                            if (data.split(">").length > 1) { //remove <pre></pre>
+                                data = data.substring(data.indexOf(">") + 1, data.length - 6);
+                            }
+                            eval("data = " + data);
+                            if (data.url == "errorImg") {
+                                document.getElementById(msgId).innerHTML = "上传的图片格式错误！";
+                                return;
+                            }
+                            if (data.picName == "errorSize") {
+                                document.getElementById(msgId).innerHTML = "上传的图片大小超过2M！";
+                                return;
+                            }
+                            if (fileElementId == 'idCardPic') {
+                                $('#showcardpic').attr('src', data.url);
+                                $('#uidPath').val(data.picName);
+                            }
+                            if (fileElementId == 'bankAccountPic') {
+                                $('#showbcpic').attr('src', data.url);
+                                $('#bcPath').val(data.picName);
+                            }
+                        },
+                        error: function (data, status, e) {
+                            document.getElementById(msgId).innerHTML = "上传失败!";
+                        }
+                    });
+                }
+
+                /*end*/
+            } else if (val == "" || val == 2) {
+                $("#upload_picture").hide();
+                $("#cancle_uploadPitcure").hide();
+                /* $("#close_addAdMaterial").addClass("hidden")*/
             }
-
         })
+            /*upload_picture end*/
+
+        // 图片修改
+        /*update_picture begin*/
+        $("#update_id").on("change", function () {
+                alert($("#update_id").val());
+
+            /*获取选取的素材类型*/
+            var val = $("#update_id").val();
+
+            /*判断选取的素材类型：“1”则显示上传、取消按钮；“”或者2 则隐藏上传、取消按钮*/
+            if (val == 1) {
+                $("#update_picture").show();
+                $("#cancle_updatePitcure").show();
+                /*$("#cancle_updatePitcure").removeClass("hidden")*/
+
+            } else if (val == "" || val == 2) {
+                $("#update_picture").hide();
+                $("#cancle_updatePitcure").hide();
+                /* $("#cancle_updatePitcure").addClass("hidden")*/
+            }
+        })
+        /*update_picture end*/
+
     });
 </script>
 
