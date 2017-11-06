@@ -142,7 +142,6 @@ public abstract class RedisService<T, PK extends Serializable> implements RedisD
 
 	public long getIncrValue(final String key) {
 		return (Long) redisTemplate.execute(new RedisCallback<Long>() {
-			@Override
 			public Long doInRedis(RedisConnection connection) throws DataAccessException {
 				RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
 				byte[] rowkey = serializer.serialize(redisBusinessName+"counter::"+key);
