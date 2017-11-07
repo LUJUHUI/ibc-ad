@@ -245,10 +245,10 @@
         </div>
     </div>
 
-    <form action="<c:url value='/json/picUpload_createPicUpload.do'/>" method="post" id="uploadPicForm" enctype="multipart/form-data">
+    <%--<form action="<c:url value='/json/picUpload_createPicUpload.do'/>" method="post" id="uploadPicForm" enctype="multipart/form-data">
         <input type="file" id="picUpload" name="picUpload" >
         <button  type="submit">提交</button>
-    </form>
+    </form>--%>
     <!-- /.row -->
 </div>
 
