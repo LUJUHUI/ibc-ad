@@ -72,8 +72,8 @@
                                 </select>
                             </div>
                         </div>
-                        <div  class="form-group hidden" style="margin-left:26%;width: 50%;height: 50%; "   id="save_upload"  >
-                                <form action="<c:url value='/json/picUpload_createPicUpload.do'/>" method="post" id="uploadPicForm" enctype="multipart/form-data">
+                        <div  class="form-group hidden" style="margin-left:25%;width: 50%;height: 50%; "   id="save_upload"  >
+                                <div action="<c:url value='/json/picUpload_createPicUpload.do'/>" method="post" id="uploadPicForm" enctype="multipart/form-data">
                                     <div>
                                         <input type=file name="picUpload" id="picUpload"  style="display: inline;" onchange="showImage()">
                                         <input type="submit"  value="上传"/>
@@ -81,11 +81,9 @@
                                     <div id="localImag">
                                         <img id="preview" width=-1 height=-1 style="diplay:none"/>
                                     </div>
-                                </form>
-
-
-
+                                </div>
                         </div>
+
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="add_clickHref"> 链接地址 </label>
                             <div class="col-sm-9">
@@ -93,15 +91,6 @@
                                        name="adMaterial.clickHref">
                             </div>
                         </div>
-
-
-
-                        <%--<form action="<c:url value='/json/picUpload_fileUp.do'/>" method="post"
-                              id="uploadPicForm" enctype="multipart/form-data">
-                            <input type="file" id="picUpload" name="picUpload">
-                            <button type="submit">提交</button>
-                        </form>--%>
-
                     </form>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -123,7 +112,6 @@
         });
 
         $("#create_materialType").on("change", function () {
-            alert( $("#create_materialType").val())
             var val = $("#create_materialType").val();
             if (val == 1) {
                 $("#save_upload").removeClass("hidden");
