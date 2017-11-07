@@ -11,32 +11,27 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-/**
- * Created by 张诚 on 2017/6/7.
- */
-public class StartUpListener implements ServletContextListener{
-	
-	private static final Log log = LogFactory.getLog(StartUpListener.class);
-	
+public class StartUpListener implements ServletContextListener {
+
+    private static final Log log = LogFactory.getLog(StartUpListener.class);
+
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-    	log.debug("Initializing context...");
-		ServletContext context = servletContextEvent.getServletContext();
-    	ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-    	String[] beanDefinitionNames = ctx.getBeanDefinitionNames();
-    	for (String string : beanDefinitionNames) {
-    		log.info("====" + string);
-		}
-		//初始化项目路径
-		WebConstants.APP_BASE_PATH = context.getRealPath("/");
+        log.debug("Initializing context...");
+        ServletContext context = servletContextEvent.getServletContext();
+        ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
+        String[] beanDefinitionNames = ctx.getBeanDefinitionNames();
+        for (String string : beanDefinitionNames) {
+            log.info("====" + string);
+        }
+        //初始化项目路径
+        WebConstants.APP_BASE_PATH = context.getRealPath("/");
 
-		//WebConstants.config = new Configuration("/config.properties");
-		//WebConstants.MOBILE_PLAT_NOTICE_PUBLISH_SERVICE_URL = WebConstants.config.getProperty("mobile.plat.notice.publish.service");
+        WebConstants.config = new Configuration("/config.properties");
+        WebConstants.ADMATERIAL_UPLOAD_PICTURE_SRC = WebConstants.config.getProperty("admiterial.upload.picture.src");
+        WebConstants.ADMATERIAL_UPLOAD_PICTURE_CLICK_HREF = WebConstants.config.getProperty("admiterial.upload.picture.chlickHref");
 
+    }
 
-	}
-
-   
-    
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
 
     }
