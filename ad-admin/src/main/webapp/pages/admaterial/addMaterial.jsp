@@ -1,11 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
 
-<link rel="stylesheet" type="text/css" href="<c:url value='/assets/css/webuploader.css'/>"/>
-<link rel="stylesheet" type="text/css" href="<c:url value='/assets/css/uploadlist.css'/>"/>
-<script type="text/javascript" src="<c:url value='/assets/js/webuploader.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/assets/js/jquery-1.11.3.min.js'/>"></script>
-
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
         try {
@@ -52,7 +47,7 @@
                     <form class="form-horizontal" role="form" id="createAdMaterialform">
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"
-                                   for="add_adMaterialName">素材名称 </label>
+                                   for="add_adMaterialName"> 素材名称 </label>
                             <div class="col-sm-9">
                                 <input type="text" id="add_adMaterialName" placeholder="素材名称" class="col-xs-10 col-sm-5"
                                        name="adMaterial.materialName">
@@ -62,7 +57,7 @@
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"
-                                   for="create_materialType">素材类型 </label>
+                                   for="create_materialType"> 素材类型 </label>
                             <div class="col-sm-9">
                                 <select class="col-xs-10 col-sm-5 chosen-select" id="create_materialType"
                                         data-placeholder="Choose a Country..." name="adMaterial.type" ;>
@@ -72,17 +67,6 @@
                                 </select>
                             </div>
                         </div>
-                        <div  class="form-group hidden" style="margin-left:25%;width: 50%;height: 50%; "   id="save_upload"  >
-                                <div action="<c:url value='/json/picUpload_createPicUpload.do'/>" method="post" id="uploadPicForm" enctype="multipart/form-data">
-                                    <div>
-                                        <input type=file name="picUpload" id="picUpload"  style="display: inline;" onchange="showImage()">
-                                        <input type="submit"  value="上传"/>
-                                    </div>
-                                    <div id="localImag">
-                                        <img id="preview" width=-1 height=-1 style="diplay:none"/>
-                                    </div>
-                                </div>
-                        </div>
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="add_clickHref"> 链接地址 </label>
@@ -91,15 +75,76 @@
                                        name="adMaterial.clickHref">
                             </div>
                         </div>
+
+                        <%-- <div class="form-group hidden" style="margin-left:25%;width: 50%;height: 50%; "
+                              id="save_uploadPic1">
+                             <div action="<c:url value='/json/picUp_picUpload.do'/>" method="post"
+                                  id="uploadPicForm" enctype="multipart/form-data">
+                                 <div>
+                                     <input type=file name="picUpload" id="picUpload" style="display: inline;"
+                                            onchange="showImage()">
+                                     <input type="submit" value="上传"/>
+                                 </div>
+                                 <div id="localImag">
+                                     <img id="preview" width=-1 height=-1 style="diplay:none"/>
+                                 </div>
+                             </div>
+                         </div>--%>
+
+                        <hr>
+                        <div class="form-group hidden" id="save_uploadPic">
+                            <label class="col-sm-3 control-label no-padding-right" id="create_upPic"></label>
+                            <div class="col-sm-9">
+                                <div action="<c:url value='/json/picUpload_createPicUpload.do'/>" method="post"
+                                     id="uploadPicForm" enctype="multipart/form-data">
+                            <span class="editable-container editable-inline">
+                    <div>
+                        <div class="editableform-loading" style="display: none;">
+                            <i class="ace-icon fa fa-spinner fa-spin fa-2x light-blue"></i>
+                        </div>
+                            <form class="form-inline editableform" style="">
+                                <div class="control-group form-group">
+                                    <div>
+                                        <div class="editable-input editable-image">
+                                            <span>
+                                                <label class="ace-file-input ace-file-multiple"
+                                                       style="width: 150px;">
+                                                    <input type="file" name="materialPicture" id="materialPicture"
+                                                           style="display: inline;" onchange="showImage()">
+                                                    <span class="ace-file-container"
+                                                          data-title="Material Picture">
+                                                        <span class="ace-file-name"
+                                                              data-title="No File ...">
+                                                            <div id="localImag">
+                                                            <img class=" ace-icon fa fa-picture-o" id="preview" width=-1
+                                                                 height=-1 style="diplay:none"/>
+                                                            </div>
+                                                        </span>
+                                                        请选择素材图片
+                                                    </span>
+                                                    <a class="remove" href="#">
+                                                        <i class=" ace-icon fa fa-times"></i>
+                                                    </a>
+                                                </label>
+                                                <textarea id="add_upload" style="width: 150px;height: 50px;"></textarea>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </span><hr>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                 </div><!-- /.col -->
             </div><!-- /.row -->
+            <div class="row-fluid wizard-actions">
+                <button type="button" id="save_addAdMaterial" class="btn btn-primary">保存</button>
+                <button type="button" id="close_addAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
         </div> <!-- /basicInfo -->
-
-        <div class="row-fluid wizard-actions">
-            <button type="button" id="save_addAdMaterial" class="btn btn-primary">保存</button>
-            <button type="button" id="close_addAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
-        </div>
     </div>
 </div>
 
@@ -114,93 +159,21 @@
         $("#create_materialType").on("change", function () {
             var val = $("#create_materialType").val();
             if (val == 1) {
-                $("#save_upload").removeClass("hidden");
+                $("#save_uploadPic").removeClass("hidden");
             } else if (val == "" || val == 2) {
-                $("#save_upload").addClass("hidden");
+                $("#save_uploadPic").addClass("hidden");
             }
         })
-
-        var uploader = WebUploader.create({
-            // 选完文件后，是否自动上传。
-            auto: true,
-            // swf文件路径
-            swf: '/assets/swf/Uploader.swf',
-            // 文件接收服务端。
-            server: 'http://webuploader.duapp.com/server/fileupload.php',
-            // 选择文件的按钮。可选。
-            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-            pick: '#filePicker',
-            // 只允许选择图片文件。
-            accept: {
-                title: 'Images',
-                extensions: 'gif,jpg,jpeg,bmp,png',
-                mimeTypes: 'image/*'
-            }
-        });
-        uploader.on('fileQueued', function (file) {
-            var $li = $(
-                '<div id="' + file.id + '" class="file-item thumbnail">' +
-                '<img>' +
-                '<div class="info">' + file.name + '</div>' +
-                '</div>'
-                ),
-                $img = $li.find('img');
-            $list.append($li);
-            // 创建缩略图
-            // 如果为非图片文件，可以不用调用此方法。
-            // thumbnailWidth x thumbnailHeight 为 100 x 100
-            uploader.makeThumb(file, function (error, src) {
-                if (error) {
-                    $img.replaceWith('<span>不能预览</span>');
-                    return;
-                }
-                $img.attr('src', src);
-            }, thumbnailWidth, thumbnailHeight);
-        });
-        uploader.on('uploadProgress', function (file, percentage) {
-            var $li = $('#' + file.id),
-                $percent = $li.find('.progress span');
-
-            // 避免重复创建
-            if (!$percent.length) {
-                $percent = $('<p class="progress"><span></span></p>')
-                    .appendTo($li)
-                    .find('span');
-            }
-            $percent.css('width', percentage * 100 + '%');
-        });
-
-        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-        uploader.on('uploadSuccess', function (file) {
-            $('#' + file.id).addClass('upload-state-done');
-        });
-        // 文件上传失败，显示上传出错。
-        uploader.on('uploadError', function (file) {
-            var $li = $('#' + file.id),
-                $error = $li.find('div.error');
-            // 避免重复创建
-            if (!$error.length) {
-                $error = $('<div class="error"></div>').appendTo($li);
-            }
-            $error.text('上传失败');
-        });
-
-        // 完成上传完了，成功或者失败，先删除进度条。
-        uploader.on('uploadComplete', function (file) {
-            $('#' + file.id).find('.progress').remove();
-        });
     });
 
     function showImage() {
-        var picObj = document.getElementById("picUpload");
+        var picObj = document.getElementById("materialPicture");
         var imgObjPreview = document.getElementById("preview");
         if (picObj.files && picObj.files[0]) {
             //火狐下，直接设img属性
             imgObjPreview.style.display = 'block';
-            imgObjPreview.style.width = '300px';
-            imgObjPreview.style.height = '120px';
-            //imgObjPreview.src = picObj.files[0].getAsDataURL();
-            //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+            imgObjPreview.style.width = '150px';
+            imgObjPreview.style.height = '100px';
             imgObjPreview.src = window.URL.createObjectURL(picObj.files[0]);
         } else {
             //IE下，使用滤镜
@@ -208,8 +181,8 @@
             var imgSrc = document.selection.createRange().text;
             var localImagId = document.getElementById("localImag");
             //必须设置初始大小
-            localImagId.style.width = "250px";
-            localImagId.style.height = "200px";
+            localImagId.style.width = "150px";
+            localImagId.style.height = "100px";
             //图片异常的捕捉，防止用户修改后缀来伪造图片
             try {
                 localImagId.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
@@ -224,6 +197,21 @@
         }
         return true;
     }
+
+    $("#save_addAdMaterial").on("click", function () {
+        if ($("#add_adMaterialName").val() == "") {
+            $("#add_adMaterialName").tips({side: 2, msg: '此项必填', time: 3});
+            return false;
+        }
+        if ($("#create_materialType").val() == "") {
+            $("#create_materialType").tips({side: 2, msg: '此项必填', time: 3});
+            return false;
+        }
+        if ($("#add_clickHref").val() == "") {
+            $("#add_clickHref").tips({side: 2, msg: '此项必填', time: 3});
+            return false;
+        }
+    })
 
 </script>
 
