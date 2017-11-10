@@ -36,7 +36,7 @@ public class AdAdAction extends BaseAction{
 		getParams();
 		PageList pageList = new PageList();
 		try {
-			pageList =  adAdManagerImpl.getPageList(params,getPageNo(),getPageSize(),getSort(),getOrder());
+			pageList =  adAdManagerImpl.getPageList(params,getPageNo(),getPageSize(),getOrder(),getSort());
 		}catch (Exception e){
 			e.printStackTrace();
 		}
