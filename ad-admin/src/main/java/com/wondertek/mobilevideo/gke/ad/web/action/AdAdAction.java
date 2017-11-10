@@ -162,7 +162,7 @@ public class AdAdAction extends BaseAction{
 	}
 
 	//    修改
-	public String editAd() {
+	public String updateAdad() {
 		try {
 			adAd.setUpdateId(getUsername());
 			adAd.setUpdateTime(new Date());
