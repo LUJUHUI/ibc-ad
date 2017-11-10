@@ -1,11 +1,11 @@
+<%@ page import="javax.persistence.Id" %>
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
+<%
 
-<link rel="stylesheet" type="text/css" href="<c:url value='/assets/css/webuploader.css'/>"/>
-<link rel="stylesheet" type="text/css" href="<c:url value='/assets/css/uploadlist.css'/>"/>
-<script type="text/javascript" src="<c:url value='/assets/js/webuploader.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/assets/js/jquery-1.11.3.min.js'/>"></script>
-
+    String orderId = request.getParameter("id");
+    request.setAttribute("id", orderId);
+%>
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
         try {
@@ -27,8 +27,7 @@
     <!-- /.breadcrumb -->
     <div class="nav-search">
         <button type="button" class="btn btn-danger btn-sm" id="backBtn">
-            <i class="ace-icon fa fa-reply"></i>
-            <fmt:message key="button.back"/>
+            <i class="ace-icon fa fa-reply"></i><fmt:message key="button.back"/>
         </button>
     </div>
 </div>
@@ -36,7 +35,9 @@
 <div class="page-content">
 
     <div class="page-content">
+
         <div id="basicInfo" class="">
+
             <div class="page-header">
                 <h1>
                     新建素材
@@ -49,10 +50,11 @@
 
             <div class="row">
                 <div class="col-xs-12">
-                    <form class="form-horizontal" role="form" id="createAdMaterialform">
+
+                    <form class="form-horizontal" role="form" id="adform">
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"
-                                   for="add_adMaterialName">素材名称 </label>
+                                   for="add_adMaterialName"> 素材名称 </label>
                             <div class="col-sm-9">
                                 <input type="text" id="add_adMaterialName" placeholder="素材名称" class="col-xs-10 col-sm-5"
                                        name="adMaterial.materialName">
@@ -62,7 +64,7 @@
 
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"
-                                   for="create_materialType">素材类型 </label>
+                                   for="create_materialType"> 素材类型 </label>
                             <div class="col-sm-9">
                                 <select class="col-xs-10 col-sm-5 chosen-select" id="create_materialType"
                                         data-placeholder="Choose a Country..." name="adMaterial.type" ;>
@@ -72,20 +74,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div  class="form-group hidden" style="margin-left:26%;width: 50%;height: 50%; "   id="save_upload"  >
-                                <form action="<c:url value='/json/picUpload_createPicUpload.do'/>" method="post" id="uploadPicForm" enctype="multipart/form-data">
-                                    <div>
-                                        <input type=file name="picUpload" id="picUpload"  style="display: inline;" onchange="showImage()">
-                                        <input type="submit"  value="上传"/>
-                                    </div>
-                                    <div id="localImag">
-                                        <img id="preview" width=-1 height=-1 style="diplay:none"/>
-                                    </div>
-                                </form>
 
-
-
-                        </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right" for="add_clickHref"> 链接地址 </label>
                             <div class="col-sm-9">
@@ -94,149 +83,101 @@
                             </div>
                         </div>
 
-
-
-                        <%--<form action="<c:url value='/json/picUpload_fileUp.do'/>" method="post"
-                              id="uploadPicForm" enctype="multipart/form-data">
-                            <input type="file" id="picUpload" name="picUpload">
-                            <button type="submit">提交</button>
-                        </form>--%>
-
+                        <div class="page-header hidden" id="title_pic">
+                            <h1>
+                                <small>
+                                    <i class="icon-double-angle-right"></i>
+                                    素材图片信息
+                                </small>
+                            </h1>
+                        </div>
+                       <hr  class="hidden" id="title_hr">
+                        <div class="form-group hidden" id="save_uploadPic">
+                            <label class="col-sm-3 control-label no-padding-right" for="add_clickHref"> 素材图片及其链接地址 </label>
+                            <label class="col-sm-3 control-label no-padding-right" for="type"></label>
+                            <div class="col-sm-9" >
+                                <div class="row">
+                                    <div class="col-xs-7">
+                                        <div class="col-sm-6">
+                                            <div class="thumbnail search-thumbnail" style=" width: 300px;height: 200px;" >
+                                                <img id="temp" class="media-object" data-src="holder.js/300px200?theme=gray" alt="100%x300" style="height: 190px; width: 100%; display: block;"
+                                                     src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMjAwIDEwMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4jaG9sZGVyXzE1ZmEwNWI4MDI4IHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MTJwdCB9IDwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTVmYTA1YjgwMjgiPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjRUVFRUVFIj48L3JlY3Q+PGc+PHRleHQgeD0iMjAiIHk9IjUwIj4yMDB4MTAwIGpwZy9wbmcvanBlZzwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" data-holder-rendered="true">
+                                                <img id="preview" class="media-object hidden" alt="100%x300" style="height: 190px; width: 100%; display: block;" src="" data-holder-rendered="true">
+                                                <input type="file" class="hidden" id="tu" accept="image/jpeg,image/jpg,image/png">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <textarea id="add_upload" style="width: 400px;height: 70px; margin-top: 120px"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="space-4"></div>
                     </form>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div> <!-- /basicInfo -->
-
         <div class="row-fluid wizard-actions">
             <button type="button" id="save_addAdMaterial" class="btn btn-primary">保存</button>
             <button type="button" id="close_addAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
+
     jQuery(function ($) {
+
         $("#backBtn").on("click", function () {
             $("#main_page > div:last").remove();
             $("#main_page > div:last").removeClass("main-page-div-display");
             $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
         });
+        //var id = "${id}";
 
         $("#create_materialType").on("change", function () {
-            alert( $("#create_materialType").val())
             var val = $("#create_materialType").val();
             if (val == 1) {
-                $("#save_upload").removeClass("hidden");
+                $("#save_uploadPic").removeClass("hidden");
+                $("#title_pic").removeClass("hidden");
+                $("#title_hr").addClass("hidden");
+
             } else if (val == "" || val == 2) {
-                $("#save_upload").addClass("hidden");
+                $("#save_uploadPic").addClass("hidden");
+                $("#title_pic").addClass("hidden");
+                $("#title_hr").removeClass("hidden");
             }
         })
 
-        var uploader = WebUploader.create({
-            // 选完文件后，是否自动上传。
-            auto: true,
-            // swf文件路径
-            swf: '/assets/swf/Uploader.swf',
-            // 文件接收服务端。
-            server: 'http://webuploader.duapp.com/server/fileupload.php',
-            // 选择文件的按钮。可选。
-            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
-            pick: '#filePicker',
-            // 只允许选择图片文件。
-            accept: {
-                title: 'Images',
-                extensions: 'gif,jpg,jpeg,bmp,png',
-                mimeTypes: 'image/*'
-            }
+        $(".media-object").on("click",function () {
+            $("#tu").click();
         });
-        uploader.on('fileQueued', function (file) {
-            var $li = $(
-                '<div id="' + file.id + '" class="file-item thumbnail">' +
-                '<img>' +
-                '<div class="info">' + file.name + '</div>' +
-                '</div>'
-                ),
-                $img = $li.find('img');
-            $list.append($li);
-            // 创建缩略图
-            // 如果为非图片文件，可以不用调用此方法。
-            // thumbnailWidth x thumbnailHeight 为 100 x 100
-            uploader.makeThumb(file, function (error, src) {
-                if (error) {
-                    $img.replaceWith('<span>不能预览</span>');
-                    return;
-                }
-                $img.attr('src', src);
-            }, thumbnailWidth, thumbnailHeight);
-        });
-        uploader.on('uploadProgress', function (file, percentage) {
-            var $li = $('#' + file.id),
-                $percent = $li.find('.progress span');
+        $("#tu").on("change",function () {
+            var reader = new FileReader();
+            var file = this.files[0];
+            reader.onload = function(e) {
+                var img = $("#preview").attr("src",e.target.result);
+            };
+            reader.readAsDataURL(file);
+            $("#temp").addClass("hidden");
+            $("#preview").removeClass("hidden");
+        })
 
-            // 避免重复创建
-            if (!$percent.length) {
-                $percent = $('<p class="progress"><span></span></p>')
-                    .appendTo($li)
-                    .find('span');
-            }
-            $percent.css('width', percentage * 100 + '%');
-        });
-
-        // 文件上传成功，给item添加成功class, 用样式标记上传成功。
-        uploader.on('uploadSuccess', function (file) {
-            $('#' + file.id).addClass('upload-state-done');
-        });
-        // 文件上传失败，显示上传出错。
-        uploader.on('uploadError', function (file) {
-            var $li = $('#' + file.id),
-                $error = $li.find('div.error');
-            // 避免重复创建
-            if (!$error.length) {
-                $error = $('<div class="error"></div>').appendTo($li);
-            }
-            $error.text('上传失败');
-        });
-
-        // 完成上传完了，成功或者失败，先删除进度条。
-        uploader.on('uploadComplete', function (file) {
-            $('#' + file.id).find('.progress').remove();
-        });
-    });
-
-    function showImage() {
-        var picObj = document.getElementById("picUpload");
-        var imgObjPreview = document.getElementById("preview");
-        if (picObj.files && picObj.files[0]) {
-            //火狐下，直接设img属性
-            imgObjPreview.style.display = 'block';
-            imgObjPreview.style.width = '300px';
-            imgObjPreview.style.height = '120px';
-            //imgObjPreview.src = picObj.files[0].getAsDataURL();
-            //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
-            imgObjPreview.src = window.URL.createObjectURL(picObj.files[0]);
-        } else {
-            //IE下，使用滤镜
-            picObj.select();
-            var imgSrc = document.selection.createRange().text;
-            var localImagId = document.getElementById("localImag");
-            //必须设置初始大小
-            localImagId.style.width = "250px";
-            localImagId.style.height = "200px";
-            //图片异常的捕捉，防止用户修改后缀来伪造图片
-            try {
-                localImagId.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
-                localImagId.filters
-                    .item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
-            } catch (e) {
-                alert("您上传的图片格式不正确，请重新选择!");
+        $("#save_addAdMaterial").on("click", function () {
+            if ($("#add_adMaterialName").val() == "") {
+                $("#add_adMaterialName").tips({side: 2, msg: '此项必填', time: 3});
                 return false;
             }
-            imgObjPreview.style.display = 'none';
-            document.selection.empty();
-        }
-        return true;
-    }
+            if ($("#create_materialType").val() == "") {
+                $("#create_materialType").tips({side: 2, msg: '此项必填', time: 3});
+                return false;
+            }
+            if ($("#add_clickHref").val() == "") {
+                $("#add_clickHref").tips({side: 2, msg: '此项必填', time: 3});
+                return false;
+            }
+        })
 
+    });
 </script>
-
-
