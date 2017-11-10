@@ -12,7 +12,7 @@
                 <h4 class="modal-title" id="updateMaterial">编辑广告</h4>
             </div>
             <div class="modal-body">
-                <form id="update_materialForm">
+                <form id="update_adForm">
 
                     <div class="form-group">
                         <input type="hidden" class="form-control" id="edit_id" name="adAd.id" >
@@ -217,6 +217,7 @@
             height: 520,
             colNames:[
                 '<fmt:message key="ad.ad.id"/>',
+                '<fmt:message key="ad.ad.soltId"/>',
                 '<fmt:message key="ad.ad.name"/>',
                 '<fmt:message key="ad.ad.status"/>',
                 '<fmt:message key="ad.ad.remark"/>',
@@ -229,6 +230,7 @@
             ],
             colModel:[
                 {name:'id',index:'id', width : 80,align:'center', sortable : true},
+                {name:'soltId',index:'soltId', width : 80,align:'center', sortable : true,hidden:true},
                 {name: 'adName',index: 'adName', width : 200, align:'center', sortable : true},
                 {name : 'status', index : 'status', width : 80, align:'center', sortable : false,formatter:statusFmt,unformat:unAttrStatus},
                 {name : 'remark', index : 'remark', width : 280, align:'center', sortable : true},
@@ -482,6 +484,7 @@
                 for (var index in ids){
                     var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
                     if(rowData.status != "投放中"){
+                    	alert(rowData.soltId)
                         $("#edit_id").val(rowData.id);
                         $("#edit_soltId").val(rowData.soltId);
                         $('#edit_name').val(rowData.adName);
@@ -498,29 +501,18 @@
             });
             $("#save_edit").on("click",function () {
                 $.ajax({
-                    url: "<c:url value='/json/adad_editAd.do'/>",
-                    data: $("#ad_SlotForm").serialize(),
+                    url: "<c:url value='/json/adad_updateAdad.do'/>",
+                    data: $("#update_adForm").serialize(),
                     type: "post",
                     success: function (data) {
-                        $("#adSlotModel").modal('hide');
+                        $("#editAdModal").modal('hide');
                         $("#search").click();
                     }, error: function () {
                         alert("修改失败");
                     }
                 })
             })
-
-
-
-
-
-
-
-
-
-
-
-
+ 
         $("#remove").on("click", function () {
             var row = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
             if (row.length == 0){
