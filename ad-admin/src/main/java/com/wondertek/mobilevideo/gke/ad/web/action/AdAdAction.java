@@ -14,10 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AdAdAction extends BaseAction{
 
@@ -29,8 +26,8 @@ public class AdAdAction extends BaseAction{
 	private AdMaterialManger adMaterialMangerImpl;
 	@Autowired
 	private AdAdMaterialManager adAdMaterialManagerImpl;
-	
-	
+
+
 	private AdAd adAd;
 	
 	private Map<String, Object> params = new HashMap<String,Object>();
@@ -163,6 +160,23 @@ public class AdAdAction extends BaseAction{
 		}
 		return SUCCESS;
 	}
+
+	//    修改
+	public String editAd() {
+		try {
+			adAd.setUpdateId(getUsername());
+			adAd.setUpdateTime(new Date());
+			adAd.setStatus(AdMaterial.AdMaterialStatus.STATUS_101.getStatus());
+			adAdManagerImpl.saveOrUpdate(adAd);
+			resultMap.put("success", true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("success", false);
+		}
+		return SUCCESS;
+	}
+
+
 
 	/**
 	 * 

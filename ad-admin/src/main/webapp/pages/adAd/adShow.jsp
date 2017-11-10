@@ -1,6 +1,68 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
 
+<%--<edit start>--%>
+<div class="modal fade bs-example-modal-sm" tabindex="-1" id="editAdModal" role="dialog"
+     aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="updateMaterial">编辑广告</h4>
+            </div>
+            <div class="modal-body">
+                <form id="update_materialForm">
+
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="edit_id" name="adAd.id" >
+                    </div>
+
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="edit_soltId" name="adAd.soltId" >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="adName" class="control-label">素材名称:</label>
+                        <input type="text" class="form-control" id="edit_name"
+                               name="adAd.adName">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="edit_createTime"
+                               name="adAd.createTime">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="edit_createId"
+                               name="adAd.createId">
+                    </div>
+
+                    <div class="form-group">
+                        <label  for="add_startTime"> 投放时间 </label>
+                        <div class="col-sm-20">
+                            <input type="text"   readonly="readonly"  id="add_startTime" name="startTime" style="width: 40%">
+                            <input type="hidden" class="form-control" id="edit_startTime" name="adAd.startTime" value="">
+                            <input type="hidden" class="form-control" id="edit_endTime" name="adAd.endTime" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label  for="edit_remark" class="control-label" > 备注 </label>
+                            <textarea id="edit_remark"  class="control-label" style="width: 579px;height: 30px;"name="adAd.remark" ></textarea>
+                    </div>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" id="close_edit" class="btn btn-default" data-dismiss="modal">取消
+                    </button>
+                    <button type="button" id="save_edit" class="btn btn-primary">保存</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+<%--<edit end>--%>
+
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
         try {
@@ -47,7 +109,7 @@
                 <option value="102">待投放</option>
                 <option value="103">投放中</option>
                 <option value="104">投放完成</option>
-                <option value="104">已删除</option>
+                <option value="105">已删除</option>
             </select>
             
             <label class="control-label" for="adName">广告名称</label>
@@ -219,6 +281,8 @@
             '<td>|</td>' +
             '<td><button type="button" id="editadMaterial" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus"></i>查看已关联素材</button></td>' +
             '<td>|</td>' +
+            '<td><button type="button" id="editAd" class="btn btn-xs btn-success"><i class="ace-icon fa fa-plus"></i>编辑</button></td>' +
+            '<td>|</td>' +
             '<td><button type="button" id="remove" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i>删除</button></td>' +
             '</tr></table>');
 
@@ -376,7 +440,7 @@
                 data:$("#add_adadForm").serialize(),
                 type:"post",
                 success:function(data){
-                    $("#addAdModel").modal('hide')
+                    $("#addAdModel").modal('hide');
                     $("#search").click();
                 },error:function(){
                     bootbox.alert("保存失败，无法连接服务器！");
@@ -404,6 +468,58 @@
             openMainPage('<c:url value="/pages/adAd/adAddMaterial.jsp"/>', {"id": rowData.id,type:"add"}, function () {
             });
         });
+
+        $("#editAd").on("click",function () {
+                var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
+                if (ids.length == 0){
+                    bootbox.alert("请选择要操作的记录！");
+                    return;
+                }
+                if (ids.length > 1){
+                    bootbox.alert("只能选择一条记录！");
+                    return;
+                }
+                for (var index in ids){
+                    var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
+                    if(rowData.status != "投放中"){
+                        $("#edit_id").val(rowData.id);
+                        $("#edit_soltId").val(rowData.soltId);
+                        $('#edit_name').val(rowData.adName);
+                        $("#edit_createTime").val(rowData.createTime);
+                        $("#edit_createId").val(rowData.createId);
+                        $("#edit_startTime").val(rowData.startTime);
+                        $("#edit_endTime").val(rowData.endTime);
+                        $("#edit_remark").val(rowData.remark);
+                        $("#editAdModal").modal();
+                    }else{
+                        bootbox.alert("该广告正在使用，不能修改！");
+                    }
+                }
+            });
+            $("#save_edit").on("click",function () {
+                $.ajax({
+                    url: "<c:url value='/json/adad_editAd.do'/>",
+                    data: $("#ad_SlotForm").serialize(),
+                    type: "post",
+                    success: function (data) {
+                        $("#adSlotModel").modal('hide');
+                        $("#search").click();
+                    }, error: function () {
+                        alert("修改失败");
+                    }
+                })
+            })
+
+
+
+
+
+
+
+
+
+
+
 
         $("#remove").on("click", function () {
             var row = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
