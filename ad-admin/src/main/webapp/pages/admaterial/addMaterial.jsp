@@ -98,7 +98,7 @@
                             <div class="col-sm-9" >
                                 <div class="row">
                                     <div class="col-xs-7">
-                                        <div class="col-sm-4" style="width: 300px;height: 200px;">
+                                        <div class="col-sm-6">
                                             <div class="thumbnail search-thumbnail" style=" width: 300px;height: 200px;" >
                                                 <img id="temp" class="media-object" data-src="holder.js/300px200?theme=gray" alt="100%x300" style="height: 190px; width: 100%; display: block;"
                                                      src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMjAwIDEwMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4jaG9sZGVyXzE1ZmEwNWI4MDI4IHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MTJwdCB9IDwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTVmYTA1YjgwMjgiPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjRUVFRUVFIj48L3JlY3Q+PGc+PHRleHQgeD0iMjAiIHk9IjUwIj4yMDB4MTAwIGpwZy9wbmcvanBlZzwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" data-holder-rendered="true">
@@ -106,8 +106,8 @@
                                                 <input type="file" class="hidden" id="tu" accept="image/jpeg,image/jpg,image/png">
                                             </div>
                                         </div>
-                                        <div class="col-sm-3"style="width: 300px;height: 200px;">
-                                            <textarea id="add_upload" style="width: 265px;height: 200px;"></textarea>
+                                        <div class="col-sm-3">
+                                            <textarea id="add_upload" style="width: 400px;height: 70px; margin-top: 120px"></textarea>
                                         </div>
                                     </div>
                                 </div>
