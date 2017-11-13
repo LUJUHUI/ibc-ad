@@ -27,7 +27,6 @@ public class AdAdAction extends BaseAction{
 	@Autowired
 	private AdAdMaterialManager adAdMaterialManagerImpl;
 
-
 	private AdAd adAd;
 	
 	private Map<String, Object> params = new HashMap<String,Object>();
@@ -166,7 +165,7 @@ public class AdAdAction extends BaseAction{
 		try {
 			adAd.setUpdateId(getUsername());
 			adAd.setUpdateTime(new Date());
-			adAd.setStatus(AdMaterial.AdMaterialStatus.STATUS_101.getStatus());
+			adAd.setStatus( AdAd.AdadStatus.STATUS_101.getAdStatus());
 			adAdManagerImpl.saveOrUpdate(adAd);
 			resultMap.put("success", true);
 		} catch (Exception e) {
