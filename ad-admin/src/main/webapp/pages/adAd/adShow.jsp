@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label  for="add_startTime"> 投放时间 </label>
+                        <label  for="add_startTime"> 编辑起止时间 </label>
                         <div class="col-sm-20">
                             <input type="text"   readonly="readonly"  id="add_startTime" name="startTime" style="width: 40%">
                             <input type="hidden" class="form-control" id="edit_startTime" name="adAd.startTime" value="">
@@ -484,7 +484,6 @@
                 for (var index in ids){
                     var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
                     if(rowData.status != "投放中"){
-                    	alert(rowData.soltId)
                         $("#edit_id").val(rowData.id);
                         $("#edit_soltId").val(rowData.soltId);
                         $('#edit_name').val(rowData.adName);
