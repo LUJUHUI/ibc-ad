@@ -498,7 +498,7 @@
         });
         $("#save_edit").on("click", function () {
             var editName = $("#edit_name").val();
-            if (editName == "" ||editName == null) {
+            if ( editName == "" || editName == null) {
                 $("#edit_name").tips({side: 2, msg: '此项必填 ', time: 3});
                 return false;
             }

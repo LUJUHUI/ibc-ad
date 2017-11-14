@@ -71,11 +71,11 @@
             </span>
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
-			<button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
-                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
-            </button>
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
                 <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
+            </button>
+            <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
+                <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
             </button>
         </form>
     </div>
@@ -348,6 +348,7 @@
         	$('#slot_Name').val("");
       	    $('#slot_Channel').val("");
       	    $('#slot_status').val("");
+            $("#createTime").val(""),
             search();
         })
         $("#search").on("click",search);

@@ -24,7 +24,7 @@ public class ChangeAdAdStatusJob {
 	private AdAdManager adAdManagerImpl;
     
 	public void excute(){
-		log.debug("Method ChangeAdAdStatusJob execute  started");
+		log.debug("Method ChangeAdAdStatusJob execute started");
 		try{
 		//将待投放的广告修改为投放中
 	    Map<String,Object> params = new HashMap<String,Object>();

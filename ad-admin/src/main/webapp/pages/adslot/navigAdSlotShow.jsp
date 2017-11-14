@@ -378,6 +378,7 @@
         	$('#slot_Name').val("");
       	    $('#slot_Channel').val("");
       	    $('#slot_status').val("");
+            $('#createTime').val("");
             search();
         })
         $("#search").on("click",search);
