@@ -88,9 +88,9 @@
 	<bean id="redisService"  abstract="true" class="com.wondertek.mobilevideo.gke.ad.core.utils.RedisService">
 		<property name="redisTemplate" ref="redisTemplate" />
 	</bean>
-	<!--<bean id="userRedisService" parent="redisService" class="com.wondertek.mobilevideo.gke.ad.core.utils.UserRedisServiceImpl">-->
-		<!--<property name="redisBusinessName" value="portal::user::" />-->
-	<!--</bean>-->
+	<bean id="redisServiceImpl" parent="redisService" class="com.wondertek.mobilevideo.gke.ad.core.utils.impl.RedisServiceImpl">
+		<property name="redisBusinessName" value="" />
+	</bean>
 	<!--<bean id="h5serviceRedisService" parent="redisService" class="com.wondertek.mobilevideo.core.cache.redis.impl.UserRedisServiceImpl">-->
 		<!--<property name="redisBusinessName" value="portal::h5service::" />-->
 	<!--</bean>-->

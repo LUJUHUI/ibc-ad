@@ -29,6 +29,32 @@ public class AdSlot implements Serializable {
 	            return _status;
 	        }
 	    }
+	    public enum AdSlotType {
+	    	TYPE_301(301), TYPE_302(302),TYPE_303(303);
+	        
+	        private final int _type;
+	
+	        private AdSlotType(int _type) {
+	            this._type = _type;
+	        }
+	
+	        public int get_type() {
+	            return _type;
+	        }
+	    }
+	    public enum AdSlotNavig {
+	    	NAVIG_201(201), NAVIG_202(202),NAVIG_203(203);
+	        
+	        private final int _navig;
+	
+	        private AdSlotNavig(int _navig) {
+	            this._navig = _navig;
+	        }
+	
+	        public int get_navig() {
+	            return _navig;
+	        }
+	    }
 	    private static final long serialVersionUID = 467620661858607767L;
 		
 		private int id;                          //广告位Id
