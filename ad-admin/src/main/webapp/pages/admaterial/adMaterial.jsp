@@ -8,52 +8,6 @@
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
 
-<%--新建素材模块--%>
-<div class="modal fade bs-example-modal-sm" tabindex="-1" id="addAdMaterialModel" role="dialog"
-     aria-labelledby="myLargeModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="addAdMaterial">新建素材</h4>
-            </div>
-            <div class="modal-body">
-                <form id="add_materialForm">
-
-                    <div class="form-group">
-                        <label for="add_adMaterialName" class="control-label">素材名称:</label>
-                        <input type="text" class="form-control" id="add_adMaterialName" name="adMaterial.materialName">
-                    </div>
-
-                    <div class="form-group">
-
-                        <label for="add_type" class="control-label">素材类型 :</label>
-                        <select class="form-control input-sm" style="margin-left: 5px;" id="add_type"
-                                name="adMaterial.type" >
-                            <option value="">--请选择--</option>
-                            <option value="1">图片</option>
-                            <option value="2">文字</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group <%--hidden--%>">
-                        <label for="add_clickHref" class="control-label">链接地址:</label>
-                        <input type="text" class="form-control" id="add_clickHref" name="adMaterial.clickHref">
-                    </div>
-
-                </form>
-
-                <div class="modal-footer">
-                    <button type="button" id="save_addAdMaterial" class="btn btn-primary">保存</button>
-                    <button type="button" id="close_addAdMaterial" class="btn btn-default" data-dismiss="modal">取消
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-</div>
-
 <%--修改素材模块--%>
 <div class="modal fade bs-example-modal-sm" tabindex="-1" id="updateAdMaterialModel" role="dialog"
      aria-labelledby="myLargeModalLabel">
@@ -119,9 +73,9 @@
 
                 </form>
                 <div class="modal-footer">
+                    <button type="button" id="save_updateAdMaterial" class="btn btn-primary">保存</button>
                     <button type="button" id="close_updateAdMaterial" class="btn btn-default" data-dismiss="modal">取消
                     </button>
-                    <button type="button" id="save_updateAdMaterial" class="btn btn-primary">保存</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -151,9 +105,8 @@
 
                 </form>
                 <div class="modal-footer">
-                    <button type="button" id="close_deleteAdMaterial" class="btn btn-default" data-dismiss="modal">取消
-                    </button>
                     <button type="button" id="save_deleteAdMaterial" class="btn btn-primary">保存</button>
+                    <button type="button" id="close_deleteAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -516,52 +469,13 @@
             }).trigger("reloadGrid"); //重新载入
         })
 
-        /*创建素材*/
+
         $("#adm_create").on("click",function () {
-            openMainPage('<c:url value="/pages/admaterial/addMaterial.jsp"/>', {}, function () {
-            });
+            openMainPage('<c:url value="/pages/admaterial/addMaterial.jsp"/>', {}, function () {});
         });
-
-        /* -------新建素材(start)--------------*/
-        /*$("#adm_create").on("click", function () {
-            $("#add_adMaterialName").val("");
-            $("#add_type").val("");
-            $("#add_clickHref").val("");
-            $("#addAdMaterialModel").modal();
-            /!*this id should match above id whlich equaled 'addAdMaterialModel'*!/
-        });
-
-        $("#save_addAdMaterial").on("click", function () {
-            if ($("#add_adMaterialName").val() == "") {
-                $("#add_adMaterialName").tips({side: 2, msg: '此项必填 ', time: 3});
-                return false;
-            }
-            if ($("#add_type").val() == "") {
-                $("#add_type").tips({side: 2, msg: '此项必填 ', time: 3});
-                return false;
-            }
-            if ($("#add_clickHref").val() == "") {
-                $("#add_clickHref").tips({side: 2, msg: '此项必填 ', time: 3});
-                return false;
-            }
-            $.ajax({
-                url: "<c:url value='/json/adMaterial_addAdMaterial.do'/>",
-                data: $("#add_materialForm").serialize(),
-                type: "post",
-                success: function (data) {
-                    $("#addAdMaterialModel").modal('hide')
-                    $("#search").click();
-                    /!* alert("添加成功!");*!/
-                }, error: function () {
-                    alert("添加失败，无法连接服务器!");
-                }
-            });
-        })*/
-        /* -------新建素材(end)--------------*/
 
         /* -------修改素材(start)------------*/
         $("#adm_update").on("click", update);
-
         function update() {
             var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
             if (ids.length == 0) {
@@ -580,7 +494,8 @@
                 }
             }
             if (del == true) {
-                $("#update_id").val(rowData.id);
+
+                $("#edit_id").val(rowData.id);
                 $("#update_adMaterialName").val(rowData.materialName);
                 $("#update_clickHref").val(rowData.clickHref);
                 $("#update_status").val(rowData.status);
@@ -666,25 +581,24 @@
 
         // 图片上传
         /*upload_picture begin*/
-        $("#add_type").on("change", function () {
-            /*    alert($("#add_type").val());*/
+       /* $("#add_type").on("change", function () {
+            /!*    alert($("#add_type").val());*!/
 
-            /*获取选取的素材类型*/
+            /!*获取选取的素材类型*!/
             var val = $("#add_type").val();
 
-            /*判断选取的素材类型：“1”则显示上传、取消按钮；“”或者2 则隐藏上传、取消按钮*/
+            /!*判断选取的素材类型：“1”则显示上传、取消按钮；“”或者2 则隐藏上传、取消按钮*!/
             if (val == 1) {
                 $("#upload_picture").show();
                 $("#cancle_uploadPitcure").show();
-                /*$("#close_addAdMaterial").removeClass("hidden")*/
+                /!*$("#close_addAdMaterial").removeClass("hidden")*!/
             } else if (val == "" || val == 2) {
                 $("#upload_picture").hide();
                 $("#cancle_uploadPitcure").hide();
-                /* $("#close_addAdMaterial").addClass("hidden")*/
+                /!* $("#close_addAdMaterial").addClass("hidden")*!/
             }
-        })
+        })*/
         /*upload_picture end*/
-
 
     });
 </script>

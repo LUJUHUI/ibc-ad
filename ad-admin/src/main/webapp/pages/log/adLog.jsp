@@ -259,6 +259,7 @@
         	$("#operType").val(""),
         	$("#operResult").val(""), 
         	$("#logType").val(""),
+            $("#createTime").val(""),
             search();
         })
         $("#search").on("click",search);

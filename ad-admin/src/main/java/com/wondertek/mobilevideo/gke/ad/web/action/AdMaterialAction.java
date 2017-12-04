@@ -21,7 +21,8 @@ public class AdMaterialAction extends BaseAction {
         getParams();
         PageList pageList = new PageList();
         try {
-            pageList = adMaterialMangerImpl.getPageList(params, getPageNo(), getPageSize(), getSort(), getOrder());
+            //一定要注意按照对应的顺序获取参数，否则会出错
+            pageList = adMaterialMangerImpl.getPageList(params, getPageNo(), getPageSize(), getOrder(),getSort() );
         } catch (Exception e) {
             e.printStackTrace();
         }

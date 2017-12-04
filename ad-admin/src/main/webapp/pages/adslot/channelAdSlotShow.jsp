@@ -61,8 +61,8 @@
                     </div>
                 </form>
                 <div class="modal-footer">
-                    <button type="button" id="close_adad" class="btn btn-default" data-dismiss="modal">关闭</button>
                     <button type="button" id=save_update_adSlot class="btn btn-primary">保存</button>
+                    <button type="button" id="close_adad" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div> 
         </div> 
@@ -387,6 +387,7 @@
         	$('#slot_Name').val("");
       	    $('#slot_Channel').val("");
       	    $('#slot_status').val("");
+            $('#createTime').val("");
             search();
         })
         $("#search").on("click",search);

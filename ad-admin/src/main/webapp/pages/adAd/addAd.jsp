@@ -57,10 +57,10 @@
                         <div class="space-4"></div>
                         
                         <div class="form-group">
-                            <label class="col-sm-3 control-label no-padding-right" for="add_startTime"> 投放时间 </label>
+                            <label class="col-sm-3 control-label no-padding-right" for="add_startTimes"> 投放时间 </label>
                             
                             <div class="col-sm-9">
-                                <input type="text" class="col-xs-10 col-sm-5" readonly="readonly"  id="add_startTime" name="startTime">
+                                <input type="text" class="col-xs-10 col-sm-5" readonly="readonly"  id="add_startTimes" name="startTime">
                                 <input type="hidden" class="form-control" id="add_st" name="adAd.startTime" value="">
                                 <input type="hidden" class="form-control" id="add_et" name="adAd.endTime" value="">
                             </div>
@@ -82,7 +82,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="add_remark"> 备注 </label>
                             
                             <div class="col-sm-9">
-                                <textarea id="add_remark" class="col-xs-10 col-sm-5" style="width: 700px;height: 100px;"  name="adAd.remark"></textarea>
+                                <textarea id="add_remark" class="col-xs-10 col-sm-5" style="width: 580px;height: 100px;"  name="adAd.remark"></textarea>
                             </div>
                         </div>
                         <input type="hidden" class="form-control" id="materialId" name="materialId" value="">
@@ -181,14 +181,11 @@
 
         });
 
-        $("#add_startTime").daterangepicker({
-            startDate: moment().subtract('days', 0),
+        $("#add_startTimes").daterangepicker({
+            startDate: moment().subtract('days', 10),
             endDate: moment().subtract('days', 0),
-            timePicker: true,
-            timePickerIncrement : 5, // 时间的增量，单位为分钟
-            timePicker24Hour : true, // 是否使用12小时制来显示时间
             locale: {
-                format: 'YYYY-MM-DD HH:mm'
+                format: 'YYYY-MM-DD'
             }
         }, function(start, end, label) {//时间改变后执行该方法
         });
