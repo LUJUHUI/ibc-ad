@@ -62,7 +62,7 @@
             <select class="form-control input-sm" style="margin-left: 5px;" id="operResult">
                 <option value="">全部</option>
                 <option value="失败">失败</option>
-                <option value="通过">通过</option>
+                <option value="成功">成功</option>
             </select>
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
@@ -259,7 +259,6 @@
         	$("#operType").val(""),
         	$("#operResult").val(""), 
         	$("#logType").val(""),
-            $("#createTime").val(""),
             search();
         })
         $("#search").on("click",search);

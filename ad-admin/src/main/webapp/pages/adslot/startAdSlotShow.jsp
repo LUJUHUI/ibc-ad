@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <label for="adSlot_type" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="adSlot_type" name="adSlot.type" value="1"  >
+                        <input type="hidden" class="form-control" id="adSlot_type" name="adSlot.type" value="301"  >
                     </div>
                      <div class="form-group">
                         <label for="adSlot_status" class="control-label" hidden="true"></label>
@@ -46,8 +46,8 @@
                     </div>
                 </form>
                 <div class="modal-footer">
-                    <button type="button" id="save_update_adSlot" class="btn btn-primary">保存</button>
                     <button type="button" id="close_adad" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" id="save_update_adSlot" class="btn btn-primary">保存</button>
                 </div>
             </div> 
         </div> 
@@ -97,7 +97,7 @@
             <label class="control-label" for="slot_Name">广告位名称</label>
             <input type="text" class="form-control input-sm" style="width: 80px;margin-left: 5px;" id="slot_Name">
             
-			<label class="control-label" for="slot_status">状态</label>
+			<label class="control-label" for="attr">状态</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="slot_status">
                 <option value="">全部</option>
                 <option value="101">待审核</option>
@@ -175,7 +175,7 @@
             	   slotName: $('#slot_Name').val(),
             	   navig: $('#slot_Channel').val(),
             	   status: $('#slot_status').val(),
-            	   type:1,
+            	   type:301,
             	   startDate: startDate + " 00:00:00",
             	   endDate: endDate + " 23:59:59"
             },
@@ -238,9 +238,9 @@
                  '<td>|</td>' +
                  '<td><button type="button" id="updateSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-edit"></i>修改</button></td>' +
                  '<td>|</td>' +
-                 '<td><button type="button" id="deleteSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-remove"></i>删除</button></td>' +
+                 '<td><button type="button" id="deleteSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-remove""></i>删除</button></td>' +
                  '<td>|</td>' +
-                 '<td><button type="button" id="useSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-check"></i>启用</button></td>' +
+                 '<td><button type="button" id="useSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-check""></i>启用</button></td>' +
                  '</tr></table>');
 
         $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
@@ -346,7 +346,6 @@
         $("#reset").on("click", function () {
         	$('#slot_Name').val("");
       	    $('#slot_status').val("");
-            $('#createTime').val("");
             search();
         })
         $("#search").on("click",search);
@@ -365,7 +364,7 @@
                 postData : {
                 	slotName: $('#slot_Name').val(),
               	    status: $('#slot_status').val(),
-              	    type:1,
+              	    type:301,
               	    startDate: startDate + " 00:00:00",
             	    endDate: endDate + " 23:59:59"
                 },
@@ -388,24 +387,27 @@
         });
 		//保存广告位
         $("#save_update_adSlot").on("click",function () {
-        	
+        	if($("#adSlot_name").val() == ""){
+                $("#adSlot_name").tips({side:2,msg:'广告名称必填',time:3});
+                return false;
+            }
             if($("#adSlot_width").val() == ""){
-                $("#adSlot_width").tips({side:2,msg:'宽度必填 ',time:3});
+                $("#adSlot_width").tips({side:2,msg:'宽度必填',time:3});
                 return false;
             }
             if($("#adSlot_height").val() == ""){
-                $("#adSlot_height").tips({side:2,msg:'高度必填 ',time:3});
+                $("#adSlot_height").tips({side:2,msg:'高度必填',time:3});
                 return false;
             }
             var reg = new RegExp("^[0-9]*$");
         	var widthStart = $("#adSlot_width").val().substring(0,$("#adSlot_width").val().length-2);
         	var heightStart = $("#adSlot_height").val().substring(0,$("#adSlot_height").val().length-2);
             if(!reg.test(widthStart)){
-                $("#adSlot_width").tips({side:2,msg:'宽度应为数字 ',time:3});
+                $("#adSlot_width").tips({side:2,msg:'宽度应为数字',time:3});
                 return false;
             }
             if(!reg.test(heightStart)){
-                $("#adSlot_height").tips({side:2,msg:'高度应为数字 ',time:3});
+                $("#adSlot_height").tips({side:2,msg:'高度应为数字',time:3});
                 return false;
             }
             if($("#adSlot_id").val() == ""){
