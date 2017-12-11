@@ -23,32 +23,32 @@ public class ChangeAdAdStatusJob {
     @Autowired
 	private AdAdManager adAdManagerImpl;
     
-	public void excute(){
+	public void execute(){
 		log.debug("Method ChangeAdAdStatusJob execute  started");
 		try{
-		//将待投放的广告修改为投放中
-	    Map<String,Object> params = new HashMap<String,Object>();
-		params.put("startTime_startTime",new Date());
-		params.put("endTime_lastTime",new Date());
-		params.put("status", AdAd.AdadStatus.STATUS_102.getAdStatus());
-		List<AdAd> adRedayList = adAdManagerImpl.find(params);
-		if(null != adRedayList && adRedayList.size()>0){
-		for (AdAd adAd : adRedayList) {
-			adAd.setStatus(AdAd.AdadStatus.STATUS_103.getAdStatus());
-			adAdManagerImpl.saveOrUpdate(adAd);
-		}
-		}
-		//将投放中的广告修改为投放完成
-		Map<String,Object> param = new HashMap<String,Object>();
-		param.put("endTime_startTime",new Date());
-		param.put("status", AdAd.AdadStatus.STATUS_103.getAdStatus());
-		List<AdAd> adList = adAdManagerImpl.find(param);
-		if(null != adList && adList.size()>0){
-		for (AdAd adAd : adList) {
-			adAd.setStatus(AdAd.AdadStatus.STATUS_104.getAdStatus());
-			adAdManagerImpl.saveOrUpdate(adAd);
-		}
-		}
+			//将待投放的广告修改为投放中
+			Map<String,Object> params = new HashMap<String,Object>();
+			params.put("startTime_startTime",new Date());
+			params.put("endTime_lastTime",new Date());
+			params.put("status", AdAd.AdadStatus.STATUS_102.getAdStatus());
+			List<AdAd> adRedayList = adAdManagerImpl.find(params);
+			if(null != adRedayList && adRedayList.size()>0){
+				for (AdAd adAd : adRedayList) {
+					adAd.setStatus(AdAd.AdadStatus.STATUS_103.getAdStatus());
+					adAdManagerImpl.saveOrUpdate(adAd);
+				}
+			}
+			//将投放中的广告修改为投放完成
+			Map<String,Object> param = new HashMap<String,Object>();
+			param.put("endTime_startTime",new Date());
+			param.put("status", AdAd.AdadStatus.STATUS_103.getAdStatus());
+			List<AdAd> adList = adAdManagerImpl.find(param);
+			if(null != adList && adList.size()>0){
+				for (AdAd adAd : adList) {
+					adAd.setStatus(AdAd.AdadStatus.STATUS_104.getAdStatus());
+					adAdManagerImpl.saveOrUpdate(adAd);
+				}
+			}
 		}catch (Exception e) {
 			log.error(e.getMessage(),e);
 		} finally {
