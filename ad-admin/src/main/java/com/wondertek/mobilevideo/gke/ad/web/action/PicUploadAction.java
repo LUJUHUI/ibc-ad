@@ -20,7 +20,7 @@ public class PicUploadAction extends BaseAction{
 
     public String createPicUpload(){
        // File uploadPath = new File("D:/test/1.jpg");
-        File outPicPath = new File("D:/test/222/"+picUploadFileName);
+        File outPicPath = new File("D:/test/"+picUploadFileName);
         if(outPicPath.exists()){
             outPicPath.delete();
         }else {

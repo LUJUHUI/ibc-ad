@@ -20,9 +20,9 @@
                         <label for="adSlot_navig" class="control-label">导航名称:</label>
                         <select class="form-control"  id="adSlot_navig" name="adSlot.navig">
                             <option value="">请选择</option>
-                            <option value="1"  >首页</option>
-                            <option value="2"  >直播</option>
-                            <option value="3">会员</option>
+                            <option value="201"  >首页</option>
+                            <option value="202"  >直播</option>
+                            <option value="203">会员</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -45,7 +45,7 @@
                     </div>
                     <div class="form-group">
                         <label for="adSlot_type" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="adSlot_type" name="adSlot.type" value="2"  >
+                        <input type="hidden" class="form-control" id="adSlot_type" name="adSlot.type" value="302"  >
                     </div>
                      <div class="form-group">
                         <label for="adSlot_status" class="control-label" hidden="true"></label>
@@ -115,9 +115,9 @@
             <label class="control-label" for="attr">导航名称</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="slot_Channel">
                 <option value="">全部</option>
-                <option value="1">首页</option>
-                <option value="2">直播</option>
-                <option value="3">会员</option>
+                <option value="201">首页</option>
+                <option value="202">直播</option>
+                <option value="203">会员</option>
             </select>
 			
 			<label class="control-label" for="attr">状态</label>
@@ -196,7 +196,7 @@
             	   slotName: $('#slot_Name').val(),
           	       navig: $('#slot_Channel').val(),
           	       status: $('#slot_status').val(),
-            	   type:2,
+            	   type:302,
             	   startDate: startDate + " 00:00:00",
            	       endDate: endDate + " 23:59:59"
             },
@@ -323,13 +323,13 @@
         function attrNavig(callValue,options,rowObject){
             var result="";
             switch (callValue){
-                case 1:
+                case 201:
                     result = '首页';
                     break;
-                case 2:
+                case 202:
                     result = '直播';
                     break;
-                case 3:
+                case 203:
                     result = '会员';
             }
             return result;
@@ -406,7 +406,7 @@
            		    slotName: $('#slot_Name').val(),
       	       		 navig: $('#slot_Channel').val(),
       	       		 status: $('#slot_status').val(),
-         	   		 type:2,
+         	   		 type:302,
          	   	 	 startDate: startDate + " 00:00:00",
         	         endDate: endDate + " 23:59:59"
                 },
@@ -430,20 +430,24 @@
        });
 
        $("#save_update_adSlot").on("click",function () {
+        if($("#adSlot_name").val() == ""){
+                $("#adSlot_name").tips({side:2,msg:'广告名称必填',time:3});
+                return false;
+           }
        	if($("#adSlot_navig").val() == ""){
-                 $("#adSlot_navig").tips({side:2,msg:'请选择导航 ',time:3});
+                 $("#adSlot_navig").tips({side:2,msg:'导航必填',time:3});
                  return false;
            }
        	if($("#adSlot_channelId").val() == ""){
-               $("#adSlot_channelId").tips({side:2,msg:'频道ID必填 ',time:3});
+               $("#adSlot_channelId").tips({side:2,msg:'频道ID必填',time:3});
                return false;
            }
            if($("#adSlot_width").val() == ""){
-               $("#adSlot_width").tips({side:2,msg:'宽度必填 ',time:3});
+               $("#adSlot_width").tips({side:2,msg:'宽度必填',time:3});
                return false;
            }
            if($("#adSlot_height").val() == ""){
-               $("#adSlot_height").tips({side:2,msg:'高度必填 ',time:3});
+               $("#adSlot_height").tips({side:2,msg:'高度必填',time:3});
                return false;
            }
            var reg = new RegExp("^[0-9]*$");
@@ -509,13 +513,13 @@
               $("#adSlot_createPeople").val(rowData.createPeople);
               switch (rowData.navig){
               case "首页":
-           	   $("#adSlot_navig option[value='1']").attr("selected","selected")
+           	   $("#adSlot_navig option[value='201']").attr("selected","selected")
                   break;
               case "直播":
-           	   $("#adSlot_navig option[value='2']").attr("selected","selected")
+           	   $("#adSlot_navig option[value='202']").attr("selected","selected")
                   break;
               case "会员":
-           	   $("#adSlot_navig option[value='3']").attr("selected","selected") 
+           	   $("#adSlot_navig option[value='203']").attr("selected","selected") 
            	   break;
               }
               $("#adSlotModel").modal();
@@ -610,7 +614,7 @@
      
        $("#adSlot_navig").on("change",function(){
     	   $("#adSlot_channelId").empty();
-    	   if( $("#adSlot_navig").val() == "1"){
+    	   if( $("#adSlot_navig").val() == "201"){
     		   $.ajax({
                    url:"<c:url value='/json/adSlot_getHomePageChannelId.do'/>",
                    data:{},
@@ -619,13 +623,13 @@
                    if(null != data.HomePageChannel && data.HomePageChannel.length>0){
                 	   var listData = data.HomePageChannel;
                 		 for(var i in listData){
-                			 $("#adSlot_channelId").append("<option value='"+listData[i].name+"'>"+listData[i].name+"</option>");
+                			 $("#adSlot_channelId").append("<option value='"+listData[i].nodeId+"'>"+listData[i].name+"</option>");
                 		 }
                 	}
                    },error:function(){
                    }
                });
-    	   }else if($("#adSlot_navig").val() == "2"){
+    	   }else if($("#adSlot_navig").val() == "202"){
     		   $.ajax({
                    url:"<c:url value='/json/adSlot_getLiveChannelId.do'/>",
                    data:{},
@@ -634,7 +638,7 @@
                	   if(null != data.LiveChannel && data.LiveChannel.length>0){
                    	   var listData = data.LiveChannel;
                    		 for(var i in listData){
-                   			 $("#adSlot_channelId").append("<option value='"+listData[i].name+"'>"+listData[i].name+"</option>");
+                   			 $("#adSlot_channelId").append("<option value='"+listData[i].nodeId+"'>"+listData[i].name+"</option>");
                    		 }
                    	}
                    },error:function(){

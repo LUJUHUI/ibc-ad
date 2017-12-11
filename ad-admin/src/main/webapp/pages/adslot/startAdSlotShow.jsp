@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group">
                         <label for="adSlot_type" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="adSlot_type" name="adSlot.type" value="1"  >
+                        <input type="hidden" class="form-control" id="adSlot_type" name="adSlot.type" value="301"  >
                     </div>
                      <div class="form-group">
                         <label for="adSlot_status" class="control-label" hidden="true"></label>
@@ -175,7 +175,7 @@
             	   slotName: $('#slot_Name').val(),
             	   navig: $('#slot_Channel').val(),
             	   status: $('#slot_status').val(),
-            	   type:1,
+            	   type:301,
             	   startDate: startDate + " 00:00:00",
             	   endDate: endDate + " 23:59:59"
             },
@@ -364,7 +364,7 @@
                 postData : {
                 	slotName: $('#slot_Name').val(),
               	    status: $('#slot_status').val(),
-              	    type:1,
+              	    type:301,
               	    startDate: startDate + " 00:00:00",
             	    endDate: endDate + " 23:59:59"
                 },
@@ -387,24 +387,27 @@
         });
 		//保存广告位
         $("#save_update_adSlot").on("click",function () {
-        	
+        	if($("#adSlot_name").val() == ""){
+                $("#adSlot_name").tips({side:2,msg:'广告名称必填',time:3});
+                return false;
+            }
             if($("#adSlot_width").val() == ""){
-                $("#adSlot_width").tips({side:2,msg:'宽度必填 ',time:3});
+                $("#adSlot_width").tips({side:2,msg:'宽度必填',time:3});
                 return false;
             }
             if($("#adSlot_height").val() == ""){
-                $("#adSlot_height").tips({side:2,msg:'高度必填 ',time:3});
+                $("#adSlot_height").tips({side:2,msg:'高度必填',time:3});
                 return false;
             }
             var reg = new RegExp("^[0-9]*$");
         	var widthStart = $("#adSlot_width").val().substring(0,$("#adSlot_width").val().length-2);
         	var heightStart = $("#adSlot_height").val().substring(0,$("#adSlot_height").val().length-2);
             if(!reg.test(widthStart)){
-                $("#adSlot_width").tips({side:2,msg:'宽度应为数字 ',time:3});
+                $("#adSlot_width").tips({side:2,msg:'宽度应为数字',time:3});
                 return false;
             }
             if(!reg.test(heightStart)){
-                $("#adSlot_height").tips({side:2,msg:'高度应为数字 ',time:3});
+                $("#adSlot_height").tips({side:2,msg:'高度应为数字',time:3});
                 return false;
             }
             if($("#adSlot_id").val() == ""){

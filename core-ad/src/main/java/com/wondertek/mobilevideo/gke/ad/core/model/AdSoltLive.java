@@ -15,7 +15,8 @@ public class AdSoltLive implements Serializable {
  
 	    private static final long serialVersionUID = 467620661858607767L;
 		
-		private String name;				     //名称
+		private String name;	
+		private String nodeId;//名称
 		private String classType;				     //类型
 		private String requestURL;				 //请求URL
 		public String getName() {
@@ -23,6 +24,12 @@ public class AdSoltLive implements Serializable {
 		}
 		public void setName(String name) {
 			this.name = name;
+		}
+		public String getNodeId() {
+			return nodeId;
+		}
+		public void setNodeId(String nodeId) {
+			this.nodeId = nodeId;
 		}
 		public String getClassType() {
 			return classType;
@@ -42,6 +49,7 @@ public class AdSoltLive implements Serializable {
 			int result = 1;
 			result = prime * result + ((classType == null) ? 0 : classType.hashCode());
 			result = prime * result + ((name == null) ? 0 : name.hashCode());
+			result = prime * result + ((nodeId == null) ? 0 : nodeId.hashCode());
 			result = prime * result + ((requestURL == null) ? 0 : requestURL.hashCode());
 			return result;
 		}
@@ -64,6 +72,11 @@ public class AdSoltLive implements Serializable {
 					return false;
 			} else if (!name.equals(other.name))
 				return false;
+			if (nodeId == null) {
+				if (other.nodeId != null)
+					return false;
+			} else if (!nodeId.equals(other.nodeId))
+				return false;
 			if (requestURL == null) {
 				if (other.requestURL != null)
 					return false;
@@ -73,8 +86,9 @@ public class AdSoltLive implements Serializable {
 		}
 		@Override
 		public String toString() {
-			return "AdSoltLive [name=" + name + ", classType=" + classType + ", requestURL=" + requestURL + "]";
+			return "AdSoltLive [name=" + name + ", nodeId=" + nodeId + ", classType=" + classType + ", requestURL="
+					+ requestURL + "]";
 		}
-	   
+	 
 		
 }

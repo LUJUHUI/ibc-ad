@@ -17,9 +17,7 @@ public class UploadAction extends BaseAction implements Serializable {
 
     public String upload() throws Exception {
         for (int i = 0; i < this.file.length; i++) {
-            System.out.println(i);
             InputStream is = new FileInputStream(this.file[i]);
-
             String str = ServletActionContext.getServletContext().getRealPath("/upload");
             File f = new File(str, this.fileFileName[i]);
             OutputStream os = new FileOutputStream(f);

@@ -176,6 +176,8 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 					adSoltLive.setName((String) jsonObject.getJSONObject(i).get("name").toString());
 					adSoltLive.setClassType(jsonObject.getJSONObject(i).get("classType").toString());
 					adSoltLive.setRequestURL(jsonObject.getJSONObject(i).get("requestURL").toString());
+					String[] nodeId = jsonObject.getJSONObject(i).get("requestURL").toString().split("nodeId=");
+					adSoltLive.setNodeId(nodeId[1]);
 					list.add(adSoltLive);
 				}
 			}
