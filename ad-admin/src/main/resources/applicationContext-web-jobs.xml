@@ -20,7 +20,7 @@
 		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 	 	<property name="concurrent" value="false" />
 		<property name="targetObject" ref="changeAdAdStatusJob" />
-		<property name="targetMethod" value="excute" />
+		<property name="targetMethod" value="execute" />
 	 </bean> 
 	 
 	 <bean id="changeAdAdStatusTrigger" 
