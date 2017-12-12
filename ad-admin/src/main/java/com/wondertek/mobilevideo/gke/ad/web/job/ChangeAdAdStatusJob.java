@@ -43,7 +43,7 @@ public class ChangeAdAdStatusJob {
    	private AdMaterialManger  AdMaterialManagerImpl;
     @Autowired
     private RedisServiceImpl redisServiceImpl;
-	public void excute(){
+	public void execute(){
 		log.debug("Method ChangeAdAdStatusJob execute  started");
 		try{
 			//将投放中的广告修改为投放完成
