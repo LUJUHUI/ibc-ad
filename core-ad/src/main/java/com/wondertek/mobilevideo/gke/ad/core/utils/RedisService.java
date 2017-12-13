@@ -91,7 +91,7 @@ public abstract class RedisService<T, PK extends Serializable> implements RedisD
 	public void setContentMap(PK field,T obj){
 		HashOperations<PK, PK, T> hashOperations = redisTemplate.opsForHash();
 		if (hashOperations != null){
-			hashOperations.put((PK) (redisBusinessName +"detail"),field,obj);
+			hashOperations.put((PK) (redisBusinessName ),field,obj);
 		}
 	}
 	public void setMap(PK key,PK field,T obj){
@@ -107,7 +107,7 @@ public abstract class RedisService<T, PK extends Serializable> implements RedisD
 	 * @return
 	 */
 	public T getContentMap(PK field){
-		return (T) redisTemplate.boundHashOps(redisBusinessName+"detail").get(field);
+		return (T) redisTemplate.boundHashOps(redisBusinessName).get(field);
 	}
 	public T getMap(PK key,PK field){
 		return (T) redisTemplate.boundHashOps(redisBusinessName+key).get(field);

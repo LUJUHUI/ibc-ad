@@ -1,7 +1,5 @@
 package com.wondertek.mobilevideo.gke.ad.core.service.impl;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wondertek.mobilevideo.gke.ad.BcConstants;
@@ -12,8 +10,6 @@ import com.wondertek.mobilevideo.gke.ad.core.model.AdSlot;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdSoltLive;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdSoltPage;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdSlotManager;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.Log;
@@ -22,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;

@@ -1,5 +1,6 @@
 package com.wondertek.mobilevideo.gke.ad.web.job;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdAd;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdAdMaterial;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterial;
@@ -8,22 +9,13 @@ import com.wondertek.mobilevideo.gke.ad.core.service.AdAdManager;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdAdMaterialManager;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdMaterialManger;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdSlotManager;
-import com.wondertek.mobilevideo.gke.ad.core.utils.RedisService;
 import com.wondertek.mobilevideo.gke.ad.core.utils.impl.RedisServiceImpl;
-
-import net.sf.json.JSONObject;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/6/15.
@@ -157,9 +149,10 @@ public class ChangeAdAdStatusJob {
 							adSlotStr = "vip";
 						}
 					}
-				    JSONObject jsonObject = JSONObject.fromObject(allSlotInfo);
-				    log.debug("put adsolt in redis start----"+jsonObject.toString());
-				    redisServiceImpl.setContentMap(adSlotStr, jsonObject.toString());
+					ObjectMapper objectMapper = new ObjectMapper();
+					String json = objectMapper.writeValueAsString(allSlotInfo);
+				    log.debug("put adsolt in redis start----"+json.toString());
+				    redisServiceImpl.setContentMap(adSlotStr, json.toString());
 				    log.debug("put adsolt in redis end:");
 				}
 			}
