@@ -130,9 +130,10 @@ public class ChangeAdAdStatusJob {
 				//将广告位封装进map
 				for (AdSlot adSlot : allAdSlot) {
 						Map<String,Object> allSlotInfo  = new HashMap<String,Object>();
-						allSlotInfo.put("id", adSlot.getId());
+						allSlotInfo.put("soltId", adSlot.getId());
 						allSlotInfo.put("slotName", adSlot.getSlotName());
 						allSlotInfo.put("height", adSlot.getHeight());
+						allSlotInfo.put("width", adSlot.getWidth());
 						allSlotInfo.put("remark", adSlot.getRemark());
 						allSlotInfo.put("adAd", adAdMap);
 						allSlotInfo.put("adMaterial",adMaterialMap);
@@ -159,7 +160,7 @@ public class ChangeAdAdStatusJob {
 				    JSONObject jsonObject = JSONObject.fromObject(allSlotInfo);
 				    log.debug("put adsolt in redis start----"+jsonObject.toString());
 				    redisServiceImpl.setContentMap(adSlotStr, jsonObject.toString());
-				    log.debug("put adsolt in redis end");
+				    log.debug("put adsolt in redis end:");
 				}
 			}
 		}

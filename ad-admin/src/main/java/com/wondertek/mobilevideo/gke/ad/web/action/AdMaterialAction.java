@@ -2,20 +2,28 @@ package com.wondertek.mobilevideo.gke.ad.web.action;
 
 import com.wondertek.mobilevideo.core.util.DateUtil;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterial;
+import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterialPic;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdMaterialManger;
+import com.wondertek.mobilevideo.gke.ad.core.service.AdMaterialPicManager;
 import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.File;
 import java.util.*;
 
 public class AdMaterialAction extends BaseAction {
 
     @Autowired
     private AdMaterialManger adMaterialMangerImpl;
-
+    @Autowired
+    private AdMaterialPicManager adMaterialPicManagerImpl;
+    
     private AdMaterial adMaterial;
     private Map<String, Object> params = new HashMap<String, Object>();
-
+    private List<File> imageUpload;
+    private List<String> imageUploadFileName;
+    private List<String> imageUploadSrc;
     //    查询
     public String getAdMaterials() {
         getParams();
@@ -35,12 +43,7 @@ public class AdMaterialAction extends BaseAction {
     //     创建
     public String addAdMaterial() {
         try {
-            adMaterial.setCreatePerson(getUsername()); //创建者
-            adMaterial.setUpdatePerson(getUsername());//修改者
-            adMaterial.setCreateTime(new Date());//创建时间
-            adMaterial.setUpdateTime(new Date());//修改时间
-            adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_101.getStatus());
-            adMaterialMangerImpl.save(adMaterial);
+            adMaterialMangerImpl.saveAdMaterial(adMaterial,imageUpload,imageUploadFileName,getUsername());
             resultMap.put("success", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,10 +55,7 @@ public class AdMaterialAction extends BaseAction {
     //    修改
     public String updateAdMaterial() {
         try {
-            adMaterial.setUpdatePerson(getUsername());
-            adMaterial.setUpdateTime(new Date());
-            adMaterial.setStatus(AdMaterial.AdMaterialStatus.STATUS_101.getStatus());
-            adMaterialMangerImpl.saveOrUpdate(adMaterial);
+            adMaterialMangerImpl.updateAdMaterial(adMaterial,getUsername());
             resultMap.put("success", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,6 +80,22 @@ public class AdMaterialAction extends BaseAction {
         } catch (Exception e) {
             e.printStackTrace();
             resultMap.put("success", false);
+        }
+        return SUCCESS;
+    }
+    
+    public String getAdMaterialById() {
+        resultMap.put("success", true);
+        try {
+            String adMaterialId = getParameter("adMaterialId");
+            AdMaterial adMaterial = adMaterialMangerImpl.get(Integer.parseInt(adMaterialId));
+            HashMap map = new HashMap();
+         /*   map.put("adMaterialId", Long.valueOf(adMaterialId));
+            List<AdMaterialPic> listAdMaterialPic = adMaterialPicManagerImpl.find(map);*/
+         //   adMaterial.setListAdMaterialPic(listAdMaterialPic);
+            resultMap.put("adMaterial", adMaterial);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return SUCCESS;
     }
@@ -154,7 +170,28 @@ public class AdMaterialAction extends BaseAction {
         return adMaterial;
     }
 
-    public void setParams(Map<String, Object> params) {
-        this.params = params;
-    }
+	public List<File> getImageUpload() {
+		return imageUpload;
+	}
+
+	public void setImageUpload(List<File> imageUpload) {
+		this.imageUpload = imageUpload;
+	}
+
+	public List<String> getImageUploadFileName() {
+		return imageUploadFileName;
+	}
+
+	public void setImageUploadFileName(List<String> imageUploadFileName) {
+		this.imageUploadFileName = imageUploadFileName;
+	}
+
+	public List<String> getImageUploadSrc() {
+		return imageUploadSrc;
+	}
+
+	public void setImageUploadSrc(List<String> imageUploadSrc) {
+		this.imageUploadSrc = imageUploadSrc;
+	}
+
 }
