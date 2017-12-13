@@ -1,5 +1,9 @@
 package com.wondertek.mobilevideo.gke.ad.core.service.impl;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wondertek.mobilevideo.gke.ad.BcConstants;
 import com.wondertek.mobilevideo.gke.ad.core.dao.AdLogDao;
 import com.wondertek.mobilevideo.gke.ad.core.dao.AdSlotDao;
@@ -18,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,9 +36,6 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 	private AdLogDao adLogDao;
     
 	private final static Log log = LogFactory.getLog(AdSlotManagerImpl.class);
-    
-    private String HMOE_PAGE_CAHNNELID = "http://m.cctv4g.com/cntv/resource/cltv2/channel.jsp?nodeId=844";
-    private String lIVE_CAHNNELID = "http://m.cctv4g.com/cntv/resource/cltv2/liveClassify.jsp";
     
 	@Autowired
 	public AdSlotManagerImpl(AdSlotDao adSlotDao) {
@@ -104,73 +107,93 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
   	//调用channelId接口，获取channelId
 	public List<AdSoltPage>  getHomePageChannelId() {
 		String responsexml = httpClientPost(BcConstants.HMOE_PAGE_CAHNNELID);
-		JSONObject	jsonObj_school = new JSONObject().fromObject(responsexml);//解析JSON字符串
+		log.debug("--首页频道列表--"+responsexml);
+		ObjectMapper mapper = new ObjectMapper();
 		List<AdSoltPage> list = new ArrayList<AdSoltPage>();
-		if(jsonObj_school.get("resultCode").equals("0000")){
-			JSONArray jsonObject = jsonObj_school.getJSONArray("fixChannel");
-			if(null != jsonObject && jsonObject.size()>0){
-			  for (int i = 0; i < jsonObject.size(); i++) {
-				  AdSoltPage adSoltPage = new AdSoltPage();
-				  adSoltPage.setNodeId(jsonObject.getJSONObject(i).get("nodeId").toString());
-				  adSoltPage.setName(jsonObject.getJSONObject(i).get("name").toString());
-				  adSoltPage.setType(jsonObject.getJSONObject(i).get("type").toString());
-				  adSoltPage.setTheme(jsonObject.getJSONObject(i).get("theme").toString());
-				  adSoltPage.setRequestURL(jsonObject.getJSONObject(i).get("requestURL").toString());
-				  adSoltPage.setImageURL(jsonObject.getJSONObject(i).get("imageURL").toString());
-				  list.add(adSoltPage);
-			  }
-			}
-			JSONArray jsonCommon = jsonObj_school.getJSONArray("commonChannel");
-			if(null != jsonCommon && jsonCommon.size()>0){
-			  for (int i = 0; i < jsonCommon.size(); i++) {
-				  AdSoltPage adSoltPage = new AdSoltPage();
-				  adSoltPage.setNodeId(jsonCommon.getJSONObject(i).get("nodeId").toString());
-				  adSoltPage.setName(jsonCommon.getJSONObject(i).get("name").toString());
-				  adSoltPage.setType(jsonCommon.getJSONObject(i).get("type").toString());
-				  adSoltPage.setTheme(jsonCommon.getJSONObject(i).get("theme").toString());
-				  adSoltPage.setRequestURL(jsonCommon.getJSONObject(i).get("requestURL").toString());
-				  adSoltPage.setImageURL(jsonCommon.getJSONObject(i).get("imageURL").toString());
-				  list.add(adSoltPage);
-			  }
-			}
-			
-			JSONArray jsonOther = jsonObj_school.getJSONArray("otherChannel");
-				if(null != jsonOther && jsonOther.size()>0){
-				  for (int i = 0; i < jsonOther.size(); i++) {
-					  AdSoltPage adSoltPage = new AdSoltPage();
-					  adSoltPage.setNodeId(jsonOther.getJSONObject(i).get("nodeId").toString());
-					  adSoltPage.setName(jsonOther.getJSONObject(i).get("name").toString());
-					  adSoltPage.setType(jsonOther.getJSONObject(i).get("type").toString());
-					  adSoltPage.setTheme(jsonOther.getJSONObject(i).get("theme").toString());
-					  adSoltPage.setRequestURL(jsonOther.getJSONObject(i).get("requestURL").toString());
-					  adSoltPage.setImageURL(jsonOther.getJSONObject(i).get("imageURL").toString());
-					  list.add(adSoltPage);
-				  }
+		JsonNode readTree = null;
+		try {
+			readTree = mapper.readTree(responsexml);
+			if(null != readTree){
+				if(readTree.get("resultCode").textValue().equals("0000")){
+					JsonNode jsonObject = readTree.get("fixChannel");
+					if(null != jsonObject && jsonObject.size()>0){
+					  for (int i = 0; i < jsonObject.size(); i++) {
+						  AdSoltPage adSoltPage = new AdSoltPage();
+						  adSoltPage.setNodeId(jsonObject.get(i).get("nodeId").textValue());
+						  adSoltPage.setName(jsonObject.get(i).get("name").textValue());
+						  adSoltPage.setType(jsonObject.get(i).get("type").textValue());
+						  adSoltPage.setTheme(jsonObject.get(i).get("theme").textValue());
+						  adSoltPage.setRequestURL(jsonObject.get(i).get("requestURL").textValue());
+						  adSoltPage.setImageURL(jsonObject.get(i).get("imageURL").textValue());
+						  list.add(adSoltPage);
+					  }
+					}
+					JsonNode jsonCommon = readTree.get("commonChannel");
+					if(null != jsonCommon && jsonCommon.size()>0){
+					  for (int i = 0; i < jsonCommon.size(); i++) {
+						  AdSoltPage adSoltPage = new AdSoltPage();
+						  adSoltPage.setNodeId(jsonCommon.get(i).get("nodeId").textValue());
+						  adSoltPage.setName(jsonCommon.get(i).get("name").textValue());
+						  adSoltPage.setType(jsonCommon.get(i).get("type").textValue());
+						  adSoltPage.setTheme(jsonCommon.get(i).get("theme").textValue());
+						  adSoltPage.setRequestURL(jsonCommon.get(i).get("requestURL").textValue());
+						  adSoltPage.setImageURL(jsonCommon.get(i).get("imageURL").textValue());
+						  list.add(adSoltPage);
+					  }
+					}
+					
+					JsonNode jsonOther = readTree.get("otherChannel");
+					if(null != jsonOther && jsonOther.size()>0){
+					  for (int i = 0; i < jsonOther.size(); i++) {
+						  AdSoltPage adSoltPage = new AdSoltPage();
+						  adSoltPage.setNodeId(jsonOther.get(i).get("nodeId").textValue());
+						  adSoltPage.setName(jsonOther.get(i).get("name").textValue());
+						  adSoltPage.setType(jsonOther.get(i).get("type").textValue());
+						  adSoltPage.setTheme(jsonOther.get(i).get("theme").textValue());
+						  adSoltPage.setRequestURL(jsonOther.get(i).get("requestURL").textValue());
+						  adSoltPage.setImageURL(jsonOther.get(i).get("imageURL").textValue());
+						  list.add(adSoltPage);
+					  }
+					}
 				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+
 		return list;
 	}
 	//获取直播的频道ID
 	public List<AdSoltLive>   getLiveChannelId( ) {
 		List<AdSoltLive> list = new ArrayList<AdSoltLive>();
 		String responsexml = httpClientPost(BcConstants.lIVE_CAHNNELID);
-		JSONObject	jsonObj_school = new JSONObject().fromObject(responsexml);//解析JSON字符串
-		if(jsonObj_school.get("resultCode").equals("0000")){
-			JSONArray jsonObject = jsonObj_school.getJSONArray("classifyList");
-			if(null != jsonObject && jsonObject.size()>0){
-				for (int i = 0; i < jsonObject.size(); i++) {
-					AdSoltLive adSoltLive = new AdSoltLive();
-					adSoltLive.setName((String) jsonObject.getJSONObject(i).get("name").toString());
-					adSoltLive.setClassType(jsonObject.getJSONObject(i).get("classType").toString());
-					adSoltLive.setRequestURL(jsonObject.getJSONObject(i).get("requestURL").toString());
-					String[] nodeId = jsonObject.getJSONObject(i).get("requestURL").toString().split("nodeId=");
-					adSoltLive.setNodeId(nodeId[1]);
-					list.add(adSoltLive);
-				}
+		log.debug("--直播频道列表--"+responsexml);
+		ObjectMapper mapper = new ObjectMapper();
+		JsonNode readTree = null;
+		try {
+			readTree = mapper.readTree(responsexml);
+			if(null != readTree){
+				if(readTree.get("resultCode").textValue().equals("0000")){
+					JsonNode jsonObject = readTree.get("classifyList");
+					if(null != jsonObject && jsonObject.size()>0){
+						for (int i = 0; i < jsonObject.size(); i++) {
+							AdSoltLive adSoltLive = new AdSoltLive();
+							adSoltLive.setName(jsonObject.get(i).get("name").textValue());
+							adSoltLive.setClassType(jsonObject.get(i).get("classType").textValue());
+							adSoltLive.setRequestURL(jsonObject.get(i).get("requestURL").textValue());
+							String[] nodeId = jsonObject.get(i).get("requestURL").textValue().split("nodeId=");
+							adSoltLive.setNodeId(nodeId[1]);
+							list.add(adSoltLive);
+						}
+					}
+			   }
 			}
-	   }
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return list;
-			 
 	}
 					
 	public static String httpClientPost(String url) {
