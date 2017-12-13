@@ -1,39 +1,26 @@
 package com.wondertek.mobilevideo.gke.ad.core.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.transaction.Transactional;
-
+import com.wondertek.mobilevideo.gke.ad.BcConstants;
 import com.wondertek.mobilevideo.gke.ad.core.dao.AdLogDao;
-import com.wondertek.mobilevideo.gke.ad.core.model.AdLog;
-
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.Node;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.wondertek.mobilevideo.gke.ad.core.dao.AdSlotDao;
-import com.wondertek.mobilevideo.gke.ad.core.dao.impl.GenericDaoHibernate;
+import com.wondertek.mobilevideo.gke.ad.core.model.AdLog;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdSlot;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdSoltLive;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdSoltPage;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdSlotManager;
-import com.wondertek.mobilevideo.gke.ad.core.utils.PageList;
-import com.wondertek.mobilevideo.gke.ad.core.utils.XmlUtil;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
  
 @Service
 public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> implements AdSlotManager {
@@ -116,7 +103,7 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 	}
   	//调用channelId接口，获取channelId
 	public List<AdSoltPage>  getHomePageChannelId() {
-		String responsexml = httpClientPost(HMOE_PAGE_CAHNNELID);
+		String responsexml = httpClientPost(BcConstants.HMOE_PAGE_CAHNNELID);
 		JSONObject	jsonObj_school = new JSONObject().fromObject(responsexml);//解析JSON字符串
 		List<AdSoltPage> list = new ArrayList<AdSoltPage>();
 		if(jsonObj_school.get("resultCode").equals("0000")){
@@ -166,7 +153,7 @@ public class AdSlotManagerImpl extends  GenericManagerImpl<AdSlot,Integer> imple
 	//获取直播的频道ID
 	public List<AdSoltLive>   getLiveChannelId( ) {
 		List<AdSoltLive> list = new ArrayList<AdSoltLive>();
-		String responsexml = httpClientPost(lIVE_CAHNNELID);
+		String responsexml = httpClientPost(BcConstants.lIVE_CAHNNELID);
 		JSONObject	jsonObj_school = new JSONObject().fromObject(responsexml);//解析JSON字符串
 		if(jsonObj_school.get("resultCode").equals("0000")){
 			JSONArray jsonObject = jsonObj_school.getJSONArray("classifyList");
