@@ -110,7 +110,9 @@ public class ChangeAdAdStatusJob {
 							adMap.put("id", adMaterial.getId());
 							adMap.put("materialName", adMaterial.getMaterialName());
 							adMap.put("type", adMaterial.getType());
-							adMap.put("clickHref", adMaterial.getClickHref());
+							adMap.put("url", adMaterial.getClickHref());
+							//图片
+							
 							adMaterialMap.add(adMap);
 						}
 					}
