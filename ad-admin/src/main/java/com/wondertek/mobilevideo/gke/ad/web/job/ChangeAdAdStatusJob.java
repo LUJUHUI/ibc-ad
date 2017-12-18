@@ -114,7 +114,7 @@ public class ChangeAdAdStatusJob {
 							Map<String,Object> adMap = new HashMap<String,Object>();
 							adMap.put("id", adMaterial.getId());
 							adMap.put("materialName", adMaterial.getMaterialName());
-							if(adMaterial.getType() == 202){
+							if(adMaterial.getType() == AdMaterial.AdMaterialType.TYPE_202.getType()){
 								adMap.put("type", adMaterial.getType());
 								adMap.put("url", adMaterial.getClickHref());
 							} else {
