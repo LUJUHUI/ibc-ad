@@ -46,8 +46,8 @@
             <label class="control-label" for="type">素材类型</label>
             <select class="form-control input-sm" style="margin-left: 5px;" id="type">
                 <option value="">全部</option>
-                <option value="1">图片</option>
-                <option value="2">文字</option>
+                <option value="201">图片</option>
+                <option value="202">文字</option>
             </select>
 
             <label class="control-label" for="status">素材状态</label>
@@ -273,10 +273,10 @@
         function typeFmt(cellvalue, options, rowObject) {
             var result = "";
             switch (cellvalue) {
-                case 1:
+                case 201:
                     result = '图片';
                     break;
-                case 2:
+                case 202:
                     result = '文字';
                     break;
             }
@@ -395,7 +395,7 @@
             if(codes.length > 0 && del == true){
             bootbox.confirm("确定删除？",function(re){
             if(re) {
-            $.post('<c:url value="/json/adMaterial_delateAdMaterial.do"/>',
+            $.post('<c:url value="/json/adMaterial_deleteAdMaterial.do"/>',
                 {"materialIds": codeStr.substring(0, codeStr.length - 1)}, function (result) {
                     /*bootbox.alert("操作成功！");*/
                     $("#search").trigger('click');

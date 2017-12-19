@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdAd;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdAdMaterial;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterial;
+import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterialPic;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdSlot;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdAdManager;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdAdMaterialManager;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdMaterialManger;
+import com.wondertek.mobilevideo.gke.ad.core.service.AdMaterialPicManager;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdSlotManager;
 import com.wondertek.mobilevideo.gke.ad.core.utils.impl.RedisServiceImpl;
 import org.apache.commons.logging.Log;
@@ -34,7 +36,10 @@ public class ChangeAdAdStatusJob {
     @Autowired
    	private AdMaterialManger  AdMaterialManagerImpl;
     @Autowired
+   	private AdMaterialPicManager  AdMaterialPicManagerImpl;
+    @Autowired
     private RedisServiceImpl redisServiceImpl;
+    
 	public void execute(){
 		log.debug("Method ChangeAdAdStatusJob execute  started");
 		try{
@@ -109,10 +114,23 @@ public class ChangeAdAdStatusJob {
 							Map<String,Object> adMap = new HashMap<String,Object>();
 							adMap.put("id", adMaterial.getId());
 							adMap.put("materialName", adMaterial.getMaterialName());
-							adMap.put("type", adMaterial.getType());
-							adMap.put("url", adMaterial.getClickHref());
-							//图片
-							
+							if(adMaterial.getType() == AdMaterial.AdMaterialType.TYPE_202.getType()){
+								adMap.put("type", adMaterial.getType());
+								adMap.put("url", adMaterial.getClickHref());
+							} else {
+								adMap.put("type", adMaterial.getType());
+								Map<String,Object> adMaterialPic = new HashMap<String,Object>();
+								adMaterialPic.put("adMaterialId", adMaterial.getId().longValue());
+								List<AdMaterialPic> AdMaterialPicList = AdMaterialPicManagerImpl.find(adMaterialPic);
+								List<Map<String,Object>> adMaterialPicMap = new ArrayList<Map<String,Object>>();
+								for (AdMaterialPic adMaterPic : AdMaterialPicList) {
+									Map<String,Object> adPicMap = new HashMap<String,Object>();
+									adPicMap.put("picSrc", adMaterPic.getPicSrc());
+									adPicMap.put("picHref", adMaterPic.getPicHref());
+									adMaterialPicMap.add(adPicMap);
+								}
+								adMap.put("media", adMaterialPicMap);
+							}
 							adMaterialMap.add(adMap);
 						}
 					}
