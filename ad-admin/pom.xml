@@ -148,7 +148,7 @@
 			<artifactId>commons-discovery</artifactId>
 			<version>0.2</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.jasig.cas</groupId>
 			<artifactId>cas-client-core</artifactId>
@@ -195,7 +195,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		
+
 
 	</dependencies>
 	<build>

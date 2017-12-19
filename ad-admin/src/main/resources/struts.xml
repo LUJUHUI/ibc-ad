@@ -62,7 +62,7 @@
                 <param name="enableGZIP">true</param>
             </interceptor>
         </interceptors>
-        
+
         <action name="adad_*" class="com.wondertek.mobilevideo.gke.ad.web.action.AdAdAction" method="{1}">
             <result type="json">
                 <param name="root">resultMap</param>
