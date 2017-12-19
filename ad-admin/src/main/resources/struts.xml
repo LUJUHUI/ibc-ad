@@ -81,19 +81,6 @@
             </result>
         </action>
 
-        <action name="picUpload_*" class="com.wondertek.mobilevideo.gke.ad.web.action.PicUploadAction" method="{1}">
-            <result type="json">
-                <param name="root">resultMap</param>
-            </result>
-        </action>
-
-        <action name="upload_*" class="com.wondertek.mobilevideo.gke.ad.web.action.UploadAction" method="{1}">
-            <result type="json">
-                <param name ="allowedTypes" > image/bmp,image/png,image/gif,image/jpeg </param >
-                <param name="root">resultMap</param>
-            </result>
-        </action>
-
     </package>
 
 

@@ -35,14 +35,14 @@
                             <b class="arrow"></b>
                         </li>
                       
-                    </cas:havePerm>  <cas:havePerm url="/json/adSlot_listAdSlots.do">
+                    </cas:havePerm>  
+                    <cas:havePerm url="/json/adSlot_listAdSlots.do">
                         <li>
                             <a href="#" menu-url="<c:url value='/pages/adslot/channelAdSlotShow.jsp' />">
                                 <fmt:message key="channel.slot.content.show" />
                             </a>
                             <b class="arrow"></b>
                         </li>
-                        
                     </cas:havePerm>
                 </ul>
             </li>

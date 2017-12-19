@@ -1,29 +1,23 @@
 package com.wondertek.mobilevideo.gke.ad.web.job;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdAd;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdAdMaterial;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterial;
+import com.wondertek.mobilevideo.gke.ad.core.model.AdMaterialPic;
 import com.wondertek.mobilevideo.gke.ad.core.model.AdSlot;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdAdManager;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdAdMaterialManager;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdMaterialManger;
+import com.wondertek.mobilevideo.gke.ad.core.service.AdMaterialPicManager;
 import com.wondertek.mobilevideo.gke.ad.core.service.AdSlotManager;
-import com.wondertek.mobilevideo.gke.ad.core.utils.RedisService;
 import com.wondertek.mobilevideo.gke.ad.core.utils.impl.RedisServiceImpl;
-
-import net.sf.json.JSONObject;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2017/6/15.
@@ -42,8 +36,11 @@ public class ChangeAdAdStatusJob {
     @Autowired
    	private AdMaterialManger  AdMaterialManagerImpl;
     @Autowired
+   	private AdMaterialPicManager  AdMaterialPicManagerImpl;
+    @Autowired
     private RedisServiceImpl redisServiceImpl;
-	public void excute(){
+    
+	public void execute(){
 		log.debug("Method ChangeAdAdStatusJob execute  started");
 		try{
 			//将投放中的广告修改为投放完成
@@ -63,8 +60,8 @@ public class ChangeAdAdStatusJob {
 				for (AdSlot adSlot : allAdSlot) {
 					String slotStr = "";
 				    if(adSlot.getType() == AdSlot.AdSlotType.TYPE_301.get_type()){
-				    	slotStr = "startUp";
-					}else if(adSlot.getType() == AdSlot.AdSlotType.TYPE_303.get_type()){
+				    	slotStr = "start";
+					}else if(adSlot.getType() == AdSlot.AdSlotType.TYPE_302.get_type()){
 						if(adSlot.getNavig() == AdSlot.AdSlotNavig.NAVIG_201.get_navig()){
 							slotStr = "home_"+adSlot.getChannelId();
 						}else if(adSlot.getNavig() == AdSlot.AdSlotNavig.NAVIG_202.get_navig()){
@@ -72,8 +69,16 @@ public class ChangeAdAdStatusJob {
 						}else if(adSlot.getNavig() == AdSlot.AdSlotNavig.NAVIG_203.get_navig()){
 							slotStr = "vip";
 						}
+					}else if(adSlot.getType() == AdSlot.AdSlotType.TYPE_303.get_type()){
+						if(adSlot.getNavig() == AdSlot.AdSlotNavig.NAVIG_201.get_navig()){
+							slotStr = "home";
+						}else if(adSlot.getNavig() == AdSlot.AdSlotNavig.NAVIG_202.get_navig()){
+							slotStr = "live";
+						}else if(adSlot.getNavig() == AdSlot.AdSlotNavig.NAVIG_203.get_navig()){
+							slotStr = "vip";
+						}
 					}
-				    log.debug(" detele redis adSlot start");
+				    log.debug(" detele redis adSlot start"+slotStr);
 				    redisServiceImpl.delContentMapField(slotStr);
 				    log.debug(" detele redis adSlot end");
 				}
@@ -109,8 +114,23 @@ public class ChangeAdAdStatusJob {
 							Map<String,Object> adMap = new HashMap<String,Object>();
 							adMap.put("id", adMaterial.getId());
 							adMap.put("materialName", adMaterial.getMaterialName());
-							adMap.put("type", adMaterial.getType());
-							adMap.put("clickHref", adMaterial.getClickHref());
+							if(adMaterial.getType() == AdMaterial.AdMaterialType.TYPE_202.getType()){
+								adMap.put("type", adMaterial.getType());
+								adMap.put("url", adMaterial.getClickHref());
+							} else {
+								adMap.put("type", adMaterial.getType());
+								Map<String,Object> adMaterialPic = new HashMap<String,Object>();
+								adMaterialPic.put("adMaterialId", adMaterial.getId().longValue());
+								List<AdMaterialPic> AdMaterialPicList = AdMaterialPicManagerImpl.find(adMaterialPic);
+								List<Map<String,Object>> adMaterialPicMap = new ArrayList<Map<String,Object>>();
+								for (AdMaterialPic adMaterPic : AdMaterialPicList) {
+									Map<String,Object> adPicMap = new HashMap<String,Object>();
+									adPicMap.put("picSrc", adMaterPic.getPicSrc());
+									adPicMap.put("picHref", adMaterPic.getPicHref());
+									adMaterialPicMap.add(adPicMap);
+								}
+								adMap.put("media", adMaterialPicMap);
+							}
 							adMaterialMap.add(adMap);
 						}
 					}
@@ -122,16 +142,17 @@ public class ChangeAdAdStatusJob {
 				//将广告位封装进map
 				for (AdSlot adSlot : allAdSlot) {
 						Map<String,Object> allSlotInfo  = new HashMap<String,Object>();
-						allSlotInfo.put("id", adSlot.getId());
+						allSlotInfo.put("soltId", adSlot.getId());
 						allSlotInfo.put("slotName", adSlot.getSlotName());
 						allSlotInfo.put("height", adSlot.getHeight());
+						allSlotInfo.put("width", adSlot.getWidth());
 						allSlotInfo.put("remark", adSlot.getRemark());
 						allSlotInfo.put("adAd", adAdMap);
 						allSlotInfo.put("adMaterial",adMaterialMap);
 				    String adSlotStr = "";
 				    if(adSlot.getType() == AdSlot.AdSlotType.TYPE_301.get_type()){
-				    		adSlotStr = "startUp";
-					}else if(adSlot.getType() == AdSlot.AdSlotType.TYPE_303.get_type()){
+				    		adSlotStr = "start";
+					}else if(adSlot.getType() == AdSlot.AdSlotType.TYPE_302.get_type()){
 						if(adSlot.getNavig() == AdSlot.AdSlotNavig.NAVIG_201.get_navig()){
 							adSlotStr = "home_"+adSlot.getChannelId();
 						}else if(adSlot.getNavig() == AdSlot.AdSlotNavig.NAVIG_202.get_navig()){
@@ -139,11 +160,20 @@ public class ChangeAdAdStatusJob {
 						}else if(adSlot.getNavig() == AdSlot.AdSlotNavig.NAVIG_203.get_navig()){
 							adSlotStr = "vip";
 						}
+					}else if(adSlot.getType() == AdSlot.AdSlotType.TYPE_303.get_type()){
+						if(adSlot.getNavig() == AdSlot.AdSlotNavig.NAVIG_201.get_navig()){
+							adSlotStr = "home";
+						}else if(adSlot.getNavig() == AdSlot.AdSlotNavig.NAVIG_202.get_navig()){
+							adSlotStr = "live";
+						}else if(adSlot.getNavig() == AdSlot.AdSlotNavig.NAVIG_203.get_navig()){
+							adSlotStr = "vip";
+						}
 					}
-				    JSONObject jsonObject = JSONObject.fromObject(allSlotInfo);
-				    log.debug("put adsolt in redis start----"+jsonObject.toString());
-				    redisServiceImpl.setContentMap(adSlotStr, jsonObject.toString());
-				    log.debug("put adsolt in redis end");
+					ObjectMapper objectMapper = new ObjectMapper();
+					String json = objectMapper.writeValueAsString(allSlotInfo);
+				    log.debug("put adsolt in redis start----"+json.toString());
+				    redisServiceImpl.setContentMap(adSlotStr, json.toString());
+				    log.debug("put adsolt in redis end:");
 				}
 			}
 		}

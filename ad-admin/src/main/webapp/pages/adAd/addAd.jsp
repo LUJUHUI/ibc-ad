@@ -60,7 +60,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="add_startTimes"> 投放时间 </label>
                             
                             <div class="col-sm-9">
-                                <input type="text" class="col-xs-10 col-sm-5" readonly="readonly"  id="add_startTimes" name="startTime">
+                                <input type="text" class="col-xs-10 col-sm-5" readonly="readonly"  id="add_startTimes" name="add_startTimes">
                                 <input type="hidden" class="form-control" id="add_st" name="adAd.startTime" value="">
                                 <input type="hidden" class="form-control" id="add_et" name="adAd.endTime" value="">
                             </div>
@@ -82,7 +82,7 @@
                             <label class="col-sm-3 control-label no-padding-right" for="add_remark"> 备注 </label>
                             
                             <div class="col-sm-9">
-                                <textarea id="add_remark" class="col-xs-10 col-sm-5" style="width: 580px;height: 100px;"  name="adAd.remark"></textarea>
+                                <textarea id="add_remark" class="col-xs-10 col-sm-5" style="width: 700px;height: 100px;"  name="adAd.remark"></textarea>
                             </div>
                         </div>
                         <input type="hidden" class="form-control" id="materialId" name="materialId" value="">
@@ -105,7 +105,7 @@
                             <i class="icon-double-angle-right"></i>
                             请选择要使用的素材
                         </small>
-    
+                    
                     </h3>
                     
                     <form class="form-inline" id="search_from">
@@ -125,7 +125,7 @@
                         <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search_material">
                             <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
                         </button>
-    
+                        
                         <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search_reset">
                             <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
                         </button>
@@ -148,23 +148,23 @@
             <button class="btn btn-success hidden" id="Prev">
                 上一步
             </button>
-    
+            
             <button class="btn btn-success btn-next" id="next">
                 下一步
             </button>
             <button class="btn btn-success hidden" id="save">
                 保存
             </button>
-            
+        
         </div>
     
     </div>
-    
+
 </div>
 <script type="text/javascript">
 
     jQuery(function ($) {
-        
+
         $("#backBtn").on("click", function () {
             $("#main_page > div:last").remove();
             $("#main_page > div:last").removeClass("main-page-div-display");
@@ -182,12 +182,16 @@
         });
 
         $("#add_startTimes").daterangepicker({
-            startDate: moment().subtract('days', 10),
-            endDate: moment().subtract('days', 0),
+            startDate: moment().subtract('days', 0),
+            endDate: moment().subtract('days', -1),
+            timePicker: true,
+            timePickerIncrement : 5, // 时间的增量，单位为分钟
+            timePicker24Hour : true, // 是否使用12小时制来显示时间
             locale: {
-                format: 'YYYY-MM-DD'
+                format: 'YYYY-MM-DD HH:mm'
             }
         }, function(start, end, label) {//时间改变后执行该方法
+            
         });
 
         $("#createTime").daterangepicker({
@@ -376,13 +380,13 @@
             return result;
         }
         $("#materialInfo").addClass("hidden");
-        
+
         $("#search_material").on("click", function () {
-            
+
             dateRange = $('#createTime').val().replace(/\s/g, "").split("至");
             startDate = dateRange[0];
             endDate = dateRange[1];
-            
+
 
             $("#ad-add-material-grid-table").jqGrid('setGridParam', {
                 url : "<c:url value='/json/adad_getAdMaterialByPage.do'/>",
@@ -399,11 +403,11 @@
                 mtype : "post"
             }).trigger("reloadGrid"); //重新载入
         })
-       
+
         function formatDate(str) {
             return str.substr(0, 10) + " " + str.substr(10, str.length)+":00";
         }
-        
+
         $("#next").on("click",function () {
 
             var adName = $("#add_adName").val();
@@ -411,22 +415,22 @@
                 $("#add_adName").tips({side:2,msg:'此项必填 ',time:3});
                 return;
             }
-            
-            var st = $('#add_startTime').val().replace(/\s/g, "").split("至");
+
+            var st = $('#add_startTimes').val().replace(/\s/g, "").split("至");
             $("#add_st").val(formatDate(st[0]));
             $("#add_et").val(formatDate(st[1]));
             var sTime =  new Date($("#add_st").val().replace("-", "/").replace("-", "/"));
             var eTime =  new Date($("#add_et").val().replace("-", "/").replace("-", "/"));
             if(sTime >= eTime){
-                $('#add_startTime').tips({side:2,msg:'投放开始时间必须小于结束时间 ',time:3});
+                $('#add_startTimes').tips({side:2,msg:'投放开始时间必须小于结束时间 ',time:3});
                 return;
             }
-            
+
             if($("#add_soltId").val() == ""){
                 $("#add_soltId_chosen").tips({side:2,msg:'请选择广告位 ',time:3});
                 return;
             }
-            
+
             $("#basicInfo").addClass("hidden");
             $("#materialInfo").removeClass("hidden");
             $("#Prev").removeClass("hidden");
@@ -434,26 +438,26 @@
             $("#save").removeClass("hidden");
             $("#reset").addClass("hidden");
         });
-        
+
         $("#Prev").on("click",function () {
-            
+
             $("#basicInfo").removeClass("hidden");
             $("#materialInfo").addClass("hidden");
             $("#Prev").addClass("hidden");
             $("#next").removeClass("hidden");
             $("#save").addClass("hidden");
             $("#reset").removeClass("hidden");
-            
+
         });
 
         $("#reset").on("click",function () {
             $("#adform")[0].reset();
         });
-        
+
         $("#search_reset").on("click",function () {
             $("#search_from")[0].reset();
         });
-        
+
         $("#save").on("click",function () {
             var row = $("#ad-add-material-grid-table").jqGrid('getGridParam', 'selarrrow');
             if (row.length == 0){
@@ -485,7 +489,7 @@
                     }else{
                         bootbox.alert("保存失败，系统发生错误！");
                     }
-                    
+
                 },error:function(){
                     bootbox.alert("保存失败，无法连接服务器！");
                 }

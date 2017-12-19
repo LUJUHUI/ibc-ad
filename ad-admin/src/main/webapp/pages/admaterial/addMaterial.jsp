@@ -51,7 +51,7 @@
             <div class="row">
                 <div class="col-xs-12">
 
-                    <form class="form-horizontal" role="form" id="adform">
+                    <form class="form-horizontal" role="form" id="adMaterialForm">
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"
                                    for="add_adMaterialName"> 素材名称 </label>
@@ -75,7 +75,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" id="edit_clickHref_">
                             <label class="col-sm-3 control-label no-padding-right" for="add_clickHref"> 链接地址 </label>
                             <div class="col-sm-9">
                                 <input type="text" id="add_clickHref" class="col-xs-10 col-sm-5"
@@ -93,26 +93,15 @@
                         </div>
                        <hr  class="hidden" id="title_hr">
                         <div class="form-group hidden" id="save_uploadPic">
-                            <label class="col-sm-3 control-label no-padding-right" for="add_clickHref"> 素材图片及其链接地址 </label>
-                            <label class="col-sm-3 control-label no-padding-right" for="type"></label>
-                            <div class="col-sm-9" >
-                                <div class="row">
-                                    <div class="col-xs-7">
-                                        <div class="col-sm-6">
-                                            <div class="thumbnail search-thumbnail" style=" width: 300px;height: 200px;" >
-                                                <img id="temp" class="media-object" data-src="holder.js/300px200?theme=gray" alt="100%x300" style="height: 190px; width: 100%; display: block;"
-                                                     src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMjAwIDEwMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4jaG9sZGVyXzE1ZmEwNWI4MDI4IHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MTJwdCB9IDwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTVmYTA1YjgwMjgiPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjRUVFRUVFIj48L3JlY3Q+PGc+PHRleHQgeD0iMjAiIHk9IjUwIj4yMDB4MTAwIGpwZy9wbmcvanBlZzwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" data-holder-rendered="true">
-                                                <img id="preview" class="media-object hidden" alt="100%x300" style="height: 190px; width: 100%; display: block;" src="" data-holder-rendered="true">
-                                                <input type="file" class="hidden" id="tu" accept="image/jpeg,image/jpg,image/png">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <textarea id="add_upload" style="width: 400px;height: 70px; margin-top: 120px"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                            <label class="col-sm-2 control-label no-padding-right" for="add_clickHref"> 素材图片及其链接地址 </label>
+                               <div class="col-xs-7">
+	                               <div style="float:left;margin-top:7px;margin-left: 5%" cellspacing="10px">
+	                           	   <span><button type="button" id="addPic" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-plus"></i></button></span> 
+	                               <span><button type="button" id="minPic" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-minus"></i></button></span> 
+	                               </div>
+	                               <div class="col-sm-6" id="morePic">
+	                               </div>
+                              </div>
                         </div>
                         <div class="space-4"></div>
                     </form>
@@ -126,58 +115,78 @@
     </div>
 </div>
 <script type="text/javascript">
-
-    jQuery(function ($) {
-
-        $("#backBtn").on("click", function () {
-            $("#main_page > div:last").remove();
-            $("#main_page > div:last").removeClass("main-page-div-display");
-            $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
-        });
-        //var id = "${id}";
-
-        $("#create_materialType").on("change", function () {
-            var val = $("#create_materialType").val();
-            if (val == 1) {
-                $("#save_uploadPic").removeClass("hidden");
-                $("#title_pic").removeClass("hidden");
-                $("#title_hr").addClass("hidden");
-
-            } else if (val == "" || val == 2) {
-                $("#save_uploadPic").addClass("hidden");
-                $("#title_pic").addClass("hidden");
-                $("#title_hr").removeClass("hidden");
-            }
-        })
-
-        $(".media-object").on("click",function () {
-            $("#tu").click();
-        });
-        $("#tu").on("change",function () {
-            var reader = new FileReader();
-            var file = this.files[0];
-            reader.onload = function(e) {
-                var img = $("#preview").attr("src",e.target.result);
-            };
-            reader.readAsDataURL(file);
-            $("#temp").addClass("hidden");
-            $("#preview").removeClass("hidden");
-        })
-
-        $("#save_addAdMaterial").on("click", function () {
-            if ($("#add_adMaterialName").val() == "") {
-                $("#add_adMaterialName").tips({side: 2, msg: '此项必填', time: 3});
-                return false;
-            }
-            if ($("#create_materialType").val() == "") {
-                $("#create_materialType").tips({side: 2, msg: '此项必填', time: 3});
-                return false;
-            }
-            if ($("#add_clickHref").val() == "") {
-                $("#add_clickHref").tips({side: 2, msg: '此项必填', time: 3});
-                return false;
-            }
-        })
-
-    });
+		jQuery(function ($) {
+	        $("#backBtn").on("click", function () {
+	            $("#main_page > div:last").remove();
+	            $("#main_page > div:last").removeClass("main-page-div-display");
+	            $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+	        });
+	
+	        $("#create_materialType").on("change", function () {
+	            var val = $("#create_materialType").val();
+	            if (val == 1) {
+	                $("#save_uploadPic").removeClass("hidden");
+	                $("#title_pic").removeClass("hidden");
+	                $("#title_hr").removeClass("hidden");   
+	                $("#edit_clickHref_").addClass("hidden");
+	            } else if (val == "" || val == 2) {
+	            	$("#save_uploadPic").addClass("hidden");
+	                $("#title_pic").addClass("hidden");
+	                $("#title_hr").addClass("hidden");   
+	                $("#edit_clickHref_").removeClass("hidden");
+	            }
+	        })
+	
+	        $("#save_addAdMaterial").on("click", function () {
+	            if ($("#add_adMaterialName").val() == "") {
+	                $("#add_adMaterialName").tips({side: 2, msg: '此项必填', time: 3});
+	                return false;
+	            }
+	            if ($("#create_materialType").val() == "") {
+	                $("#create_materialType").tips({side: 2, msg: '此项必填', time: 3});
+	                return false;
+	            }
+	      
+	            $.ajax({
+                    url:"<c:url value='/json/adMaterial_addAdMaterial.do'/>",
+                    data:$("#adMaterialForm").serialize(),
+                    type:"post",
+                    success:function(data){
+                        alert("55")
+                    },error:function(){
+                        alert("保存失败");
+                    }
+                });
+	        })
+	        
+	        var inputsWrapper  = $("#morePic"); //Input boxes wrapper ID    
+	        var addButton      = $("#addPic"); //Add button ID    
+	        var minButton      = $("#minPic"); //Add button ID    
+	        var FieldCount = 0;   
+	        addButton.click(function (){   
+               	FieldCount++; 
+                inputsWrapper.append('<div id="uploadPic_'+FieldCount+'" ><div  class="thumbnail search-thumbnail" onclick="addUpload(this);" style="width: 300px;height: 200px;" >'+
+                '<img  class="media-object"   data-src="holder.js/300px200?theme=gray" alt="100%x300" style="height: 190px; width: 100%; display: block;" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMjAwIDEwMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4jaG9sZGVyXzE1ZmEwNWI4MDI4IHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MTJwdCB9IDwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTVmYTA1YjgwMjgiPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjRUVFRUVFIj48L3JlY3Q+PGc+PHRleHQgeD0iMjAiIHk9IjUwIj4yMDB4MTAwIGpwZy9wbmcvanBlZzwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" data-holder-rendered="true">'+
+                '<img  class="media-object hidden"   alt="100%x300" style="height: 190px; width: 100%; display: block;" src="" data-holder-rendered="true">'+
+                '<input type="file" class="hidden" onchange="prePic(this);" name="imageUpload"  accept="image/jpeg,image/jpg,image/png"/></div></div>'); 
+	        });    
+	        minButton.on("click",function(){ 
+	             $("#uploadPic_"+FieldCount).remove();   
+	             FieldCount--; 
+	        });  
+		});
+	    function addUpload(e){
+   			$(e).children().get(2).click();
+   		}
+	    function prePic(pic){
+        var reader = new FileReader();
+	        var file = pic.files[0];
+	        reader.onload = function(e) {
+	            var img = $(pic).prev().attr("src",e.target.result);
+	        };
+	        reader.readAsDataURL(file);
+	        $(pic).prev().prev().addClass("hidden");
+	        $(pic).prev().removeClass("hidden");     
+	    }
 </script>
+ 

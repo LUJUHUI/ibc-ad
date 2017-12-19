@@ -19,6 +19,11 @@ public class BcConstants {
 	//sso获取到用户权限 和用户组
 	public static Map<String, String> ALL_USER_MAP = new HashMap<String, String> ();
 	public static Map<String, String> ALL_GROUP_MAP = new HashMap<String, String> ();
+	public static String APP_BASE_PATH = "";
+	public static String IMAGE_UPLOAD_PATH = "image";
+
+	public static final String HMOE_PAGE_CAHNNELID = "http://m.cctv4g.com/cntv/resource/cltv2/channel.jsp?nodeId=844";
+	public static final String lIVE_CAHNNELID = "http://m.cctv4g.com/cntv/resource/cltv2/liveClassify.jsp";
 	
 }
 

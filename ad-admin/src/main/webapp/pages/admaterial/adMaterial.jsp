@@ -1,118 +1,5 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2017/10/18
-  Time: 10:50
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
 <%@ include file="/common/taglibs.jsp" %>
-
-<%--修改素材模块--%>
-<div class="modal fade bs-example-modal-sm" tabindex="-1" id="updateAdMaterialModel" role="dialog"
-     aria-labelledby="myLargeModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="updateMaterial">修改素材</h4>
-            </div>
-            <div class="modal-body">
-                <form id="update_materialForm">
-
-                    <div class="form-group">
-                        <label for="update_id" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="update_id" name="adMaterial.id" value="素材ID">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="update_adMaterialName" class="control-label">素材名称:</label>
-                        <input type="text" class="form-control" id="update_adMaterialName"
-                               name="adMaterial.materialName">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="update_type" class="control-label">素材类型 :</label>
-                        <select class="form-control input-sm" style="margin-left: 5px;" id="update_type"
-                                name="adMaterial.type">
-                            <option value="1">图片</option>
-                            <option value="2">文字</option>
-                        </select>
-                    </div>
-
-                    <div class="updateUploadPicture">
-                        <button type="button" id="update_picture" class="btn btn-primary" data-dismiss="modal"
-                                style="display: none">上传
-                        </button>
-                        <button type="button" id="cancle_updatePitcure" class="btn btn-default" data-dismiss="modal"
-                                style="display: none">取消
-                        </button>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="update_clickHref" class="control-label">链接地址:</label>
-                        <input type="text" class="form-control" id="update_clickHref" name="adMaterial.clickHref">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="update_status" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="update_status" name="adMaterial.status"
-                               value="素材状态">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="update_createTime" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="update_createTime" name="adMaterial.createTime">
-                    </div>
-                    <div class="form-group">
-                        <label for="update_createPerson" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="update_createPerson"
-                               name="adMaterial.createPerson">
-                    </div>
-
-                </form>
-                <div class="modal-footer">
-                    <button type="button" id="save_updateAdMaterial" class="btn btn-primary">保存</button>
-                    <button type="button" id="close_updateAdMaterial" class="btn btn-default" data-dismiss="modal">取消
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-</div>
-
-<%--删除素材模块--%>
-<div class="modal fade bs-example-modal-sm" tabindex="-1" id="deleteadMaterialModel" role="dialog"
-     aria-labelledby="myLargeModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="deleteMaterial">删除素材</h4>
-            </div>
-            <div class="modal-body">
-                <form id="delete_material_Form">
-                    <div class="form-group">
-                        <label for="delete_status" class="control-label">审核状态 :</label>
-                        <select class="form-control input-sm" style="margin-left: 5px;" id="delete_status"
-                                name="adMaterial.status">
-                            <option value="101">待审核</option>
-                            <option value="103">审核失败</option>
-                        </select>
-                    </div>
-
-                </form>
-                <div class="modal-footer">
-                    <button type="button" id="save_deleteAdMaterial" class="btn btn-primary">保存</button>
-                    <button type="button" id="close_deleteAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-</div>
-
 <div class="breadcrumbs" id="breadcrumbs">
     <script type="text/javascript">
         try {
@@ -179,12 +66,10 @@
             <label class="control-label" for="createTime">创建时间</label>
             <input class="form-control input-sm" style="width: 200px;" type="text" id="createTime"/>
 
-            <%--查询--%>
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="search">
                 <i class="ace-icon fa fa-search bigger-110"></i><fmt:message key="icon-search"/>
             </button>
 
-            <%--重置--%>
             <button type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" id="reset">
                 <i class="ace-icon fa fa-reply bigger-110"></i><fmt:message key="icon-reset"/>
             </button>
@@ -198,11 +83,6 @@
         </div>
     </div>
 
-    <%--<form action="<c:url value='/json/picUpload_createPicUpload.do'/>" method="post" id="uploadPicForm" enctype="multipart/form-data">
-        <input type="file" id="picUpload" name="picUpload" >
-        <button  type="submit">提交</button>
-    </form>--%>
-    <!-- /.row -->
 </div>
 
 <script type="text/javascript">
@@ -316,7 +196,7 @@
                 root: 'rows',
                 repeatitems: true
             },
-            caption: '<fmt:message key="ad.ad.list" />',
+            caption: '<fmt:message key="ad.material.list" />',
             toolbar: [true, 'top'],
             loadComplete: function (data) {
                 var table = this;
@@ -441,10 +321,11 @@
             $('#createTime').val("");
             $('#status').val("");
             search();
-        })
-
+        });
         $("#search").on("click", function () {
-
+        	search();
+        })
+        function search() {
             if ($('#createTime').val() == "") {
                 startDate = "";
                 endDate = "";
@@ -467,84 +348,29 @@
                 datatype: "json",
                 mtype: "post"
             }).trigger("reloadGrid"); //重新载入
-        })
-
+        } 
 
         $("#adm_create").on("click",function () {
             openMainPage('<c:url value="/pages/admaterial/addMaterial.jsp"/>', {}, function () {});
         });
+        
+        $("#adm_update").on("click", function () {
+            var row = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
 
-        /* -------修改素材(start)------------*/
-        $("#adm_update").on("click", update);
-        function update() {
-            var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
-            if (ids.length == 0) {
+            if (row.length == 0) {
                 bootbox.alert("请选择要操作的记录！");
                 return;
             }
-            var codes = [];
-            var del = true;
-            for (var index in ids) {
-                var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                if (rowData.status == "待审核" || rowData.status == "待使用" || rowData.status == "已删除") {
-                    codes.push(rowData.id);
-                } else {
-                    bootbox.alert("请选择:待使用、待审核或已删除状态的素材，进行修改操作！");
-                    del = false;
-                }
+            if (row.length > 1) {
+                bootbox.alert("最多选择一条记录！");
+                return;
             }
-            if (del == true) {
-
-                $("#edit_id").val(rowData.id);
-                $("#update_adMaterialName").val(rowData.materialName);
-                $("#update_clickHref").val(rowData.clickHref);
-                $("#update_status").val(rowData.status);
-                $("#update_createTime").val(rowData.createTime);
-                $("#update_createPerson").val(rowData.createPerson);
-                $("#updateAdMaterialModel").modal();
-            }
-            switch (rowData.type) {
-                case "图片":
-                    $("#update_type option[value='1']").attr("selected", "selected")
-                    break;
-                case "文字":
-                    $("#update_type option[value='2']").attr("selected", "selected")
-                    break;
-            }
-        };
-
-        $("#save_updateAdMaterial").on("click", function () {
-            if ($("#update_adMaterialName").val() == "") {
-                $("#update_adMaterialName").tips({side: 2, msg: '此项必填 ', time: 3});
-                return false;
-            }
-            if ($("#update_type").val() == "") {
-                $("#update_type").tips({side: 2, msg: '此项必填 ', time: 3});
-                return false;
-            }
-            if ($("#update_clickHref").val() == "") {
-                $("#update_clickHref").tips({side: 2, msg: '此项必填 ', time: 3});
-                return false;
-            }
-            $.ajax({
-                url: "<c:url value='/json/adMaterial_updateAdMaterial.do'/>",
-                data: $("#update_materialForm").serialize(),
-                type: "post",
-                success: function (data) {
-                    $("#updateAdMaterialModel").modal('hide')
-                    $("#search").click();
-                    /*alert("修改成功!");*/
-                }, error: function () {
-                    alert("修改失败，无法连接服务器!");
-                }
+            var rowdDta = $("#grid-table").jqGrid('getRowData', row);
+            openMainPage('<c:url value="/pages/admaterial/editMaterial.jsp"/>', {"id": rowdDta.id}, function () {
             });
-
         })
-        /* -------修改素材(end)------------*/
-
-        /* -------删除素材(start)----------*/
+        
         $("#adm_delete").on("click", deleteAdMaterial);
-
         function deleteAdMaterial() {
             var ids = $("#grid-table").jqGrid('getGridParam', 'selarrrow');
             if (ids.length == 0) {
@@ -555,51 +381,29 @@
             var del = true;
             for (var index in ids) {
                 var rowData = $("#grid-table").jqGrid('getRowData', ids[index]);
-                if (rowData.status == "待审核" || rowData.status == "审核失败") {
+                if (rowData.status == "待审核" || rowData.status == "审核驳回") {
                     codes.push(rowData.id);
                 } else {
                     bootbox.alert("请选择:审核失败或待审核状态的素材，进行删除操作！");
                     del = false;
                 }
             }
-            /*  if (codes.length < 1){
-                  bootbox.alert("没有选择有效记录！");
-                  return;
-              }*/
             var codeStr = '';
             for (var index in codes) {
                 codeStr = codeStr + codes[index] + ',';
             }
+            if(codes.length > 0 && del == true){
+            bootbox.confirm("确定删除？",function(re){
+            if(re) {
             $.post('<c:url value="/json/adMaterial_delateAdMaterial.do"/>',
                 {"materialIds": codeStr.substring(0, codeStr.length - 1)}, function (result) {
                     /*bootbox.alert("操作成功！");*/
                     $("#search").trigger('click');
                 });
-        }
-
-        /* -------删除素材(end)----------*/
-
-        // 图片上传
-        /*upload_picture begin*/
-       /* $("#add_type").on("change", function () {
-            /!*    alert($("#add_type").val());*!/
-
-            /!*获取选取的素材类型*!/
-            var val = $("#add_type").val();
-
-            /!*判断选取的素材类型：“1”则显示上传、取消按钮；“”或者2 则隐藏上传、取消按钮*!/
-            if (val == 1) {
-                $("#upload_picture").show();
-                $("#cancle_uploadPitcure").show();
-                /!*$("#close_addAdMaterial").removeClass("hidden")*!/
-            } else if (val == "" || val == 2) {
-                $("#upload_picture").hide();
-                $("#cancle_uploadPitcure").hide();
-                /!* $("#close_addAdMaterial").addClass("hidden")*!/
+                }
+            })
             }
-        })*/
-        /*upload_picture end*/
-
+        }
     });
 </script>
 

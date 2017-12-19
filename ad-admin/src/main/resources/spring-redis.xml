@@ -89,7 +89,7 @@
 		<property name="redisTemplate" ref="redisTemplate" />
 	</bean>
 	<bean id="redisServiceImpl" parent="redisService" class="com.wondertek.mobilevideo.gke.ad.core.utils.impl.RedisServiceImpl">
-		<property name="redisBusinessName" value="" />
+		<property name="redisBusinessName" value="portal::slot" />
 	</bean>
 	<!--<bean id="h5serviceRedisService" parent="redisService" class="com.wondertek.mobilevideo.core.cache.redis.impl.UserRedisServiceImpl">-->
 		<!--<property name="redisBusinessName" value="portal::h5service::" />-->
