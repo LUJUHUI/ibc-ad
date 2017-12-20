@@ -63,7 +63,7 @@
 	 -->
 	<!-- 单点服务-->
 	<bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
-		  p:host-name="127.0.0.1" p:port="6379" p:password=""  p:pool-config-ref="jedisPoolConfig"/>
+		  p:host-name="${redis.server}" p:port="${redis.server.port}" p:password=""  p:pool-config-ref="jedisPoolConfig"/>
 
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<!--<property name="connectionFactory" ref="jedisConnectionFactory" />-->

@@ -24,12 +24,12 @@ public class AdMaterialAction extends BaseAction {
     private List<File> imageUpload;
     private List<String> imageUploadFileName;
     private List<String> imageUploadSrc;
-    //    查询
+    private List<String> imageListId;
+ 
     public String getAdMaterials() {
         getParams();
         PageList pageList = new PageList();
         try {
-            //一定要注意按照对应的顺序获取参数，否则会出错
             pageList = adMaterialMangerImpl.getPageList(params, getPageNo(), getPageSize(), getOrder(),getSort() );
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,10 +40,10 @@ public class AdMaterialAction extends BaseAction {
         return SUCCESS;
     }
 
-    //     创建
+ 
     public String addAdMaterial() {
         try {
-            adMaterialMangerImpl.saveAdMaterial(adMaterial,imageUpload,imageUploadFileName,getUsername());
+            adMaterialMangerImpl.saveAdMaterial(adMaterial,imageUpload,imageUploadFileName,imageUploadSrc,getUsername());
             resultMap.put("success", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,10 +52,10 @@ public class AdMaterialAction extends BaseAction {
         return SUCCESS;
     }
 
-    //    修改
+ 
     public String updateAdMaterial() {
         try {
-            adMaterialMangerImpl.updateAdMaterial(adMaterial,getUsername());
+            adMaterialMangerImpl.updateAdMaterial(adMaterial,imageUpload,imageUploadFileName,imageUploadSrc,imageListId,getUsername());
             resultMap.put("success", true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,13 +64,12 @@ public class AdMaterialAction extends BaseAction {
         return SUCCESS;
     }
 
-    //    删除
-    public String delateAdMaterial() {
+ 
+    public String deleteAdMaterial() {
         try {
             String[] ids = getRequest().getParameter("materialIds").split(",");
             for (String adMaterialId : ids) {
                 AdMaterial material = adMaterialMangerImpl.get(Integer.parseInt(adMaterialId));
-                /*删除之后保存修改者的时间与ID*/
                 material.setUpdatePerson(getUsername());
                 material.setUpdateTime(new Date());
                 material.setStatus(AdMaterial.AdMaterialStatus.STATUS_106.getStatus());
@@ -90,9 +89,9 @@ public class AdMaterialAction extends BaseAction {
             String adMaterialId = getParameter("adMaterialId");
             AdMaterial adMaterial = adMaterialMangerImpl.get(Integer.parseInt(adMaterialId));
             HashMap map = new HashMap();
-         /*   map.put("adMaterialId", Long.valueOf(adMaterialId));
-            List<AdMaterialPic> listAdMaterialPic = adMaterialPicManagerImpl.find(map);*/
-         //   adMaterial.setListAdMaterialPic(listAdMaterialPic);
+            map.put("adMaterialId", Long.valueOf(adMaterialId));
+            List<AdMaterialPic> listAdMaterialPic = adMaterialPicManagerImpl.find(map); 
+            adMaterial.setListAdMaterialPic(listAdMaterialPic);
             resultMap.put("adMaterial", adMaterial);
         } catch (Exception e) {
             e.printStackTrace();
@@ -193,5 +192,16 @@ public class AdMaterialAction extends BaseAction {
 	public void setImageUploadSrc(List<String> imageUploadSrc) {
 		this.imageUploadSrc = imageUploadSrc;
 	}
+
+	public List<String> getImageListId() {
+		return imageListId;
+	}
+
+	public void setImageListId(List<String> imageListId) {
+		this.imageListId = imageListId;
+	}
+
+	
+ 
 
 }

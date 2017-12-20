@@ -22,8 +22,12 @@ public class BcConstants {
 	public static String APP_BASE_PATH = "";
 	public static String IMAGE_UPLOAD_PATH = "image";
 
-	public static final String HMOE_PAGE_CAHNNELID = "http://m.cctv4g.com/cntv/resource/cltv2/channel.jsp?nodeId=844";
-	public static final String lIVE_CAHNNELID = "http://m.cctv4g.com/cntv/resource/cltv2/liveClassify.jsp";
+	//测试
+	public static final String HMOE_PAGE_CAHNNELID = "http://172.16.5.201/cntv/resource/cltv2/channel.jsp?nodeId=844";
+	public static final String lIVE_CAHNNELID = "http://172.16.5.201/cntv/resource/cltv2/liveClassify.jsp";
+	//生产
+//	public static final String HMOE_PAGE_CAHNNELID = "http://m.cctv4g.com/cntv/resource/cltv2/channel.jsp?nodeId=844";
+//	public static final String lIVE_CAHNNELID = "http://m.cctv4g.com/cntv/resource/cltv2/liveClassify.jsp";
 	
 }
 

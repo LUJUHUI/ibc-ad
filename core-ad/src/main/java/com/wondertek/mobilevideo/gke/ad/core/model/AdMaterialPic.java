@@ -20,7 +20,7 @@ public class AdMaterialPic implements Serializable {
 		
     private Long id;                          //Id
     private Long adMaterialId;                //广告素材ID
-    private String picSrc;                    //图片来源
+    private String picSrc;                    //图片跳转路径
     private String picHref;                   //上传路径
     private String createPeople;              //创建人
     private Date createTime;

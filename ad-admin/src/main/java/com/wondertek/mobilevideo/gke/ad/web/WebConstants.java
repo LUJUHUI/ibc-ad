@@ -1,5 +1,7 @@
 package com.wondertek.mobilevideo.gke.ad.web;
 
+import org.springframework.context.ApplicationContext;
+
 import com.wondertek.mobilevideo.core.util.Configuration;
 import com.wondertek.mobilevideo.core.util.ftp.FtpServer;
 
@@ -19,11 +21,8 @@ public class WebConstants {
     public static String MOBILE_PLAT_NOTICE_PUBLISH_SERVICE_URL="";
 
 	public static Configuration config = null;
-	public static String APP_BASE_PATH="";
-	public static String PUBLISH_FILE_PATH = "";
-	public static String CALLBACK_XML_PATH = "";
-	public static String TEMP_PATH = "";
-
+ 
+    public static ApplicationContext ctx = null;
 	/**文件上传ftp*/
 	public static FtpServer uploadFtp = null;
 
@@ -31,19 +30,5 @@ public class WebConstants {
 	public static String LSPID = "";
 
 	public static final String FPT_URL_PREFIX = "ftp://smg001:smg001@221.130.163.21:21/";
-
-
-	/*图片上传*/
-	public static String ADMATERIAL_UPLOAD_PICTURE_SRC="";
-	public static String ADMATERIAL_UPLOAD_PICTURE_CLICK_HREF="";
-
-	public static String getAdmaterialUploadPictureSrc(String s) {
-		return ADMATERIAL_UPLOAD_PICTURE_SRC;
-	}
-
-	public static String getAdmaterialUploadPictureClickHref(String s) {
-		return ADMATERIAL_UPLOAD_PICTURE_CLICK_HREF;
-	}
-
 
 }

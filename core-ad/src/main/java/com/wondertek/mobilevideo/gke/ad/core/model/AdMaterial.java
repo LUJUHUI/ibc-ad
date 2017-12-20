@@ -11,12 +11,7 @@ public class AdMaterial implements Serializable {
 
     public enum AdMaterialStatus {
         /*状态  101:待审核;103:审核失败;104:待使用;105:使用中;106：已删除*/
-        STATUS_101(101),
-        STATUS_103(103),
-        STATUS_104(104),
-        STATUS_105(105),
-        STATUS_106(106);
-
+        STATUS_101(101), STATUS_103(103), STATUS_104(104), STATUS_105(105),  STATUS_106(106);
         private final int status;
         private AdMaterialStatus(int status) {
             this.status = status;
@@ -24,6 +19,17 @@ public class AdMaterial implements Serializable {
 
         public int getStatus() {
             return status;
+        }
+    }
+    public enum AdMaterialType{
+    	/*201图片，202文字*/
+    	TYPE_201(201), TYPE_202(202);
+        private final int type;
+        private AdMaterialType(int type) {
+            this.type = type;
+        }
+        public int getType() {
+            return type;
         }
     }
 

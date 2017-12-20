@@ -51,7 +51,7 @@ request.setAttribute("basePath",request.getContextPath());
             <div class="row">
                 <div class="col-xs-12">
 
-                    <form class="form-horizontal" role="form" id="adform">
+                       <form class="form-horizontal" role="form" id="adMaterialForm" enctype="multipart/form-data" method="post"  >
                         <div class="form-group">
                             <label class="col-sm-3 control-label no-padding-right"
                                    for="add_adMaterialName"> 素材名称 </label>
@@ -69,8 +69,8 @@ request.setAttribute("basePath",request.getContextPath());
                                 <select class="col-xs-10 col-sm-5 chosen-select" id="edit_materialType"
                                         data-placeholder="Choose a Country..." name="adMaterial.type" ;>
                                     <option value="">--请选择--</option>
-                                    <option value="1">图片</option>
-                                    <option value="2">文字</option>
+                                    <option value="201">图片</option>
+                                    <option value="202">文字</option>
                                 </select>
                             </div>
                         </div>
@@ -89,7 +89,7 @@ request.setAttribute("basePath",request.getContextPath());
                     	
                     	<div class="form-group">
                         <label for="adSlot_createPeople" class="control-label" hidden="true"></label>
-                        <input type="hidden" class="form-control" id="edit_createPeople" name="adMaterial.createPeople">
+                        <input type="hidden" class="form-control" id="edit_createPerson" name="adMaterial.createPerson">
                     	</div>
                     	
                     	 <div class="form-group">
@@ -106,7 +106,7 @@ request.setAttribute("basePath",request.getContextPath());
                             </h1>
                         </div>
                        <hr  class="hidden" id="title_hr">
-                        <div class="form-group hidden" id="save_uploadPic">
+                        <div class="form-group" id="save_uploadPic">
                             <label class="col-sm-2 control-label no-padding-right" for="add_clickHref"> 素材图片及其链接地址 </label>
                             <div class="col-sm-9">
                                 <div class="row">
@@ -127,9 +127,9 @@ request.setAttribute("basePath",request.getContextPath());
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div> <!-- /basicInfo -->
-        <div class="row-fluid wizard-actions">
-            <button type="button" id="save_addAdMaterial" class="btn btn-primary">保存</button>
-            <button type="button" id="close_addAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
+        <div class="row-fluid wizard-actions" style="margin-right:20%;margin-top: 5%">
+            <button type="button" id="save_editAdMaterial" class="btn btn-primary">保存</button>
+            <button type="button" id="close_editAdMaterial" class="btn btn-default" data-dismiss="modal">取消</button>
         </div>
     </div>
 </div>
@@ -137,24 +137,36 @@ request.setAttribute("basePath",request.getContextPath());
     jQuery(function ($) {
     	   var listImage; 
     	   var id = "${id}";
+    	   var FieldCount; 
     	   $.get("<c:url value='/json/adMaterial_getAdMaterialById.do'/>",{adMaterialId:id},function (resp) {
+    		   console.debug(resp)
     		   var data = resp.adMaterial;
                var basePath = "${basePath}";
                $("#edit_materialType").val(data.type);
                $("#edit_adMaterialName").val(data.materialName);
                $("#edit_id").val(data.id);  
                $("#edit_clickHref").val(data.clickHref);  
-               $("#edit_createPeople").val(data.createPeople);
+               $("#edit_createPerson").val(data.createPeople);
                $("#edit_createTime").val(data.createTime);
           
-               if($("#edit_materialType").val() == 1){
+               if($("#edit_materialType").val() == 201){
                	  	 $("#save_uploadPic").removeClass("hidden");
                      $("#title_pic").removeClass("hidden");
                      $("#title_hr").removeClass("hidden");
                }else{
             	     $("#edit_clickHref_").removeClass("hidden");
+            		 $("#save_uploadPic").addClass("hidden");
+                     $("#title_pic").addClass("hidden");
+                     $("#title_hr").addClass("hidden");
                }
                listImage = data.listAdMaterialPic;
+               FieldCount = listImage.length-1;
+               for (var i = 0; i < listImage.length; i++) {
+            	   $("#morePic").append('<div id="uploadPic_'+i+'" ><div  class="thumbnail search-thumbnail" onclick="addUpload(this);" style="width: 300px;height: 200px;" >'+
+                           '<img  class="media-object"   data-src="holder.js/300px200?theme=gray" alt="100%x300" style="height: 190px; width: 100%; display: block;" src="'+basePath+"/"+listImage[i].picHref+'" data-holder-rendered="true">'+
+                           '<img  class="media-object hidden"   alt="100%x300" style="height: 190px; width: 100%; display: block;" src="" data-holder-rendered="true">'+
+                           '<input type="file" class="hidden" onchange="prePic(this);" name="imageUpload"  accept="image/jpeg,image/jpg,image/png"/><input name="imageListId" class="hidden" value="'+listImage[i].id+'"></div><div><textarea style="width:100%;"name="imageUploadSrc">'+listImage[i].picSrc+'</textarea></div></div>'); 	 
+               }
     	   });
     	   
         $("#backBtn").on("click", function () {
@@ -162,15 +174,19 @@ request.setAttribute("basePath",request.getContextPath());
             $("#main_page > div:last").removeClass("main-page-div-display");
             $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
         });
-		
+        $("#close_editAdMaterial").on("click", function () {
+            $("#main_page > div:last").remove();
+            $("#main_page > div:last").removeClass("main-page-div-display");
+            $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
+        });
         $("#edit_materialType").on("change", function () {
             var val = $("#edit_materialType").val();
-            if (val == 1) {
+            if (val == 201) {
                 $("#save_uploadPic").removeClass("hidden");
                 $("#title_pic").removeClass("hidden");
                 $("#title_hr").removeClass("hidden");
                 $("#edit_clickHref_").addClass("hidden");
-            } else if (val == "" || val == 2) {
+            } else if (val == "" || val == 202) {
             	 $("#save_uploadPic").addClass("hidden");
                  $("#title_pic").addClass("hidden");
                  $("#title_hr").addClass("hidden");
@@ -178,7 +194,7 @@ request.setAttribute("basePath",request.getContextPath());
             }
         })
 
-        $("#save_addAdMaterial").on("click", function () {
+        $("#save_editAdMaterial").on("click", function () {
             if ($("#add_adMaterialName").val() == "") {
                 $("#add_adMaterialName").tips({side: 2, msg: '此项必填', time: 3});
                 return false;
@@ -191,37 +207,56 @@ request.setAttribute("basePath",request.getContextPath());
                 $("#add_clickHref").tips({side: 2, msg: '此项必填', time: 3});
                 return false;
             }
+            var formData = new FormData($("#adMaterialForm")[0]);
+            $.ajax({
+                url:"<c:url value='/json/adMaterial_updateAdMaterial.do'/>",
+                data:formData,
+                dataType:"json",
+                type:"post",
+                contentType: false,
+                processData: false,
+                cache: false,
+                success:function(data){
+                	 if(data.success == true){
+                		$("#search").click();
+                        $("#backBtn").click(); 
+         	           	bootbox.alert("保存成功！");      
+                	 }else{
+                		bootbox.alert("保存失败！");                   
+                     }
+                	
+                } 
+            });
         })
         
         var inputsWrapper   = $("#morePic"); //Input boxes wrapper ID    
         var addButton       = $("#addPic"); //Add button ID    
         var minButton       = $("#minPic"); //Add button ID    
-        var FieldCount=0;   
-        
         addButton.click(function (){   
-                	FieldCount++; 
-                    inputsWrapper.append('<div  id="uploadPic_'+FieldCount+'" ><div class="thumbnail search-thumbnail uploadPic" style="width: 300px;height: 200px;float:left;" >'+
-                    '<img  class="media-object tempPic"    data-src="holder.js/300px200?theme=gray" alt="100%x300" style="height: 190px; width: 100%; display: block;" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMjAwIDEwMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4jaG9sZGVyXzE1ZmEwNWI4MDI4IHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MTJwdCB9IDwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTVmYTA1YjgwMjgiPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjRUVFRUVFIj48L3JlY3Q+PGc+PHRleHQgeD0iMjAiIHk9IjUwIj4yMDB4MTAwIGpwZy9wbmcvanBlZzwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" data-holder-rendered="true">'+
-                    '<img  class="media-object hidden previewPic"  alt="100%x300" style="height: 190px; width: 100%; display: block;" src="" data-holder-rendered="true">'+
-                    '<input type="file"  class="hidden lookPic" id="lookPic" name="uploadPic"  accept="image/jpeg,image/jpg,image/png">'+
-                    '</div><div style="float:left;"><textarea style="height:5%;width:100%;"></textarea></div></div>'); 
+	      	FieldCount++; 
+	      	inputsWrapper.append('<div id="uploadPic_'+FieldCount+'" ><div  class="thumbnail search-thumbnail" onclick="addUpload(this);" style="width: 300px;height: 210px;" >'+
+	                    '<img  class="media-object"   data-src="holder.js/300px200?theme=gray" alt="100%x300" style="width: 300px;height: 200px; display: block;" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNjQwIDMwMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PGRlZnM+PHN0eWxlIHR5cGU9InRleHQvY3NzIj4jaG9sZGVyXzE1ZmEwNWI4MDI4IHRleHQgeyBmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjBwdCB9IDwvc3R5bGU+PC9kZWZzPjxnIGlkPSJob2xkZXJfMTVmYTA1YjgwMjgiPjxyZWN0IHdpZHRoPSI2NDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRUVFRUVFIj48L3JlY3Q+PGc+PHRleHQgeD0iMjAwIiB5PSIxNTAiPmpwZy9wbmcvanBlZzwvdGV4dD48L2c+PC9nPjwvc3ZnPg==" data-holder-rendered="true">'+
+	                    '<img  class="media-object hidden"   alt="100%x300" style="width: 300px;height: 200px; display: block;" src="" data-holder-rendered="true">'+
+	                    '<input type="file" class="hidden" onchange="prePic(this);" name="imageUpload"  accept="image/jpeg,image/jpg,image/png"/></div><div><textarea style="width:100%;"name="imageUploadSrc"></textarea></div></div>'); 
         });    
         minButton.on("click",function(){ 
-                        $("#uploadPic_"+FieldCount).remove(); //remove text box    
-                        FieldCount--; 
+	        $("#uploadPic_"+FieldCount).remove(); //remove text box    
+	        FieldCount--; 
         });  
-        $(document).on("click",".uploadPic",function () {
-        	$(".lookPic").click();
-        });    
-        $(".lookPic").on("change",function (){
-            var reader = new FileReader();
-            var file = this.files[0];
-            reader.onload = function(e) {
-                var img = $(".previewPic").attr("src",e.target.result);
-            };
-            reader.readAsDataURL(file);
-            $(".tempPic").addClass("hidden");
-            $(".previewPic").removeClass("hidden");     
-        });
     });
+   		function addUpload(e){
+			$(e).children().get(2).click();
+		}
+    	function prePic(pic){
+    	var reader = new FileReader();
+        var file = pic.files[0];
+	        reader.onload = function(e) {
+	            var img = $(pic).prev().attr("src",e.target.result);
+	        };
+        reader.readAsDataURL(file);
+        $(pic).prev().prev().addClass("hidden");
+        $(pic).prev().removeClass("hidden");   
+        $(pic).next().remove();  
+    }
+
 </script>
