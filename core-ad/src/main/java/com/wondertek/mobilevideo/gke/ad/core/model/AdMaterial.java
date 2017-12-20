@@ -215,6 +215,6 @@ public class AdMaterial implements Serializable {
 				+ ", updateTime=" + updateTime + ", updatePerson=" + updatePerson + ", listAdMaterialPic="
 				+ listAdMaterialPic + "]";
 	}
-	
-	
+
+
 }

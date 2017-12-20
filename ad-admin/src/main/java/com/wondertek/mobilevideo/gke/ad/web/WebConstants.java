@@ -14,7 +14,7 @@ public class WebConstants {
 
     public static final Integer _SSO_USERID = 0;
     public static final String _sso_username = "administrator";
-    
+
     public static final String service_postfix = "?wsdl";
     public static String MOBILE_PLAT_NOTICE_PUBLISH_SERVICE_URL="";
 
@@ -26,10 +26,10 @@ public class WebConstants {
 
 	/**文件上传ftp*/
 	public static FtpServer uploadFtp = null;
-	
+
 	public static String CSPID = "";
 	public static String LSPID = "";
-	
+
 	public static final String FPT_URL_PREFIX = "ftp://smg001:smg001@221.130.163.21:21/";
 
 
