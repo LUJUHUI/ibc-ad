@@ -318,7 +318,6 @@
         $("#reset").on("click", function () {
             $('#materialName').val("");
             $('#type').val("");
-            $('#createTime').val("");
             $('#status').val("");
             search();
         });
@@ -326,15 +325,9 @@
         	search();
         })
         function search() {
-            if ($('#createTime').val() == "") {
-                startDate = "";
-                endDate = "";
-            } else {
-                dateRange = $('#createTime').val().replace(/\s/g, "").split("至");
-                startDate = dateRange[0];
-                endDate = dateRange[1];
-            }
-
+            dateRange = $('#createTime').val().replace(/\s/g, "").split("至");
+            startDate = dateRange[0];
+            endDate = dateRange[1];
             $("#grid-table").jqGrid('setGridParam', {
                 url: "<c:url value='/json/adMaterial_getAdMaterials.do'/>",
                 postData: {
@@ -366,8 +359,11 @@
                 return;
             }
             var rowdDta = $("#grid-table").jqGrid('getRowData', row);
-            openMainPage('<c:url value="/pages/admaterial/editMaterial.jsp"/>', {"id": rowdDta.id}, function () {
-            });
+            if(rowdDta.status == "使用中"){
+            	 bootbox.alert("使用中的素材不能修改！");
+            }else{
+            	 openMainPage('<c:url value="/pages/admaterial/editMaterial.jsp"/>', {"id": rowdDta.id}, function () {});
+            }
         })
         
         $("#adm_delete").on("click", deleteAdMaterial);

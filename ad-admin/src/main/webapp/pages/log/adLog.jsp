@@ -263,15 +263,9 @@
         })
         $("#search").on("click",search);
         function search(){
-            if($('#createTime').val() == ""){
-                startDate = "";
-                endDate = "";
-            } else{
-                dateRange = $('#createTime').val().replace(/\s/g, "").split("至");
-                startDate = dateRange[0];
-                endDate = dateRange[1];
-            }
-
+            dateRange = $('#createTime').val().replace(/\s/g, "").split("至");
+            startDate = dateRange[0];
+            endDate = dateRange[1];
             $("#grid-table").jqGrid('setGridParam', {
             	  url: "<c:url value='/json/adSlot_listAdLogs.do'/>",
                 postData : {

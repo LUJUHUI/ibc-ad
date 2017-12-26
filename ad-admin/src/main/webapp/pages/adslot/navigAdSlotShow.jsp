@@ -3,9 +3,13 @@
 <div class="modal fade bs-example-modal-sm" tabindex="-1" id="adSlotModel" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" id="addSlotTitle">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="gridSystemModalLabel">添加导航广告位</h4>
+            </div>
+            <div class="modal-header hidden" id="updateSlotTitle">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">修改导航广告位</h4>
             </div>
             <div class="modal-body">
                 <form id="ad_SlotForm">
@@ -254,13 +258,13 @@
                  '<td>|</td>' +
                  '<td><button type="button" id="updateSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-edit"></i>修改</button></td>' +
                  '<td>|</td>' +
-                 '<td><button type="button" id="deleteSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-remove""></i>删除</button></td>' +
+                 '<td><button type="button" id="deleteSlot" class="btn btn-xs btn-danger"><i class="ace-icon glyphicon glyphicon-remove""></i>删除</button></td>' +
                  '<td>|</td>' +
                  '<td><button type="button" id="useSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-check""></i>启用</button></td>' +
             '</tr></table>');
 
         $(window).triggerHandler('resize.jqGrid');//trigger window resize to make the grid get the correct size
-
+   
         //navButtons
         jQuery(grid_selector).jqGrid('navGrid',pager_selector,
             { 	//navbar options
@@ -454,10 +458,11 @@
                       data:$("#ad_SlotForm").serialize(),
                       type:"post",
                       success:function(data){
+                    	  bootbox.alert("添加成功！");
                           $("#adSlotModel").modal('hide');
                           $("#search").click();
                       },error:function(){
-                          alert("保存失败");
+                    	  bootbox.alert("添加失败！");
                       }
                   });
             }else{
@@ -466,10 +471,11 @@
                       data:$("#ad_SlotForm").serialize(),
                       type:"post",
                       success:function(data){
+                    	  bootbox.alert("修改成功！");
                           $("#adSlotModel").modal('hide');
                           $("#search").click();
                       },error:function(){
-                          alert("修改失败");
+                    	  bootbox.alert("修改失败！");
                       }
                   });
             }
@@ -508,6 +514,8 @@
              	   $("#adSlot_navig option[value='203']").attr("selected","selected") 
              	   break;
                 }
+                $("#updateSlotTitle").removeClass("hidden");
+                $("#addSlotTitle").addClass("hidden");
                    $("#adSlotModel").modal();
                 }else{
                    bootbox.alert("该广告位正在使用，不能修改！");  	
@@ -546,10 +554,10 @@
                 data:{"deleteIds": codeStr.substring(0, codeStr.length-1)},
                 type:"post",
                 success:function(data){
-                	bootbox.alert("操作成功！");
+                	bootbox.alert("删除成功！");
                     $("#search").click();
                 },error:function(){
-                    alert("删除失败");
+                	bootbox.alert("删除失败！");
                 }
             });
             }
@@ -587,10 +595,10 @@
                 data:{"useIds": codeStr.substring(0, codeStr.length-1)},
                 type:"post",
                 success:function(data){
-                	bootbox.alert("操作成功！");
+                	bootbox.alert("启用成功！");
                     $("#search").click();
                 },error:function(){
-                    alert("启用失败");
+                	bootbox.alert("启用失败！");
                 }
             });
             }

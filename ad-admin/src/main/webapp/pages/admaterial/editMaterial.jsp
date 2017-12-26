@@ -195,17 +195,19 @@ request.setAttribute("basePath",request.getContextPath());
         })
 
         $("#save_editAdMaterial").on("click", function () {
-            if ($("#add_adMaterialName").val() == "") {
-                $("#add_adMaterialName").tips({side: 2, msg: '此项必填', time: 3});
+            if ($("#edit_adMaterialName").val() == "") {
+                $("#edit_adMaterialName").tips({side: 2, msg: '此项必填', time: 3});
                 return false;
             }
-            if ($("#create_materialType").val() == "") {
-                $("#create_materialType").tips({side: 2, msg: '此项必填', time: 3});
+            if ($("#edit_materialType").val() == "") {
+                $("#edit_materialType").tips({side: 2, msg: '此项必填', time: 3});
                 return false;
             }
-            if ($("#add_clickHref").val() == "") {
-                $("#add_clickHref").tips({side: 2, msg: '此项必填', time: 3});
-                return false;
+            if($("#edit_materialType").val() == 202){
+	            if ($("#edit_clickHref").val() == "") {
+	                $("#edit_clickHref").tips({side: 2, msg: '此项必填', time: 3});
+	                return false;
+	            }
             }
             var formData = new FormData($("#adMaterialForm")[0]);
             $.ajax({

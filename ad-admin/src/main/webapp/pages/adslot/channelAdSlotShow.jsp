@@ -3,9 +3,13 @@
 <div class="modal fade bs-example-modal-sm" tabindex="-1" id="adSlotModel" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" id="addSlotTitle">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="gridSystemModalLabel">添加频道广告位</h4>
+            </div>
+            <div class="modal-header hidden" id="updateSlotTitle">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">修改频道广告位</h4>
             </div>
             <div class="modal-body">
                <form id="ad_SlotForm">
@@ -25,13 +29,13 @@
                             <option value="203">会员</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="adslot_channel_id">
                          <label for="adSlot_channelId" class="control-label">频道ID</label>
                          <select class="form-control"  id="adSlot_channelId" name="adSlot.channelId">
                             <option value="">请选择</option> 
                          </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" >
                         <label for="adSlot_width" class="control-label">广告位宽度</label>
                         <input type="text" class="form-control" id="adSlot_width" name="adSlot.width">
                     </div>
@@ -263,7 +267,7 @@
                  '<td>|</td>' +
                  '<td><button type="button" id="updateSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-edit"></i>修改</button></td>' +
                  '<td>|</td>' +
-                 '<td><button type="button" id="deleteSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-remove""></i>删除</button></td>' +
+                 '<td><button type="button" id="deleteSlot" class="btn btn-xs btn-danger"><i class="ace-icon glyphicon glyphicon-remove""></i>删除</button></td>' +
                  '<td>|</td>' +
                  '<td><button type="button" id="useSlot" class="btn btn-xs btn-success"><i class="ace-icon glyphicon glyphicon-check""></i>启用</button></td>' +
                  '</tr></table>');
@@ -467,10 +471,11 @@
                      data:$("#ad_SlotForm").serialize(),
                      type:"post",
                      success:function(data){
+                    	 bootbox.alert("添加成功");
                          $("#adSlotModel").modal('hide');
                          $("#search").click();
                      },error:function(){
-                         alert("保存失败");
+                    	 bootbox.alert("添加失败！");
                      }
                  });
            }else{
@@ -479,10 +484,11 @@
                      data:$("#ad_SlotForm").serialize(),
                      type:"post",
                      success:function(data){
+                    	  bootbox.alert("修改成功！");
                          $("#adSlotModel").modal('hide');
                          $("#search").click();
                      },error:function(){
-                         alert("修改失败");
+                    	  bootbox.alert("修改失败！");
                      }
                  });
            }
@@ -522,6 +528,9 @@
            	   $("#adSlot_navig option[value='203']").attr("selected","selected") 
            	   break;
               }
+              $("#updateSlotTitle").removeClass("hidden");
+              $("#addSlotTitle").addClass("hidden");
+              getChanneldByNavig(rowData.channelId);
               $("#adSlotModel").modal();
               }else{
               bootbox.alert("该广告位正在使用，不能修改！");  
@@ -560,10 +569,10 @@
                data:{"deleteIds": codeStr.substring(0, codeStr.length-1)},
                type:"post",
                success:function(data){
-               	bootbox.alert("操作成功！");
+               	   bootbox.alert("删除成功！");
                    $("#search").click();
                },error:function(){
-                   alert("删除失败");
+            	   bootbox.alert("删除失败！");
                }
            });
            }
@@ -601,10 +610,10 @@
                data:{"useIds": codeStr.substring(0, codeStr.length-1)},
                type:"post",
                success:function(data){
-               	bootbox.alert("操作成功！");
+               	   bootbox.alert("启用成功！");
                    $("#search").click();
                },error:function(){
-                   alert("启用失败");
+            	   bootbox.alert("启用失败！");
                }
            });
            }
@@ -612,7 +621,8 @@
            }
        }
      
-       $("#adSlot_navig").on("change",function(){
+       $("#adSlot_navig").on("change",getChanneldByNavig);
+       	   function getChanneldByNavig(nodeId){
     	   $("#adSlot_channelId").empty();
     	   if( $("#adSlot_navig").val() == "201"){
     		   $.ajax({
@@ -622,13 +632,21 @@
                    success:function(data){
                    if(null != data.HomePageChannel && data.HomePageChannel.length>0){
                 	   var listData = data.HomePageChannel;
-                		 for(var i in listData){
-                			 $("#adSlot_channelId").append("<option value='"+listData[i].nodeId+"'>"+listData[i].name+"</option>");
+                		 if(null != nodeId){
+                    		 for(var i in listData){
+                    			 $("#adSlot_channelId").append("<option value='"+listData[i].nodeId+"'>"+listData[i].name+"</option>");
+                    		 }
+                    		 $("#adSlot_channelId option[value="+nodeId+"]").attr("selected","selected");
+                		 }else{
+                    		 for(var i in listData){
+                    			 $("#adSlot_channelId").append("<option value='"+listData[i].nodeId+"'>"+listData[i].name+"</option>");
+                    		 } 
                 		 }
                 	}
                    },error:function(){
                    }
                });
+    		   $("#adslot_channel_id").removeClass("hidden");
     	   }else if($("#adSlot_navig").val() == "202"){
     		   $.ajax({
                    url:"<c:url value='/json/adSlot_getLiveChannelId.do'/>",
@@ -637,14 +655,25 @@
                    success:function(data){
                	   if(null != data.LiveChannel && data.LiveChannel.length>0){
                    	   var listData = data.LiveChannel;
-                   		 for(var i in listData){
-                   			 $("#adSlot_channelId").append("<option value='"+listData[i].nodeId+"'>"+listData[i].name+"</option>");
-                   		 }
+	                   	 if(null != nodeId){
+	                		 for(var i in listData){
+	                			 $("#adSlot_channelId").append("<option value='"+listData[i].nodeId+"'>"+listData[i].name+"</option>");
+	                		 }
+	                		 $("#adSlot_channelId option[value="+nodeId+"]").attr("selected","selected");
+	            		 }else{
+	                		 for(var i in listData){
+	                			 $("#adSlot_channelId").append("<option value='"+listData[i].nodeId+"'>"+listData[i].name+"</option>");
+	                		 } 
+	            		 }
                    	}
                    },error:function(){
                    }
                });
+    		   $("#adslot_channel_id").removeClass("hidden");
+    	   }else if($("#adSlot_navig").val() == "203"){
+    		   $("#adslot_channel_id").addClass("hidden");
     	   }
-       })
+       }
+       
     })
 </script>

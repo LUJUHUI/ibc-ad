@@ -11,6 +11,7 @@ import com.wondertek.mobilevideo.gke.ad.core.service.AdMaterialManger;
 import com.wondertek.mobilevideo.gke.ad.core.utils.FileUtil;
 
 import org.apache.commons.httpclient.util.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -93,11 +94,12 @@ public class AdMaterialManagerImpl extends GenericManagerImpl<AdMaterial,Integer
 	  	List<AdMaterialPic> imageAll = adMaterialPicDao.find(picMap);
 	  	Calendar calendar = Calendar.getInstance();
 	  	//图片修改后,有ID
-    	if(null != imageListId && imageListId.size()>0){
-    		//图片没有发生改变，仅仅是添加
-    		if(null != imageAll && imageAll.size() == imageListId.size() && null == uploadPicList ){
+    	if(null != imageListId && imageListId.size()>0 && null != imageAll){
+    		//图片没有发生改变，不变或者是跳转路径改变
+    		if(imageAll.size() == imageListId.size() && null == uploadPicList ){
     			updateAdMaterialPic(imageListId,imageUploadSrc);
-    		}else if(null != imageAll && imageAll.size() == imageListId.size() && null != uploadPicList && uploadPicList.size()>0){
+    		//图片没有发生改变， 有新增图片
+    		}else if(imageAll.size() == imageListId.size() && null != uploadPicList && uploadPicList.size()>0){
     			updateAdMaterialPic(imageListId,imageUploadSrc);
     			List<String> imageUploadSrcList = new  ArrayList<String>();
     			for (int i = imageListId.size(); i < imageUploadSrc.size(); i++) {
@@ -106,47 +108,75 @@ public class AdMaterialManagerImpl extends GenericManagerImpl<AdMaterial,Integer
     			for (int i = 0; i < uploadPicList.size(); i++) {
     				 uploadPic(uploadPicList.get(i),uploadPicFileNameList.get(i),imageUploadSrcList.get(i),userName,calendar,adMaterial.getId().longValue());
 				}
-    		//图片删除
-    		}else if(null != imageAll && imageAll.size() != imageListId.size() &&  null  == uploadPicList ){
+    		//图片删除一部分
+    		}else if(imageAll.size() != imageListId.size() &&  null  == uploadPicList ){
     			for (int i = 0; i < imageAll.size(); i++) {
 					if(!imageListId.contains(imageAll.get(i).getId().toString())){
 						removeAdMaterialPic(imageAll.get(i).getId());
 					}
 				}
     		//图片有删除和修改和新增
-    		}else if(null != imageAll && imageAll.size() != imageListId.size() &&  null  != uploadPicList ){
+    		}else if(imageAll.size() != imageListId.size() &&  null  != uploadPicList ){
     			List<String> newSrcPic = new ArrayList<String>();
     			List<String> noChangeSrc = new ArrayList<String>();
     			//将修改或者删除的图片删除，并将对应的图片跳转地址放入新的LIST
     			for (int i = 0; i < imageAll.size(); i++) {
-					if(!imageListId.contains(imageAll.get(i).getId().toString())){
+					if(!imageListId.contains(imageAll.get(i).getId().toString())){ 
 						removeAdMaterialPic(imageAll.get(i).getId());
+					} 
+					if(!imageListId.contains(imageAll.get(i).getId().toString()) && imageUploadSrc.contains(imageAll.get(i).getPicSrc())){
 						newSrcPic.add(imageUploadSrc.get(i));
+					}else if(imageListId.contains(imageAll.get(i).getId().toString()) && imageUploadSrc.contains(imageAll.get(i).getPicSrc())){
+						noChangeSrc.add(imageUploadSrc.get(i));
 					}
 				}
-    			//将跳转地址旧的，没有发生图片改变的，放入LIST
-    			if(null != newSrcPic && newSrcPic.size()>0){
-	    			for (String imgSrc : imageUploadSrc) {
-	    				if(!newSrcPic.contains(imgSrc)){
-	    				noChangeSrc.add(imgSrc);
-	    				}
-	    			}
+    			//先删除再修改和只有修改
+    			if(uploadPicList.size() == newSrcPic.size() ){
+	    			for (int i = 0; i < uploadPicList.size(); i++) {
+	    				 uploadPic(uploadPicList.get(i),uploadPicFileNameList.get(i),newSrcPic.get(i),userName,calendar,adMaterial.getId().longValue());
+					}
     			}
-    			//将没有改变的图片ID重新插入到表中，包含跳转地址改变
-    			updateAdMaterialPic(imageListId,noChangeSrc);
-    			//将修改了的，或者新增加的图片，重新上传
-    			for (int i = 0; i < uploadPicList.size(); i++) {
-    				 uploadPic(uploadPicList.get(i),uploadPicFileNameList.get(i),newSrcPic.get(i),userName,calendar,adMaterial.getId().longValue());
-				}
+    			//删除修改并添加新的图片或修改添加
+    			if(uploadPicList.size() > newSrcPic.size()){
+    				int num = uploadPicList.size() - newSrcPic.size();
+    				List<String> newAddPicSrc= new ArrayList<String>();
+    				List<File> newAddPic = new ArrayList<File>();
+    				List<File> updatePic = new ArrayList<File>();
+    				List<String> newAddPicName = new ArrayList<String>();
+    				List<String> updatePicName = new ArrayList<String>();
+    				for (int i = imageUploadSrc.size()-num; i < imageUploadSrc.size(); i++) {
+    					newAddPicSrc.add(imageUploadSrc.get(i));
+    				}
+    				for (int i = newSrcPic.size(); i < uploadPicList.size(); i++) {
+    					newAddPic.add(uploadPicList.get(i));
+    					newAddPicName.add(uploadPicFileNameList.get(i));
+    				}
+    				for(int i = 0; i < newSrcPic.size(); i++){
+    					updatePic.add(uploadPicList.get(i));
+    					updatePicName.add(uploadPicFileNameList.get(i));
+    				}
+    				if(newAddPic.size()>0){
+	    				for (int i = 0; i < newAddPic.size(); i++) {
+		    				 uploadPic(newAddPic.get(i),newAddPicName.get(i),newAddPicSrc.get(i),userName,calendar,adMaterial.getId().longValue());
+						}
+    				}
+    				if(updatePic.size()>0){
+	    				for (int i = 0; i < updatePic.size(); i++) {
+		    				 uploadPic(updatePic.get(i),updatePicName.get(i),newSrcPic.get(i),userName,calendar,adMaterial.getId().longValue());
+						}
+    				}
+    			}
+    				//将没有改变的图片ID重新插入到表中，包含跳转地址改变
+    				updateAdMaterialPic(imageListId,noChangeSrc);
     		} 
-    	//图片全部删除掉
+    	//图片全部删除掉，没有上传
     	}else if(null == imageListId && null == uploadPicList){
     		if(null != imageAll && imageAll.size()>0){
 	    		for (AdMaterialPic adMaterialPic : imageAll) {
 	    			removeAdMaterialPic(adMaterialPic.getId());
 				}
     		}
-    	//图片修改后,没有ID,有上传新的图片
+    	//图片修改完或删除完后,没有ID,有上传新的图片
     	}else if(null == imageListId && null != uploadPicList){
     		if(null != imageAll && imageAll.size()>0){
 	    		for (AdMaterialPic adMaterialPic : imageAll) {
@@ -160,15 +190,14 @@ public class AdMaterialManagerImpl extends GenericManagerImpl<AdMaterial,Integer
     }
     //将没有发生图片变动的数据发到表中，其中包含图片的跳转地址发生改变
     public void updateAdMaterialPic(List<String> imageListId,List<String> imageUploadSrc){
-    	for (String imgId : imageListId) {
+    	  for(int i=0; i<imageListId.size();i++){
         	Map picMap = new HashMap<String,Object>();
-    	  	picMap.put("id", Long.parseLong(imgId));
+    	  	picMap.put("id", Long.parseLong(imageListId.get(i)));
     	  	List<AdMaterialPic> imageAll = adMaterialPicDao.find(picMap);
 			if(null != imageAll && imageAll.size()>0){
-				for (int i = 0; i < imageAll.size(); i++) {
-					imageAll.get(i).setPicSrc(imageUploadSrc.get(i));
-					    adMaterialPicDao.save(imageAll.get(i));
-				}
+				AdMaterialPic adMaterialPic = imageAll.get(0);
+				adMaterialPic.setPicSrc(imageUploadSrc.get(i));
+			    adMaterialPicDao.save(adMaterialPic);
 			}
 		}
     }

@@ -149,6 +149,12 @@
 	                $("#create_materialType").tips({side: 2, msg: '此项必填', time: 3});
 	                return false;
 	            }
+	            if($("#create_materialType").val() == 202){
+	                if ($("#add_clickHref").val() == "") {
+		                $("#add_clickHref").tips({side: 2, msg: '此项必填', time: 3});
+		                return false;
+		            }
+	            }
 	            var formData = new FormData($("#adMaterialForm")[0]);
 	            $.ajax({
                     url:"<c:url value='/json/adMaterial_addAdMaterial.do'/>",
